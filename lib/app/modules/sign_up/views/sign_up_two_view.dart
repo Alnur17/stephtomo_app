@@ -1,0 +1,216 @@
+import 'package:flutter/material.dart';
+
+import 'package:get/get.dart';
+
+import '../../../../common/app_color/app_colors.dart';
+import '../../../../common/app_images/app_images.dart';
+import '../../../../common/app_text_style/styles.dart';
+import '../../../../common/size_box/custom_sizebox.dart';
+import '../../../../common/widgets/custom_button.dart';
+import '../../../../common/widgets/custom_textfelid.dart';
+import '../../sign_in/views/sign_in_view.dart';
+
+class SignUpTwoView extends StatefulWidget {
+  const SignUpTwoView({super.key});
+
+  @override
+  State<SignUpTwoView> createState() => _SignUpTwoViewState();
+}
+
+class _SignUpTwoViewState extends State<SignUpTwoView> {
+  bool isChecked = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.white,
+      appBar: AppBar(
+        backgroundColor: AppColors.white,
+        scrolledUnderElevation: 0,
+        title: Text(
+          'Sign Up',
+          style: h2.copyWith(
+            color: AppColors.mainColor,
+          ),
+        ),
+        centerTitle: true,
+        leading: GestureDetector(
+          onTap: () {
+            Get.back();
+          },
+          child: Image.asset(
+            AppImages.back,
+            scale: 4,
+          ),
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.only(left: 16, right: 16),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset(
+                AppImages.logo,
+              ),
+              sh16,
+              Divider(
+                thickness: 1.3,
+                color: AppColors.black,
+                indent: Get.width * 0.35,
+                endIndent: Get.width * 0.35,
+              ),
+              Text(
+                'Registration',
+                style: h4.copyWith(
+                  color: AppColors.mainColor,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              sh5,
+              Text(
+                '(2 of 2 )',
+                style: h4.copyWith(
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              sh16,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Club team',
+                    style: h5,
+                  ),
+                  sh8,
+                  CustomTextField(
+                    hintText: 'Enter your club team name',
+                  ),
+                  sh16,
+                  Text(
+                    'Club coach',
+                    style: h5,
+                  ),
+                  sh8,
+                  CustomTextField(
+                    hintText: 'Enter your club coach name',
+                  ),
+                  sh16,
+                  Text(
+                    'Club coach phone',
+                    style: h5,
+                  ),
+                  sh8,
+                  CustomTextField(
+                    hintText: 'Enter your club coach phone number',
+                  ),
+                  sh16,
+                  Text(
+                    'Club coach email',
+                    style: h5,
+                  ),
+                  sh8,
+                  CustomTextField(
+                    hintText: 'Enter your club coach email',
+                  ),
+                  sh16,
+                  Text(
+                    'Intended major',
+                    style: h5,
+                  ),
+                  sh8,
+                  CustomTextField(
+                    hintText: 'Enter your intended major',
+                  ),
+                  sh16,
+                  Text(
+                    'NCAA eligibility number',
+                    style: h5,
+                  ),
+                  sh8,
+                  CustomTextField(
+                    hintText: 'Enter your NCAA eligibility number',
+                  ),
+                  sh16,
+                  Text(
+                    'Email',
+                    style: h5,
+                  ),
+                  sh8,
+                  CustomTextField(
+                    hintText: 'Enter your email',
+                  ),
+                  sh16,
+                  Text(
+                    'Password',
+                    style: h5,
+                  ),
+                  sh8,
+                  CustomTextField(
+                    hintText: '*************',
+                    sufIcon: Image.asset(
+                      AppImages.eyeClose,
+                      scale: 4,
+                    ),
+                  ),
+                  sh16,
+                  Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isChecked = !isChecked;
+                          });
+                        },
+                        child: Image.asset(
+                          isChecked ? AppImages.checkboxFilled : AppImages.checkbox,
+                          scale: 4,
+                        ),
+                      ),
+                      sw12,
+                      Expanded(
+                        child: Text(
+                          'By creating an account, I accept the Terms & Conditions & Privacy Policy.',
+                          style: h5,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              sh40,
+              CustomButton(
+                text: 'Sign Up',
+                onPressed: () {
+                  Get.to(() => SignUpTwoView());
+                },
+              ),
+              sh24,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Have an account? ',
+                    style: h5,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Get.to(() => const SignInView());
+                    },
+                    child: Text(
+                      'Sign In',
+                      style: h5.copyWith(
+                        color: AppColors.mainColor,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              sh30,
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
