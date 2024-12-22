@@ -47,14 +47,14 @@ final h7 = GoogleFonts.poppins(
 
 final titleStyle = GoogleFonts.poppins(
   color: AppColors.black,
-  fontWeight: FontWeight.w400,
-  fontSize: AppSizes.fontDefault,
+  fontWeight: FontWeight.w600,
+  fontSize: 18,
 );
 
 final subTitleStyle = GoogleFonts.poppins(
-  color: AppColors.black,
-  fontWeight: FontWeight.w400,
-  fontSize: 16,
+  color: AppColors.mainColor,
+  fontWeight: FontWeight.w500,
+  fontSize: 14,
 );
 final appBarStyle = GoogleFonts.poppins(
   color: AppColors.black,

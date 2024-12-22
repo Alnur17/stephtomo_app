@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 
 import '../modules/create_new_password/bindings/create_new_password_binding.dart';
 import '../modules/create_new_password/views/create_new_password_view.dart';
+import '../modules/dashboard/bindings/dashboard_binding.dart';
+import '../modules/dashboard/views/dashboard_view.dart';
 import '../modules/email_verification/bindings/email_verification_binding.dart';
 import '../modules/email_verification/views/email_verification_view.dart';
 import '../modules/forgot_password/bindings/forgot_password_binding.dart';
@@ -27,7 +29,7 @@ class AppPages {
   static final routes = [
     GetPage(
       name: _Paths.HOME,
-      page: () => const HomeView(),
+      page: () =>  HomeView(),
       binding: HomeBinding(),
     ),
     GetPage(
@@ -64,6 +66,11 @@ class AppPages {
       name: _Paths.CREATE_NEW_PASSWORD,
       page: () => const CreateNewPasswordView(),
       binding: CreateNewPasswordBinding(),
+    ),
+    GetPage(
+      name: _Paths.DASHBOARD,
+      page: () => const DashboardView(),
+      binding: DashboardBinding(),
     ),
   ];
 }

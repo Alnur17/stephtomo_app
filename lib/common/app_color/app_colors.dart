@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 class AppColors{
 
   static const mainColor = Color(0xFF105481);
+  static const bottomBackColor = Color(0xFFDBE7F7);
+  static const bottomFadeColor = Color(0xFF9DB2CE);
   static const red = Color(0xfff44336);
 
   static const creamColor = Color(0xffA57758);
@@ -17,6 +19,7 @@ class AppColors{
   static const silver = Color(0xffE8EBF0);
   static const white = Color(0xffffffff);
   static const black = Color(0xff000000);
+  static const black100 = Color(0xff5C5C5C);
   static const green = Color(0xff00BA11);
   static const borderColor = Color(0xff000000);
   static const textColorWhite = Color(0xfffdfdfd);

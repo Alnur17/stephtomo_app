@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:stephtomo_app/common/app_images/app_images.dart';
+import 'package:stephtomo_app/common/widgets/custom_textfelid.dart';
 
-import '../app_color/app_colors.dart';
 
 class SearchFiled extends StatelessWidget {
   final ValueChanged<String> onChanged;
@@ -8,25 +9,11 @@ class SearchFiled extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 48,
-      child: TextField(
-        onChanged: onChanged,
-        decoration: InputDecoration(
-          filled: true,
-          fillColor: Colors.white,
-          hintText: 'Search Recipes...',
-          hintStyle: const TextStyle(color: AppColors.grey),
-          prefixIcon: GestureDetector(
-            onTap: () {},
-            child: const Icon(Icons.search, color: AppColors.grey),
-          ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: AppColors.grey),
-          ),
-        ),
-      ),
+    return CustomTextField(
+      onChange: onChanged,
+      preIcon: Image.asset(AppImages.search,scale: 4,),
+      hintText: 'Search Collage',
+      borderRadius: 30,
     );
   }
 }

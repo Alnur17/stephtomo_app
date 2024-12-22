@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:stephtomo_app/app/modules/home/views/home_view.dart';
+import 'package:stephtomo_app/app/modules/dashboard/views/dashboard_view.dart';
 import 'package:stephtomo_app/common/app_color/app_colors.dart';
 
 import '../../../../common/app_images/app_images.dart';
@@ -109,7 +109,7 @@ class _SignInViewState extends State<SignInView> {
               CustomButton(
                 text: 'Sign In',
                 onPressed: () {
-                  Get.to(()=> HomeView());
+                  Get.to(()=> DashboardView());
                 },
               ),
               sh16,

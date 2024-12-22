@@ -10,6 +10,8 @@ class CustomTextField extends StatelessWidget {
   final TextStyle? hintTextStyle;
   final Widget? sufIcon;
   final Widget? preIcon;
+  final ValueChanged<String>? onChange;
+  final double borderRadius;  // Add borderRadius as an optional parameter
 
   const CustomTextField({
     super.key,
@@ -19,6 +21,8 @@ class CustomTextField extends StatelessWidget {
     this.hintTextStyle,
     this.sufIcon,
     this.preIcon,
+    this.onChange,
+    this.borderRadius = 12,
   });
 
   @override
@@ -26,10 +30,11 @@ class CustomTextField extends StatelessWidget {
     return Container(
       height: height,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(borderRadius),  // Use the customizable borderRadius
         color: AppColors.greyLight,
       ),
       child: TextField(
+        onChanged: onChange,
         controller: controller,
         maxLines: null,
         keyboardType: TextInputType.multiline,
