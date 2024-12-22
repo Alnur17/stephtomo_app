@@ -14,7 +14,6 @@ import '../../../../common/size_box/custom_sizebox.dart';
 import '../../../../common/widgets/custom_list_tile.dart';
 import '../../sign_in/views/sign_in_view.dart';
 import '../controllers/profile_controller.dart';
-import 'all_email_history_view.dart';
 
 class ProfileView extends GetView<ProfileController> {
   const ProfileView({super.key});
@@ -70,7 +69,6 @@ class ProfileView extends GetView<ProfileController> {
             Divider(),
             CustomListTile(
               onTap: () {
-                 Get.to(() => AllEmailHistoryView());
               },
               leading: AppImages.history,
               title: 'History',
