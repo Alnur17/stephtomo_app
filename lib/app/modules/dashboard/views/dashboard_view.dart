@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:stephtomo_app/app/modules/bookmarks/views/bookmarks_view.dart';
 import 'package:stephtomo_app/app/modules/home/views/home_view.dart';
+import 'package:stephtomo_app/app/modules/profile/views/profile_view.dart';
+import 'package:stephtomo_app/app/modules/video/views/video_view.dart';
 import 'package:stephtomo_app/common/app_images/app_images.dart';
 import '../../../../common/app_color/app_colors.dart';
 import 'widgets/bnb_custom_painter.dart';
@@ -24,9 +27,9 @@ class _DashboardViewState extends State<DashboardView> {
     // Screens managed as a list
     final List<Widget> screens = [
       HomeView(),
-      Container(color: Colors.red),
-      Container(color: Colors.green),
-      Container(color: Colors.blue),
+      VideoView(),
+      BookmarksView(),
+      ProfileView(),
     ];
 
     return Scaffold(

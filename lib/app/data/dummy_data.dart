@@ -96,3 +96,39 @@ final List<Map<String, dynamic>> data = [
     'https://oxfordshireguardian.co.uk/wp-content/uploads/2022/11/Tom-Tower-Christ-Church-Oxford-University.jpeg',
   },
 ];
+
+
+final List<Map<String, dynamic>> emailData = [
+  {
+    'name': 'Sammy Hackett',
+    'role': 'Head Coach',
+    'time': '12m ago',
+    'imageUrl': 'https://via.placeholder.com/150',
+    'message':
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+  },
+  {
+    'name': 'Sammy Hackett',
+    'role': 'Head Coach',
+    'time': '12m ago',
+    'imageUrl': 'https://via.placeholder.com/150',
+    'message':
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+  },
+  {
+    'name': 'Sammy Hackett',
+    'role': 'Head Coach',
+    'time': '12m ago',
+    'imageUrl': 'https://via.placeholder.com/150',
+    'message':
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+  },
+  {
+    'name': 'Sammy Hackett',
+    'role': 'Head Coach',
+    'time': '12m ago',
+    'imageUrl': 'https://via.placeholder.com/150',
+    'message':
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+  },
+];

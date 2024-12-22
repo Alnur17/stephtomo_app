@@ -4,19 +4,20 @@ import '../app_color/app_colors.dart';
 import '../app_text_style/styles.dart';
 
 class CustomListTileWithColor extends StatelessWidget {
-  final String leadingIconPath;
+  final String? leadingIconPath;
   final String title;
   final String? trailingIconPath; // Made optional
   final VoidCallback onTap;
   final Color? backgroundColor;
+  final Color? textColor;
 
   const CustomListTileWithColor({
     super.key,
-    required this.leadingIconPath,
+    this.leadingIconPath, // Made optional
     required this.title,
     this.trailingIconPath, // Defaults to null
     required this.onTap,
-    this.backgroundColor = AppColors.creamColorLight,
+    this.backgroundColor = AppColors.silver, this.textColor,
   });
 
   @override
@@ -33,14 +34,15 @@ class CustomListTileWithColor extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           child: Row(
             children: [
-              Image.asset(
-                leadingIconPath,
-                scale: 4,
-              ),
-              const SizedBox(width: 16),
+              if (leadingIconPath != null)
+                Image.asset(
+                  leadingIconPath!,
+                  scale: 4,
+                ),
+              if (leadingIconPath != null) const SizedBox(width: 16),
               Text(
                 title,
-                style: h3,
+                style: h3.copyWith(color: textColor ?? Colors.black),
               ),
               const Spacer(),
               if (trailingIconPath != null)

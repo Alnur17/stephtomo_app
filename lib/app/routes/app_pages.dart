@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/bookmarks/bindings/bookmarks_binding.dart';
+import '../modules/bookmarks/views/bookmarks_view.dart';
 import '../modules/create_new_password/bindings/create_new_password_binding.dart';
 import '../modules/create_new_password/views/create_new_password_view.dart';
 import '../modules/dashboard/bindings/dashboard_binding.dart';
@@ -12,12 +14,16 @@ import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/onboarding/bindings/onboarding_binding.dart';
 import '../modules/onboarding/views/onboarding_view.dart';
+import '../modules/profile/bindings/profile_binding.dart';
+import '../modules/profile/views/profile_view.dart';
 import '../modules/sign_in/bindings/sign_in_binding.dart';
 import '../modules/sign_in/views/sign_in_view.dart';
 import '../modules/sign_up/bindings/sign_up_binding.dart';
 import '../modules/sign_up/views/sign_up_view.dart';
 import '../modules/splash/bindings/splash_binding.dart';
 import '../modules/splash/views/splash_view.dart';
+import '../modules/video/bindings/video_binding.dart';
+import '../modules/video/views/video_view.dart';
 
 part 'app_routes.dart';
 
@@ -29,7 +35,7 @@ class AppPages {
   static final routes = [
     GetPage(
       name: _Paths.HOME,
-      page: () =>  HomeView(),
+      page: () => HomeView(),
       binding: HomeBinding(),
     ),
     GetPage(
@@ -71,6 +77,21 @@ class AppPages {
       name: _Paths.DASHBOARD,
       page: () => const DashboardView(),
       binding: DashboardBinding(),
+    ),
+    GetPage(
+      name: _Paths.PROFILE,
+      page: () => const ProfileView(),
+      binding: ProfileBinding(),
+    ),
+    GetPage(
+      name: _Paths.VIDEO,
+      page: () => const VideoView(),
+      binding: VideoBinding(),
+    ),
+    GetPage(
+      name: _Paths.BOOKMARKS,
+      page: () => const BookmarksView(),
+      binding: BookmarksBinding(),
     ),
   ];
 }

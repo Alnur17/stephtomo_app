@@ -6,6 +6,7 @@ class AppImages {
   static const checkboxFilled = "assets/icons/checkbox-filled.png";
   static const back = "assets/icons/back.png";
   static const arrowDown = "assets/icons/arrow down.png";
+  static const arrowRight = "assets/icons/arrow-right.png";
   static const notification = "assets/icons/notification.png";
   static const homeOutline = "assets/icons/home-outline.png";
   static const homeFilled = "assets/icons/home-filled.png";
@@ -21,6 +22,15 @@ class AppImages {
   static const twitter = "assets/icons/twitter.png";
   static const instagram = "assets/icons/instagram.png";
   static const search = "assets/icons/search.png";
+  static const logout = "assets/icons/logout.png";
+  static const edit = "assets/icons/Edit.png";
+  static const editProfile = "assets/icons/edit_profile.png";
+  static const history = "assets/icons/history.png";
+  static const info = "assets/icons/Info.png";
+  static const privacy = "assets/icons/privacy.png";
+  static const settings = "assets/icons/settings.png";
+  static const subscription = "assets/icons/subscription.png";
+  static const termsAndCondition = "assets/icons/terms and services.png";
 
 
   static const backgroundImage = "assets/images/background image.png";
@@ -28,5 +38,13 @@ class AppImages {
   static const emailVerify = "assets/images/email verification.png";
   static const createNewPass = "assets/images/new pass.png";
   static const collegeImage = "assets/images/college image.jpg";
+
+
+
+
+  static const profile = 'https://easy-peasy.ai/cdn-cgi/image/quality=80,format=auto,width=700/https://fdczvxmwwjwpwbeeqcth.supabase.co/storage/v1/object/public/images/50dab922-5d48-4c6b-8725-7fd0755d9334/3a3f2d35-8167-4708-9ef0-bdaa980989f9.png';
+
+
+
 
 }

@@ -1,23 +1,18 @@
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
-  //TODO: Implement HomeController
+  var savedColleges = <Map<String, dynamic>>[].obs;
 
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
+  void toggleSaveCollege(Map<String, dynamic> college) {
+    if (savedColleges.contains(college)) {
+      savedColleges.remove(college);
+     // Get.to(()=> SavedCollageView());
+    } else {
+      savedColleges.add(college);
+    }
   }
 
-  @override
-  void onReady() {
-    super.onReady();
+  bool isSaved(Map<String, dynamic> college) {
+    return savedColleges.contains(college);
   }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
 }

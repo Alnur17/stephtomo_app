@@ -15,6 +15,7 @@ class CollegeProfileCard extends StatelessWidget {
   final VoidCallback onTwitterTap;
   final VoidCallback onInstagramTap;
   final VoidCallback onBookmarkTap;
+  final bool isSaved;
 
   const CollegeProfileCard({
     super.key,
@@ -27,6 +28,7 @@ class CollegeProfileCard extends StatelessWidget {
     required this.onTwitterTap,
     required this.onInstagramTap,
     required this.onBookmarkTap,
+    this.isSaved = false,
   });
 
   @override
@@ -108,7 +110,7 @@ class CollegeProfileCard extends StatelessWidget {
                       GestureDetector(
                         onTap: onBookmarkTap,
                         child: Image.asset(
-                          AppImages.bookmarkAdd,
+                          isSaved ? AppImages.bookmarkFilled : AppImages.bookmarkAdd,
                           scale: 4,
                         ),
                       ),

@@ -10,10 +10,18 @@ import 'package:stephtomo_app/common/widgets/custom_textfelid.dart';
 
 import '../../../../common/app_text_style/styles.dart';
 import '../../sign_in/views/sign_in_view.dart';
-import '../controllers/sign_up_controller.dart';
 
-class SignUpView extends GetView<SignUpController> {
+class SignUpView extends StatefulWidget {
   const SignUpView({super.key});
+
+  @override
+  State<SignUpView> createState() => _SignUpViewState();
+}
+
+class _SignUpViewState extends State<SignUpView> {
+  String? handPreference;
+  String? batPreference;
+  String? throwPreference;
 
   @override
   Widget build(BuildContext context) {
@@ -140,19 +148,37 @@ class SignUpView extends GetView<SignUpController> {
                     hintText: 'Enter your secondary position',
                   ),
                   sh16,
-                  Text(
+                  _buildQuestion(
                     'Are you ?',
-                    style: h5,
+                    ['Left handed', 'Right handed'],
+                    handPreference,
+                    (value) {
+                      setState(() {
+                        handPreference = value;
+                      });
+                    },
                   ),
-                  sh16,
-                  Text(
+                  SizedBox(height: 20),
+                  _buildQuestion(
                     'Are you ?',
-                    style: h5,
+                    ['Bat left', 'Bat right'],
+                    batPreference,
+                    (value) {
+                      setState(() {
+                        batPreference = value;
+                      });
+                    },
                   ),
-                  sh16,
-                  Text(
+                  SizedBox(height: 20),
+                  _buildQuestion(
                     'Are you ?',
-                    style: h5,
+                    ['Throw left', 'Throw right'],
+                    throwPreference,
+                    (value) {
+                      setState(() {
+                        throwPreference = value;
+                      });
+                    },
                   ),
                 ],
               ),
@@ -189,6 +215,38 @@ class SignUpView extends GetView<SignUpController> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildQuestion(String question, List<String> options,
+      String? groupValue, Function(String?) onChanged) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          question,
+          style: h5,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: options.map((option) {
+            return Expanded(
+              child: RadioListTile<String>(
+                activeColor: AppColors.mainColor,
+
+                contentPadding: EdgeInsets.zero,
+                title: Text(
+                  option,
+                  style: h5.copyWith(fontSize: 12),
+                ),
+                value: option,
+                groupValue: groupValue,
+                onChanged: onChanged,
+              ),
+            );
+          }).toList(),
+        ),
+      ],
     );
   }
 }
