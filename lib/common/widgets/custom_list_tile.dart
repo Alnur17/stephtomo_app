@@ -5,17 +5,18 @@ import '../app_text_style/styles.dart';
 class CustomListTile extends StatelessWidget {
   final String leading;
   final String title;
-  final Widget trailing;
+  final Widget? trailing;
   final VoidCallback? onTap;
-  final bool useBackgroundImage; // Determines whether to use child or backgroundImage
+  final bool
+      useBackgroundImage;
 
   const CustomListTile({
     super.key,
     required this.leading,
     required this.title,
-    required this.trailing,
+    this.trailing,
     this.onTap,
-    this.useBackgroundImage = false, // Default is to use child
+    this.useBackgroundImage = false,
   });
 
   @override
@@ -36,7 +37,7 @@ class CustomListTile extends StatelessWidget {
       ),
       title: Text(
         title,
-        style: h3,
+        style: h4.copyWith(fontSize: 14),
       ),
       trailing: trailing,
       onTap: onTap,

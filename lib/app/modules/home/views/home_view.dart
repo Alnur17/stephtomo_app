@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:stephtomo_app/app/modules/home/views/notification_view.dart';
 import 'package:stephtomo_app/app/modules/home/views/search_view.dart';
 import 'package:stephtomo_app/common/app_images/app_images.dart';
 import 'package:stephtomo_app/common/size_box/custom_sizebox.dart';
@@ -10,10 +11,9 @@ import '../../../data/dummy_data.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
-  const HomeView({super.key});
+   HomeView({super.key});
 
-
-
+  final HomeController homeController = Get.put(HomeController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,11 +43,11 @@ class HomeView extends GetView<HomeController> {
                       leading: const CircleAvatar(
                         radius: 35,
                         backgroundImage: NetworkImage(
-                          'https://images.unsplash.com/photo-1494790108377-be9c29b29330?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D',
+                          AppImages.profile,
                         ),
                       ),
                       title: Text(
-                        'Anika Tabassum',
+                        'Sultan Md. Alnur',
                         style: appBarStyle.copyWith(
                           color: AppColors.white,
                         ),
@@ -62,16 +62,21 @@ class HomeView extends GetView<HomeController> {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      trailing: Container(
-                        height: 40,
-                        width: 40,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: AppColors.white,
-                        ),
-                        child: Image.asset(
-                          AppImages.notification,
-                          scale: 4,
+                      trailing: GestureDetector(
+                        onTap: (){
+                          Get.to(()=> NotificationView());
+                        },
+                        child: Container(
+                          height: 40,
+                          width: 40,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: AppColors.white,
+                          ),
+                          child: Image.asset(
+                            AppImages.notification,
+                            scale: 4,
+                          ),
                         ),
                       ),
                     ),
@@ -129,20 +134,24 @@ class HomeView extends GetView<HomeController> {
                       itemCount: data.length,
                       itemBuilder: (context, index) {
                         var item = data[index];
-                        return CollegeProfileCard(
+                        return Obx(() => CollegeProfileCard(
                           image: item['image'] ?? AppImages.collegeImage,
                           university: item['university'],
                           name: item['name'],
                           role: item['role'],
                           email: item['email'],
+                          isSaved: controller.isSaved(item),
                           onFacebookTap: () {},
                           onTwitterTap: () {},
                           onInstagramTap: () {},
-                          onBookmarkTap: () {},
-                        );
+                          onBookmarkTap: () {
+                            controller.toggleSaveCollege(item);
+                          },
+                        ));
                       },
                     ),
                   ),
+
                 ],
               ),
             ),
