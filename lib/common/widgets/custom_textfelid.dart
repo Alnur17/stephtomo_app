@@ -34,6 +34,7 @@ class CustomTextField extends StatelessWidget {
         color: AppColors.greyLight,
       ),
       child: TextField(
+        textInputAction: TextInputAction.done,
         onChanged: onChange,
         controller: controller,
         maxLines: null,

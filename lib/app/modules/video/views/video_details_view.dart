@@ -84,7 +84,7 @@ class VideoDetailsView extends GetView {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Basics of UI/UX Design',
+                  videoTitle,
                   style: titleStyle,
                 ),
                 CustomPopupMenuButton(),

@@ -51,19 +51,24 @@ class _BookmarksViewState extends State<BookmarksView> {
           itemCount: savedColleges.length,
           itemBuilder: (context, index) {
             final item = savedColleges[index];
-            return CollegeProfileCard(
-              image: item['image'] ?? '',
-              university: item['university'],
-              name: item['name'],
-              role: item['role'],
-              email: item['email'],
-              isSaved: true,
-              onFacebookTap: () {},
-              onTwitterTap: () {},
-              onInstagramTap: () {},
-              onBookmarkTap: () {
-                homeController.toggleSaveCollege(item);
-              },
+            return Padding(
+              padding: EdgeInsets.only(
+                bottom: index == savedColleges.length - 1 ? 120 : 8,
+              ),
+              child: CollegeProfileCard(
+                image: item['image'] ?? '',
+                university: item['university'],
+                name: item['name'],
+                role: item['role'],
+                email: item['email'],
+                isSaved: true,
+                onFacebookTap: () {},
+                onTwitterTap: () {},
+                onInstagramTap: () {},
+                onBookmarkTap: () {
+                  homeController.toggleSaveCollege(item);
+                },
+              ),
             );
           },
         );

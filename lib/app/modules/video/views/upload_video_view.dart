@@ -1,55 +1,15 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart';
-import 'package:http/http.dart' as http;
 import 'package:stephtomo_app/common/app_color/app_colors.dart';
 import 'package:stephtomo_app/common/app_text_style/styles.dart';
+import 'package:stephtomo_app/common/widgets/custom_button.dart';
 
 import '../../../../common/app_images/app_images.dart';
+import '../../../../common/widgets/custom_textfelid.dart';
 
-class UploadVideoView extends StatefulWidget {
+class UploadVideoView extends StatelessWidget {
   const UploadVideoView({super.key});
-
-  @override
-  State<UploadVideoView> createState() => _UploadVideoViewState();
-}
-
-class _UploadVideoViewState extends State<UploadVideoView> {
-  File? _video;
-
-  final ImagePicker _picker = ImagePicker();
-
-  Future<void> _pickVideo() async {
-    final pickedFile = await _picker.pickVideo(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      setState(() {
-        _video = File(pickedFile.path);
-      });
-    }
-  }
-
-  Future<void> _uploadVideo(File video) async {
-    final url = Uri.parse(""); //server URL needed
-    final request = http.MultipartRequest('POST', url);
-
-    request.files.add(await http.MultipartFile.fromPath(
-      'video', // Field name in the API
-      video.path,
-      filename: basename(video.path),
-    ));
-
-    final response = await request.send();
-
-    if (response.statusCode == 200) {
-      print("Video uploaded successfully!");
-    } else {
-      print("Video upload failed: ${response.statusCode}");
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +18,11 @@ class _UploadVideoViewState extends State<UploadVideoView> {
       appBar: AppBar(
         backgroundColor: AppColors.white,
         scrolledUnderElevation: 0,
-        title: Text('Upload Video',style: titleStyle,),
+        title: Text(
+          'Upload Video',
+          style: titleStyle,
+        ),
+        centerTitle: true,
         leading: GestureDetector(
           onTap: () {
             Get.back();
@@ -69,23 +33,46 @@ class _UploadVideoViewState extends State<UploadVideoView> {
           ),
         ),
       ),
-      body: Center(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _video != null
-                ? Text("Selected video: ${basename(_video!.path)}")
-                : Text("No video selected"),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _pickVideo,
-              child: Text("Pick Video"),
+            Text(
+              "Title",
+              style: h5,
             ),
-            ElevatedButton(
-              onPressed: _video != null ? () => _uploadVideo(_video!) : null,
-              child: Text("Upload Video"),
+            SizedBox(height: 8),
+            CustomTextField(
+              hintText: "Enter your title name",
+            ),
+            SizedBox(height: 24),
+            Text(
+              "Upload video",
+              style: h5,
+            ),
+            SizedBox(height: 8),
+            GestureDetector(
+              onTap: () {},
+              child: Container(
+                height: 200,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Center(
+                  child: Image.asset(AppImages.upload,scale: 4,),
+                ),
+              ),
             ),
           ],
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.only(left: 16, right: 16, bottom: 50),
+        child: CustomButton(
+          text: 'Submit',
+          onPressed: () {},
         ),
       ),
     );

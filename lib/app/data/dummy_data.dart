@@ -103,35 +103,106 @@ final List<Map<String, dynamic>> emailData = [
     'name': 'Sammy Hackett',
     'role': 'Head Coach',
     'time': '12m ago',
-    'imageUrl': 'https://via.placeholder.com/150',
+    'imageUrl': 'https://images.pexels.com/photos/1704488/pexels-photo-1704488.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
     'message':
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sit amet consectetur adipiscing elit duis tristique. Enim lobortis scelerisque fermentum dui faucibus in ornare. Faucibus vitae aliquet nec ullamcorper sit amet risus nullam. Risus feugiat in ante metus dictum. Iaculis at erat pellentesque adipiscing commodo elit at imperdiet. Adipiscing tristique risus nec feugiat in. Nibh praesent tristique magna sit amet purus gravida. Egestas diam in arcu cursus euismod quis viverra nibh cras. Tincidunt nunc pulvinar sapien et ligula ullamcorper. Rhoncus mattis rhoncus urna neque viverra justo nec. Quisque non tellus orci ac. Cursus vitae congue mauris rhoncus aenean vel elit scelerisque mauris. Sed tempus urna et pharetra.'
   },
   {
-    'name': 'Sammy Hackett',
-    'role': 'Head Coach',
-    'time': '12m ago',
-    'imageUrl': 'https://via.placeholder.com/150',
+    'name': 'Jamie Carter',
+    'role': 'Assistant Coach',
+    'time': '15m ago',
+    'imageUrl': 'https://images.pexels.com/photos/3792581/pexels-photo-3792581.jpeg?cs=srgb&dl=pexels-bertellifotografia-3792581.jpg&fm=jpg',
     'message':
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
   },
   {
-    'name': 'Sammy Hackett',
-    'role': 'Head Coach',
-    'time': '12m ago',
-    'imageUrl': 'https://via.placeholder.com/150',
+    'name': 'Taylor Smith',
+    'role': 'Team Manager',
+    'time': '20m ago',
+    'imageUrl': 'https://wallpapers.com/images/hd/cool-profile-pictures-panda-man-gsl2ntkjj3hrk84s.jpg',
+    'message':
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+  },{
+    'name': 'Taylor Smith',
+    'role': 'Team Manager',
+    'time': '20m ago',
+    'imageUrl': 'https://wallpapers.com/images/hd/cool-profile-pictures-panda-man-gsl2ntkjj3hrk84s.jpg',
+    'message':
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+  },{
+    'name': 'Taylor Smith',
+    'role': 'Team Manager',
+    'time': '20m ago',
+    'imageUrl': 'https://wallpapers.com/images/hd/cool-profile-pictures-panda-man-gsl2ntkjj3hrk84s.jpg',
+    'message':
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+  },{
+    'name': 'Taylor Smith',
+    'role': 'Team Manager',
+    'time': '20m ago',
+    'imageUrl': 'https://wallpapers.com/images/hd/cool-profile-pictures-panda-man-gsl2ntkjj3hrk84s.jpg',
+    'message':
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+  },{
+    'name': 'Taylor Smith',
+    'role': 'Team Manager',
+    'time': '20m ago',
+    'imageUrl': 'https://wallpapers.com/images/hd/cool-profile-pictures-panda-man-gsl2ntkjj3hrk84s.jpg',
+    'message':
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+  },{
+    'name': 'Taylor Smith',
+    'role': 'Team Manager',
+    'time': '20m ago',
+    'imageUrl': 'https://wallpapers.com/images/hd/cool-profile-pictures-panda-man-gsl2ntkjj3hrk84s.jpg',
+    'message':
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+  },{
+    'name': 'Taylor Smith',
+    'role': 'Team Manager',
+    'time': '20m ago',
+    'imageUrl': 'https://wallpapers.com/images/hd/cool-profile-pictures-panda-man-gsl2ntkjj3hrk84s.jpg',
+    'message':
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+  },{
+    'name': 'Taylor Smith',
+    'role': 'Team Manager',
+    'time': '20m ago',
+    'imageUrl': 'https://wallpapers.com/images/hd/cool-profile-pictures-panda-man-gsl2ntkjj3hrk84s.jpg',
+    'message':
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+  },{
+    'name': 'Taylor Smith',
+    'role': 'Team Manager',
+    'time': '20m ago',
+    'imageUrl': 'https://wallpapers.com/images/hd/cool-profile-pictures-panda-man-gsl2ntkjj3hrk84s.jpg',
+    'message':
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+  },{
+    'name': 'Taylor Smith',
+    'role': 'Team Manager',
+    'time': '20m ago',
+    'imageUrl': 'https://wallpapers.com/images/hd/cool-profile-pictures-panda-man-gsl2ntkjj3hrk84s.jpg',
+    'message':
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+  },{
+    'name': 'Taylor Smith',
+    'role': 'Team Manager',
+    'time': '20m ago',
+    'imageUrl': 'https://wallpapers.com/images/hd/cool-profile-pictures-panda-man-gsl2ntkjj3hrk84s.jpg',
     'message':
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
   },
   {
-    'name': 'Sammy Hackett',
-    'role': 'Head Coach',
-    'time': '12m ago',
-    'imageUrl': 'https://via.placeholder.com/150',
+    'name': 'Alex Johnson',
+    'role': 'Physical Trainer',
+    'time': '25m ago',
+    'imageUrl': 'https://cdn.prod.website-files.com/6600e1eab90de089c2d9c9cd/662c092880a6d18c31995e13_66236537d4f46682e079b6ce_Casual%2520Portrait.webp',
     'message':
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-  },
+  }
 ];
+
 
 
 

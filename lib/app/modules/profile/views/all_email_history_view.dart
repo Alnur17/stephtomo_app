@@ -34,7 +34,7 @@ class AllEmailHistoryView extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: ListView.builder(
           itemCount: emailData.length,
           itemBuilder: (context, index) {
@@ -51,6 +51,7 @@ class AllEmailHistoryView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  sh12,
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

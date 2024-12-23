@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:stephtomo_app/app/modules/dashboard/views/dashboard_view.dart';
 
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_images/app_images.dart';
@@ -182,7 +183,7 @@ class _SignUpTwoViewState extends State<SignUpTwoView> {
               CustomButton(
                 text: 'Sign Up',
                 onPressed: () {
-                  Get.to(() => SignUpTwoView());
+                  Get.to(() => DashboardView());
                 },
               ),
               sh24,

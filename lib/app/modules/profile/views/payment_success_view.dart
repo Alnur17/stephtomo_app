@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:stephtomo_app/app/modules/profile/views/profile_view.dart';
 import 'package:stephtomo_app/common/size_box/custom_sizebox.dart';
 
 import '../../../../common/app_color/app_colors.dart';
@@ -21,7 +22,9 @@ class PaymentSuccessView extends GetView {
           Padding(
             padding: const EdgeInsets.only(right: 16, top: 16),
             child: CloseButton(
-              onPressed: () {},
+              onPressed: () {
+                Get.offAll(()=> ProfileView());
+              },
               style: ButtonStyle(
                 backgroundColor: WidgetStatePropertyAll(AppColors.silver),
               ),

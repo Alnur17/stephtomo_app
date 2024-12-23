@@ -31,15 +31,7 @@ class _VideoViewState extends State<VideoView> {
           style: titleStyle,
         ),
         centerTitle: true,
-        leading: GestureDetector(
-          onTap: () {
-            Get.back();
-          },
-          child: Image.asset(
-            AppImages.back,
-            scale: 4,
-          ),
-        ),
+        automaticallyImplyLeading: false,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -48,7 +40,7 @@ class _VideoViewState extends State<VideoView> {
             CustomButton(
               text: 'Add New Video',
               onPressed: () {
-                Get.to(()=> UploadVideoView());
+                Get.to(() => UploadVideoView());
               },
               imageAssetPath: AppImages.addCircle,
               borderRadius: 30,
@@ -56,12 +48,14 @@ class _VideoViewState extends State<VideoView> {
             sh16,
             Expanded(
               child: GridView.builder(
+                padding: const EdgeInsets.only(bottom: 120),
                 itemCount: videoData.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 16,
-                    crossAxisSpacing: 16,
-                    childAspectRatio: 0.9),
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 16,
+                  crossAxisSpacing: 16,
+                  childAspectRatio: 0.9,
+                ),
                 itemBuilder: (context, index) {
                   var videoItem = videoData[index];
                   return Stack(
@@ -103,8 +97,8 @@ class _VideoViewState extends State<VideoView> {
                         child: GestureDetector(
                           onTap: () {
                             Get.to(() => VideoDetailsView(
-                                 videoItem['image'],
-                              videoItem['title'],
+                                  videoItem['image'],
+                                  videoItem['title'],
                                 ));
                           },
                           child: Image.asset(

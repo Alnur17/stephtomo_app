@@ -34,6 +34,7 @@ class CollegeProfileCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+
       color: AppColors.white,
       child: Row(
         children: [

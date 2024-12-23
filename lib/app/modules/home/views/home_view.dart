@@ -11,9 +11,10 @@ import '../../../data/dummy_data.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
-   HomeView({super.key});
+  HomeView({super.key});
 
   final HomeController homeController = Get.put(HomeController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,8 +64,8 @@ class HomeView extends GetView<HomeController> {
                         overflow: TextOverflow.ellipsis,
                       ),
                       trailing: GestureDetector(
-                        onTap: (){
-                          Get.to(()=> NotificationView());
+                        onTap: () {
+                          Get.to(() => NotificationView());
                         },
                         child: Container(
                           height: 40,
@@ -129,29 +130,35 @@ class HomeView extends GetView<HomeController> {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
+                  sh8,
                   Expanded(
                     child: ListView.builder(
+                      padding: EdgeInsets.zero,
                       itemCount: data.length,
                       itemBuilder: (context, index) {
                         var item = data[index];
-                        return Obx(() => CollegeProfileCard(
-                          image: item['image'] ?? AppImages.collegeImage,
-                          university: item['university'],
-                          name: item['name'],
-                          role: item['role'],
-                          email: item['email'],
-                          isSaved: controller.isSaved(item),
-                          onFacebookTap: () {},
-                          onTwitterTap: () {},
-                          onInstagramTap: () {},
-                          onBookmarkTap: () {
-                            controller.toggleSaveCollege(item);
-                          },
-                        ));
+                        return Padding(
+                          padding: EdgeInsets.only(
+                            bottom: index == data.length - 1 ? 120 : 8,
+                          ),
+                          child: Obx(() => CollegeProfileCard(
+                                image: item['image'] ?? AppImages.collegeImage,
+                                university: item['university'],
+                                name: item['name'],
+                                role: item['role'],
+                                email: item['email'],
+                                isSaved: controller.isSaved(item),
+                                onFacebookTap: () {},
+                                onTwitterTap: () {},
+                                onInstagramTap: () {},
+                                onBookmarkTap: () {
+                                  controller.toggleSaveCollege(item);
+                                },
+                              )),
+                        );
                       },
                     ),
                   ),
-
                 ],
               ),
             ),

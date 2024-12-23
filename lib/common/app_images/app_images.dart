@@ -41,6 +41,7 @@ class AppImages {
   static const diamond = "assets/icons/diamond.png";
   static const addCircle = "assets/icons/add_circle.png";
   static const play = "assets/icons/play.png";
+  static const upload = "assets/icons/upload.png";
 
 
   static const backgroundImage = "assets/images/background image.png";

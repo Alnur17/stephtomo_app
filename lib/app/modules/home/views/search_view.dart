@@ -9,9 +9,23 @@ import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
 import '../../../../common/widgets/college_profile_card.dart';
 import '../../../data/dummy_data.dart';
+import '../controllers/home_controller.dart';
 
-class SearchView extends GetView {
+class SearchView extends StatefulWidget {
   const SearchView({super.key});
+
+  @override
+  State<SearchView> createState() => _SearchViewState();
+}
+
+class _SearchViewState extends State<SearchView> {
+  final HomeController homeController = Get.put(HomeController());
+
+  @override
+  void initState() {
+    super.initState();
+    homeController.initializeData(data);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,26 +54,35 @@ class SearchView extends GetView {
         child: Column(
           children: [
             SearchFiled(
-              onChanged: (value) {},
+              onChanged: (value) {
+                homeController.searchColleges(value, data);
+              },
             ),
             sh16,
             Expanded(
-              child: ListView.builder(
-                itemCount: data.length,
-                itemBuilder: (context, index) {
-                  var item = data[index];
-                  return CollegeProfileCard(
-                    image: item['image'] ?? AppImages.collegeImage,
-                    university: item['university'],
-                    name: item['name'],
-                    role: item['role'],
-                    email: item['email'],
-                    onFacebookTap: () {},
-                    onTwitterTap: () {},
-                    onInstagramTap: () {},
-                    onBookmarkTap: () {},
-                  );
-                },
+              child: Obx(
+                () => ListView.builder(
+                  itemCount: homeController.filteredData.length,
+                  itemBuilder: (context, index) {
+                    var item = homeController.filteredData[index];
+                    return Obx(
+                      () => CollegeProfileCard(
+                        image: item['image'] ?? AppImages.collegeImage,
+                        university: item['university'],
+                        name: item['name'],
+                        role: item['role'],
+                        email: item['email'],
+                        isSaved: homeController.isSaved(item),
+                        onFacebookTap: () {},
+                        onTwitterTap: () {},
+                        onInstagramTap: () {},
+                        onBookmarkTap: () {
+                          homeController.toggleSaveCollege(item);
+                        },
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
           ],

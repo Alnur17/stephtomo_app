@@ -22,6 +22,7 @@ class _SignUpViewState extends State<SignUpView> {
   String? handPreference;
   String? batPreference;
   String? throwPreference;
+  String? selectedSport;
 
   @override
   Widget build(BuildContext context) {
@@ -113,11 +114,46 @@ class _SignUpViewState extends State<SignUpView> {
                     style: h5,
                   ),
                   sh8,
-                  CustomTextField(
-                    hintText: 'Drop down here',
-                    sufIcon: Image.asset(
-                      AppImages.arrowDown,
-                      scale: 4,
+                  // CustomTextField(
+                  //   hintText: 'Drop down here',
+                  //   sufIcon: Image.asset(
+                  //     AppImages.arrowDown,
+                  //     scale: 4,
+                  //   ),
+                  // ),
+
+                  Container(
+                    height: 54,
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: AppColors.greyLight,
+                    ),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton<String>(
+                        value: selectedSport,
+                        dropdownColor: AppColors.white,
+                        isExpanded: true,
+                        icon: Image.asset(AppImages.arrowDown,scale: 4,),
+                        hint: Text(
+                          'Drop down here',
+                          style: h6.copyWith(color: AppColors.grey),
+                        ),
+                        items: ['Softball', 'Baseball', 'Soccer'].map((String sport) {
+                          return DropdownMenuItem<String>(
+                            value: sport,
+                            child: Text(
+                              sport,
+                              style: h5,
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            selectedSport = newValue; // Update the selected value
+                          });
+                        },
+                      ),
                     ),
                   ),
                   sh16,
