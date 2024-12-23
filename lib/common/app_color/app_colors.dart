@@ -31,6 +31,7 @@ class AppColors{
   static const primary = Color(0xff4DB5AD);
   static const orange = Color(0xffff6200);
   static const failedColor = Color(0xffff3c00);
+  static const purple = Color(0xff5366BE);
 
 
 }

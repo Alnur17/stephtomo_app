@@ -4,6 +4,7 @@ import 'package:stephtomo_app/app/modules/bookmarks/views/bookmarks_view.dart';
 import 'package:stephtomo_app/app/modules/home/views/home_view.dart';
 import 'package:stephtomo_app/app/modules/profile/views/profile_view.dart';
 import 'package:stephtomo_app/app/modules/video/views/video_view.dart';
+import 'package:stephtomo_app/app/modules/write_email/views/write_email_view.dart';
 import 'package:stephtomo_app/common/app_images/app_images.dart';
 import '../../../../common/app_color/app_colors.dart';
 import 'widgets/bnb_custom_painter.dart';
@@ -35,6 +36,7 @@ class _DashboardViewState extends State<DashboardView> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
+        clipBehavior: Clip.none,
         children: [
           // Display the selected screen based on the index
           Obx(() => IndexedStack(
@@ -47,7 +49,7 @@ class _DashboardViewState extends State<DashboardView> {
             left: 0,
             child: SizedBox(
               width: size.width,
-              height: 70,
+              height: 80,
               child: Stack(
                 children: [
                   ClipRRect(
@@ -61,7 +63,7 @@ class _DashboardViewState extends State<DashboardView> {
                     ),
                   ),
                   Center(
-                    heightFactor: 0,
+                    heightFactor: 0.1,
                     child: Container(
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
@@ -74,7 +76,9 @@ class _DashboardViewState extends State<DashboardView> {
                         backgroundColor: AppColors.bottomBackColor,
                         shape: const CircleBorder(),
                         elevation: 4.0,
-                        onPressed: () {},
+                        onPressed: () {
+                          Get.to(()=> WriteEmailView());
+                        },
                         child: Image.asset(
                           AppImages.arrowRightUp,
                           scale: 4,

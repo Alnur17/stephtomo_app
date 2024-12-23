@@ -1,8 +1,15 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:http/http.dart' as http;
-import 'package:path/path.dart';
+import 'package:get/get.dart';
+import 'package:stephtomo_app/app/data/dummy_data.dart';
+import 'package:stephtomo_app/app/modules/video/views/upload_video_view.dart';
+import 'package:stephtomo_app/app/modules/video/views/video_details_view.dart';
+import 'package:stephtomo_app/common/widgets/custom_button.dart';
+
+import '../../../../common/app_color/app_colors.dart';
+import '../../../../common/app_images/app_images.dart';
+import '../../../../common/app_text_style/styles.dart';
+import '../../../../common/size_box/custom_sizebox.dart';
+import '../../../../common/widgets/custom_popup_menu_button.dart';
 
 class VideoView extends StatefulWidget {
   const VideoView({super.key});
@@ -12,57 +19,104 @@ class VideoView extends StatefulWidget {
 }
 
 class _VideoViewState extends State<VideoView> {
-  File? _video;
-
-  final ImagePicker _picker = ImagePicker();
-
-  Future<void> _pickVideo() async {
-    final pickedFile = await _picker.pickVideo(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      setState(() {
-        _video = File(pickedFile.path);
-      });
-    }
-  }
-
-  Future<void> _uploadVideo(File video) async {
-    final url = Uri.parse(""); //server URL needed
-    final request = http.MultipartRequest('POST', url);
-
-    request.files.add(await http.MultipartFile.fromPath(
-      'video', // Field name in the API
-      video.path,
-      filename: basename(video.path),
-    ));
-
-    final response = await request.send();
-
-    if (response.statusCode == 200) {
-      print("Video uploaded successfully!");
-    } else {
-      print("Video upload failed: ${response.statusCode}");
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Upload Video')),
-      body: Center(
+      backgroundColor: AppColors.white,
+      appBar: AppBar(
+        backgroundColor: AppColors.white,
+        scrolledUnderElevation: 0,
+        title: Text(
+          'Video',
+          style: titleStyle,
+        ),
+        centerTitle: true,
+        leading: GestureDetector(
+          onTap: () {
+            Get.back();
+          },
+          child: Image.asset(
+            AppImages.back,
+            scale: 4,
+          ),
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _video != null
-                ? Text("Selected video: ${basename(_video!.path)}")
-                : Text("No video selected"),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _pickVideo,
-              child: Text("Pick Video"),
+            CustomButton(
+              text: 'Add New Video',
+              onPressed: () {
+                Get.to(()=> UploadVideoView());
+              },
+              imageAssetPath: AppImages.addCircle,
+              borderRadius: 30,
             ),
-            ElevatedButton(
-              onPressed: _video != null ? () => _uploadVideo(_video!) : null,
-              child: Text("Upload Video"),
+            sh16,
+            Expanded(
+              child: GridView.builder(
+                itemCount: videoData.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 16,
+                    crossAxisSpacing: 16,
+                    childAspectRatio: 0.9),
+                itemBuilder: (context, index) {
+                  var videoItem = videoData[index];
+                  return Stack(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
+                        child: Image.network(
+                          videoItem['image'],
+                          fit: BoxFit.cover,
+                          height: Get.height,
+                          width: Get.width,
+                        ),
+                      ),
+                      Positioned(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16),
+                            color: Colors.black38,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: 12,
+                        right: 0,
+                        child: CustomPopupMenuButton(),
+                      ),
+                      Positioned(
+                        bottom: 12,
+                        right: 12,
+                        left: 12,
+                        child: Text(
+                          videoItem['title'],
+                          style: h4.copyWith(color: AppColors.white),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      Center(
+                        child: GestureDetector(
+                          onTap: () {
+                            Get.to(() => VideoDetailsView(
+                                 videoItem['image'],
+                              videoItem['title'],
+                                ));
+                          },
+                          child: Image.asset(
+                            AppImages.play,
+                            scale: 4,
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
             ),
           ],
         ),

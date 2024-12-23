@@ -24,6 +24,8 @@ import '../modules/splash/bindings/splash_binding.dart';
 import '../modules/splash/views/splash_view.dart';
 import '../modules/video/bindings/video_binding.dart';
 import '../modules/video/views/video_view.dart';
+import '../modules/write_email/bindings/write_email_binding.dart';
+import '../modules/write_email/views/write_email_view.dart';
 
 part 'app_routes.dart';
 
@@ -92,6 +94,11 @@ class AppPages {
       name: _Paths.BOOKMARKS,
       page: () => const BookmarksView(),
       binding: BookmarksBinding(),
+    ),
+    GetPage(
+      name: _Paths.WRITE_EMAIL,
+      page: () => const WriteEmailView(),
+      binding: WriteEmailBinding(),
     ),
   ];
 }

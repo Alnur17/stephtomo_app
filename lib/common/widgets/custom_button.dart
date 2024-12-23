@@ -7,15 +7,20 @@ class CustomButton extends StatelessWidget {
   final VoidCallback onPressed;
   final Color? backgroundColor;
   final Color? borderColor;
-  final TextStyle? textStyle;
+  final bool? isTextStyleSelected;
   final double? height;
+  final String? imageAssetPath;
+  final double? borderRadius;
 
   const CustomButton({
     super.key,
     required this.text,
     required this.onPressed,
     this.backgroundColor,
-    this.textStyle, this.height = 54, this.borderColor,
+    this.isTextStyleSelected,
+    this.height = 54,
+    this.borderColor,
+    this.imageAssetPath, this.borderRadius = 12,
   });
 
   @override
@@ -23,20 +28,34 @@ class CustomButton extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        //padding: EdgeInsets.all(8),
         height: height,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(borderRadius!),
           border: Border.all(color: borderColor ?? AppColors.transparent),
-          color: backgroundColor ??
-              AppColors.mainColor, // Use custom color or default to mainColor
+          color: backgroundColor ?? AppColors.mainColor,
         ),
         child: Center(
-          child: Text(
-            text,
-            style: textStyle ?? h3.copyWith(
-              color: AppColors.white,
-            ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (imageAssetPath != null) ...[ // Check if the image asset path is provided
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Image.asset(
+                    imageAssetPath!,
+                    scale: 4,
+                  ),
+                ),
+              ],
+              Text(
+                text,
+                style: h3.copyWith(
+                  color: isTextStyleSelected != null
+                      ? AppColors.mainColor
+                      : AppColors.white,
+                ),
+              ),
+            ],
           ),
         ),
       ),

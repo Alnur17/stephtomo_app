@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:stephtomo_app/app/modules/profile/views/about_us_view.dart';
+import 'package:stephtomo_app/app/modules/profile/views/all_email_history_view.dart';
 import 'package:stephtomo_app/app/modules/profile/views/edit_profile_view.dart';
 import 'package:stephtomo_app/app/modules/profile/views/privacy_policy_view.dart';
 import 'package:stephtomo_app/app/modules/profile/views/settings_view.dart';
+import 'package:stephtomo_app/app/modules/profile/views/subscription_plan_view.dart';
 import 'package:stephtomo_app/app/modules/profile/views/terms_of_conditions_view.dart';
 
 import '../../../../common/app_color/app_colors.dart';
@@ -69,6 +71,7 @@ class ProfileView extends GetView<ProfileController> {
             Divider(),
             CustomListTile(
               onTap: () {
+                Get.to(()=> AllEmailHistoryView());
               },
               leading: AppImages.history,
               title: 'History',
@@ -76,7 +79,7 @@ class ProfileView extends GetView<ProfileController> {
             Divider(),
             CustomListTile(
               onTap: () {
-                //Get.to(() => TrackOrderView());
+                Get.to(() => SubscriptionPlanView());
               },
               leading: AppImages.subscription,
               title: 'Subscription',
@@ -116,16 +119,79 @@ class ProfileView extends GetView<ProfileController> {
             Divider(),
             CustomListTile(
               onTap: () {
-                Get.offAll(() => SignInView(),
-                    transition: Transition.leftToRight);
+                _showLogoutPopup();
               },
               leading: AppImages.logout,
               title: 'Log Out',
             ),
-            sh24
+            sh24,
           ],
         ),
       ),
     );
   }
+
+  void _showLogoutPopup() {
+    Get.dialog(
+      AlertDialog(
+        backgroundColor: AppColors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        title: Text(
+          'Do you want to logout your profile?',
+          style: h3,
+          textAlign: TextAlign.center,
+        ),
+        actionsAlignment: MainAxisAlignment.center,
+        actions: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              OutlinedButton(
+                onPressed: () {
+                  Get.offAll(() => SignInView(), transition: Transition.leftToRight);
+                },
+                style: OutlinedButton.styleFrom(
+                  side: BorderSide(color: AppColors.mainColor, width: 1.5),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  minimumSize: Size(100, 40),
+                ),
+                child: Text(
+                  'Yes',
+                  style: h3.copyWith(
+                    fontSize: 14,
+                    color: AppColors.mainColor,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 16),
+              ElevatedButton(
+                onPressed: () {
+                  Get.back(); // Close the dialog
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.mainColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  minimumSize: Size(100, 40),
+                ),
+                child: Text(
+                  'No',
+                  style: h3.copyWith(
+                    fontSize: 14,
+                    color: AppColors.white,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:stephtomo_app/app/modules/profile/views/email_view.dart';
 
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_images/app_images.dart';
@@ -37,51 +38,152 @@ class AllEmailHistoryView extends StatelessWidget {
         child: ListView.builder(
           itemCount: emailData.length,
           itemBuilder: (context, index) {
-            final email = emailData[index];
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CircleAvatar(
-                      radius: 30,
-                      backgroundImage: NetworkImage(email['imageUrl']),
-                    ),
-                    sw16,
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(email['name'], style: h4),
-                        Text(email['role'], style: h4),
-                      ],
-                    ),
-                    Spacer(),
-                    Row(
-                      children: [
-                        Text(email['time'], style: h4),
-                        sw8,
-                        Image.asset(
-                          AppImages.eyeClose,
-                          scale: 4,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                sh8,
-                Text(
-                  email['message'],
-                  style: h6,
-                ),
-                sh8,
-                Divider(),
-              ],
+            final data = emailData[index];
+            return GestureDetector(
+              onTap: () {
+                Get.to(() => EmailView(
+                  image: data['imageUrl'],
+                  name: data['name'],
+                  time: data['time'],
+                  message: data['message'],
+                ));
+              },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CircleAvatar(
+                        radius: 30,
+                        backgroundImage: NetworkImage(data['imageUrl']),
+                      ),
+                      sw16,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(data['name'], style: h4),
+                          sh8,
+                          Text(data['role'], style: h6),
+                        ],
+                      ),
+                      Spacer(),
+                      Row(
+                        children: [
+                          Text(data['time'], style: h6),
+                          sw8,
+                          GestureDetector(
+                            onTap: () {
+                              _showSharePopup();
+                            },
+                            child: Image.asset(
+                              AppImages.share,
+                              scale: 4,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  sh8,
+                  Text(
+                    data['message'],
+                    style: h6,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  sh8,
+                  Divider(),
+                ],
+              ),
             );
           },
         ),
       ),
     );
   }
-}
 
+  void _showSharePopup() {
+    Get.bottomSheet(
+      Container(
+        height: 350,
+        padding: const EdgeInsets.only(left: 16,right: 16,top: 50,bottom: 30),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _buildShareOption(
+                  image: AppImages.instagramShare,
+                  label: 'Instagram',
+                  onTap: () {
+
+                  },
+                ),
+                _buildShareOption(
+                  image: AppImages.twitterShare,
+                  label: 'X',
+                  onTap: () {
+
+                  },
+                ),
+                _buildShareOption(
+                  image: AppImages.facebookShare,
+                  label: 'Facebook',
+                  onTap: () {
+
+                  },
+                ),
+                _buildShareOption(
+                  image: AppImages.more,
+                  label: 'More',
+                  onTap: () {
+                  },
+                ),
+              ],
+            ),
+            sh16,
+            Divider(),
+            sh16,
+            Padding(
+              padding: const EdgeInsets.only(left: 16),
+              child: _buildShareOption(
+                image: AppImages.copy,
+                label: 'Copy link',
+                onTap: () {
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildShareOption({
+    required String image,
+    required String label,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: () {
+        Get.back(); // Close the bottom sheet
+        onTap();
+      },
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Image.asset(image,scale: 4,),
+          sh16,
+          Text(label, style: h6),
+        ],
+      ),
+    );
+  }
+}

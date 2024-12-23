@@ -54,7 +54,7 @@ class OnboardingView extends GetView<OnboardingController> {
                 sh30,
                 CustomButton(
                   backgroundColor: AppColors.white,
-                  textStyle: h3.copyWith(color: AppColors.black),
+                  isTextStyleSelected: true,
                   text: 'Get Started',
                   onPressed: () {
                     Get.to(()=> SignInView());

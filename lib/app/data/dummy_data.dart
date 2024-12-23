@@ -105,7 +105,7 @@ final List<Map<String, dynamic>> emailData = [
     'time': '12m ago',
     'imageUrl': 'https://via.placeholder.com/150',
     'message':
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sit amet consectetur adipiscing elit duis tristique. Enim lobortis scelerisque fermentum dui faucibus in ornare. Faucibus vitae aliquet nec ullamcorper sit amet risus nullam. Risus feugiat in ante metus dictum. Iaculis at erat pellentesque adipiscing commodo elit at imperdiet. Adipiscing tristique risus nec feugiat in. Nibh praesent tristique magna sit amet purus gravida. Egestas diam in arcu cursus euismod quis viverra nibh cras. Tincidunt nunc pulvinar sapien et ligula ullamcorper. Rhoncus mattis rhoncus urna neque viverra justo nec. Quisque non tellus orci ac. Cursus vitae congue mauris rhoncus aenean vel elit scelerisque mauris. Sed tempus urna et pharetra.'
   },
   {
     'name': 'Sammy Hackett',
@@ -131,4 +131,55 @@ final List<Map<String, dynamic>> emailData = [
     'message':
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
   },
+];
+
+
+
+final List<Map<String, dynamic>> videoData = [
+  {
+    "title": "Sample Title 1",
+    "image": 'https://oxfordshireguardian.co.uk/wp-content/uploads/2022/11/Tom-Tower-Christ-Church-Oxford-University.jpeg',
+  },
+  {
+    "title": "Sample Title 2",
+    "image": "https://oxfordshireguardian.co.uk/wp-content/uploads/2022/11/Tom-Tower-Christ-Church-Oxford-University.jpeg"
+  },
+  {
+    "title": "Sample Title 3",
+    "image": "https://news.berkeley.edu/wp-content/uploads/2024/10/231101UCB073-1024x683.jpg"
+  },{
+    "title": "Sample Title 3",
+    "image": "https://news.berkeley.edu/wp-content/uploads/2024/10/231101UCB073-1024x683.jpg"
+  },{
+    "title": "Sample Title 3",
+    "image": "https://news.berkeley.edu/wp-content/uploads/2024/10/231101UCB073-1024x683.jpg"
+  },{
+    "title": "Sample Title 3",
+    "image": "https://news.berkeley.edu/wp-content/uploads/2024/10/231101UCB073-1024x683.jpg"
+  },{
+    "title": "Sample Title 3",
+    "image": "https://news.berkeley.edu/wp-content/uploads/2024/10/231101UCB073-1024x683.jpg"
+  },{
+    "title": "Sample Title 3",
+    "image": "https://news.berkeley.edu/wp-content/uploads/2024/10/231101UCB073-1024x683.jpg"
+  },{
+    "title": "Sample Title 3",
+    "image": "https://news.berkeley.edu/wp-content/uploads/2024/10/231101UCB073-1024x683.jpg"
+  },{
+    "title": "Sample Title 3",
+    "image": "https://news.berkeley.edu/wp-content/uploads/2024/10/231101UCB073-1024x683.jpg"
+  },{
+    "title": "Sample Title 3",
+    "image": "https://news.berkeley.edu/wp-content/uploads/2024/10/231101UCB073-1024x683.jpg"
+  },{
+    "title": "Sample Title 3",
+    "image": "https://news.berkeley.edu/wp-content/uploads/2024/10/231101UCB073-1024x683.jpg"
+  },{
+    "title": "Sample Title 3",
+    "image": "https://news.berkeley.edu/wp-content/uploads/2024/10/231101UCB073-1024x683.jpg"
+  },
+  {
+    "title": "Sample Title 4",
+    "image": "https://i0.wp.com/thecustodianus.com/wp-content/uploads/2023/04/Columbia-University-1.jpg?fit=1000%2C642&ssl=1"
+  }
 ];

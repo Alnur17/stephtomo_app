@@ -19,8 +19,11 @@ class AppImages {
   static const personFilled = "assets/icons/person-filled.png";
   static const arrowRightUp = "assets/icons/arrow-right-up.png";
   static const facebook = "assets/icons/facebook.png";
+  static const facebookShare = "assets/icons/Facebook-share.png";
   static const twitter = "assets/icons/twitter.png";
+  static const twitterShare = "assets/icons/twitter-share.png";
   static const instagram = "assets/icons/instagram.png";
+  static const instagramShare = "assets/icons/instagram-share.png";
   static const search = "assets/icons/search.png";
   static const logout = "assets/icons/logout.png";
   static const edit = "assets/icons/Edit.png";
@@ -31,6 +34,13 @@ class AppImages {
   static const settings = "assets/icons/settings.png";
   static const subscription = "assets/icons/subscription.png";
   static const termsAndCondition = "assets/icons/terms and services.png";
+  static const share = "assets/icons/share.png";
+  static const more = "assets/icons/more_horiz.png";
+  static const menuVer = "assets/icons/menu-ver.png";
+  static const copy = "assets/icons/content_copy.png";
+  static const diamond = "assets/icons/diamond.png";
+  static const addCircle = "assets/icons/add_circle.png";
+  static const play = "assets/icons/play.png";
 
 
   static const backgroundImage = "assets/images/background image.png";
@@ -38,6 +48,8 @@ class AppImages {
   static const emailVerify = "assets/images/email verification.png";
   static const createNewPass = "assets/images/new pass.png";
   static const collegeImage = "assets/images/college image.jpg";
+  static const subscriptionBox = "assets/images/subscription box.png";
+  static const paymentSuccess = "assets/images/payment success.png";
 
 
 

@@ -17,6 +17,7 @@ abstract class Routes {
   static const VIDEO = _Paths.VIDEO;
   static const BOOKMARKS = _Paths.BOOKMARKS;
   static const EDIT_PROFILE = _Paths.PROFILE + _Paths.EDIT_PROFILE;
+  static const WRITE_EMAIL = _Paths.WRITE_EMAIL;
 }
 
 abstract class _Paths {
@@ -35,4 +36,5 @@ abstract class _Paths {
   static const VIDEO = '/video';
   static const BOOKMARKS = '/bookmarks';
   static const EDIT_PROFILE = '/edit-profile';
+  static const WRITE_EMAIL = '/write-email';
 }
