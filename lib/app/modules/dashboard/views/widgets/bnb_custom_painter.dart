@@ -10,20 +10,27 @@ class BNBCustomPainter extends CustomPainter {
 
     Path path = Path();
     path.moveTo(0, 0);
-    path.lineTo(size.width * 0.4, 0);
 
-    path.arcToPoint(
-      Offset(size.width * 0.6, 0),
-      radius: const Radius.circular(30),
-      clockwise: false,
+    path.lineTo(size.width * 0.40, 0);
+
+    path.arcTo(
+      Rect.fromCircle(
+        center: Offset(size.width * 0.5, 18),
+        radius: 39,
+      ),
+      4.14, // Start angle (half-circle start)
+      -5.14, // Sweep angle (counter-clockwise to "cut out")
+      false,
     );
 
+    path.lineTo(size.width * 0.60, 0);
     path.lineTo(size.width, 0);
     path.lineTo(size.width, size.height);
     path.lineTo(0, size.height);
+
     path.close();
 
-    canvas.drawShadow(path, Colors.white, 5, true);
+    canvas.drawShadow(path, Colors.black.withOpacity(0.5), 4, true);
     canvas.drawPath(path, paint);
   }
 
