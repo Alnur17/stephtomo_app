@@ -28,6 +28,7 @@ class AppImages {
   static const search = "assets/icons/search.png";
   static const logout = "assets/icons/logout.png";
   static const edit = "assets/icons/Edit.png";
+  static const editTwo = "assets/icons/edit 2.png";
   static const editProfile = "assets/icons/edit_profile.png";
   static const history = "assets/icons/history.png";
   static const info = "assets/icons/Info.png";
@@ -39,11 +40,13 @@ class AppImages {
   static const more = "assets/icons/more_horiz.png";
   static const menuVer = "assets/icons/menu-ver.png";
   static const copy = "assets/icons/content_copy.png";
+  static const copyLink = "assets/icons/copy-link.png";
   static const diamond = "assets/icons/diamond.png";
   static const addCircle = "assets/icons/add_circle.png";
   static const play = "assets/icons/play.png";
   static const upload = "assets/icons/upload.png";
   static const send = "assets/icons/send.png";
+  static const delete = "assets/icons/delete.png";
 
 
   static const backgroundImage = "assets/images/background image.png";

@@ -34,7 +34,7 @@ class CustomPopupMenuButton extends StatelessWidget {
           value: 'copy_link',
           child: Row(
             children: [
-              Icon(Icons.link, color: Colors.teal),
+              Image.asset(AppImages.copyLink,scale: 4,),
               SizedBox(width: 8),
               Text('Copy link'),
             ],
@@ -44,7 +44,7 @@ class CustomPopupMenuButton extends StatelessWidget {
           value: 'edit',
           child: Row(
             children: [
-              Icon(Icons.edit, color: Colors.blue),
+              Image.asset(AppImages.editTwo,scale: 4,),
               SizedBox(width: 8),
               Text('Edit'),
             ],
@@ -54,7 +54,7 @@ class CustomPopupMenuButton extends StatelessWidget {
           value: 'delete',
           child: Row(
             children: [
-              Icon(Icons.delete, color: Colors.red),
+              Image.asset(AppImages.delete,scale: 4,),
               SizedBox(width: 8),
               Text('Delete'),
             ],
