@@ -139,7 +139,7 @@ class HomeView extends GetView<HomeController> {
                         var item = data[index];
                         return Padding(
                           padding: EdgeInsets.only(
-                            bottom: index == data.length - 1 ? 120 : 8,
+                            bottom: index == data.length - 1 ? 100 : 8,
                           ),
                           child: Obx(() => CollegeProfileCard(
                                 image: item['image'] ?? AppImages.collegeImage,

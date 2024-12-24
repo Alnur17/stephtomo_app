@@ -48,7 +48,7 @@ class _DashboardViewState extends State<DashboardView> {
             left: 0,
             child: SizedBox(
               width: size.width,
-              height: 70,
+              height: 80,
               child: Stack(
                 children: [
                   ClipRRect(
@@ -57,7 +57,7 @@ class _DashboardViewState extends State<DashboardView> {
                       topLeft: Radius.circular(12),
                     ),
                     child: CustomPaint(
-                      size: Size(size.width, 70),
+                      size: Size(size.width, 80),
                       painter: BNBCustomPainter(),
                     ),
                   ),
@@ -68,7 +68,7 @@ class _DashboardViewState extends State<DashboardView> {
                         shape: BoxShape.circle,
                         border: Border.all(
                           color: AppColors.mainColor, // Set the border color
-                          width: 3.0, // Set the border width
+                          width: 4.0, // Set the border width
                         ),
                       ),
                       child: FloatingActionButton(

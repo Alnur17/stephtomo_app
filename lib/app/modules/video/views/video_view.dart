@@ -48,7 +48,7 @@ class _VideoViewState extends State<VideoView> {
             sh16,
             Expanded(
               child: GridView.builder(
-                padding: const EdgeInsets.only(bottom: 120),
+                padding: const EdgeInsets.only(bottom: 100),
                 itemCount: videoData.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,

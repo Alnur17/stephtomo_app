@@ -34,7 +34,6 @@ class CollegeProfileCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-
       color: AppColors.white,
       child: Row(
         children: [
@@ -59,7 +58,7 @@ class CollegeProfileCard extends StatelessWidget {
           ),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.only(left: 8.0, right: 8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -110,11 +109,18 @@ class CollegeProfileCard extends StatelessWidget {
                       Spacer(),
                       GestureDetector(
                         onTap: onBookmarkTap,
-                        child: Image.asset(
-                          isSaved ? AppImages.bookmarkFilled : AppImages.bookmarkAdd,
-                          scale: 4,
+                        child: Container(
+                          width: 35,
+                          decoration: ShapeDecoration(shape: CircleBorder()),
+                          child: Image.asset(
+                            isSaved
+                                ? AppImages.bookmarkFilled
+                                : AppImages.bookmarkAdd,
+                            scale: 4,
+                          ),
                         ),
                       ),
+                      sw8,
                     ],
                   ),
                 ],

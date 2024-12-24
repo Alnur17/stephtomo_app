@@ -8,7 +8,7 @@ import '../../../../common/widgets/college_profile_card.dart';
 import '../../home/controllers/home_controller.dart';
 
 class BookmarksView extends StatefulWidget {
-   const BookmarksView({super.key});
+  const BookmarksView({super.key});
 
   @override
   State<BookmarksView> createState() => _BookmarksViewState();
@@ -24,7 +24,7 @@ class _BookmarksViewState extends State<BookmarksView> {
       appBar: AppBar(
         backgroundColor: AppColors.white,
         scrolledUnderElevation: 0,
-        title: Text('Saved Collage',style: titleStyle),
+        title: Text('Saved Collage', style: titleStyle),
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),
@@ -44,7 +44,7 @@ class _BookmarksViewState extends State<BookmarksView> {
             final item = savedColleges[index];
             return Padding(
               padding: EdgeInsets.only(
-                bottom: index == savedColleges.length - 1 ? 120 : 8,
+                bottom: index == savedColleges.length - 1 ? 100 : 8,
               ),
               child: CollegeProfileCard(
                 image: item['image'] ?? '',
