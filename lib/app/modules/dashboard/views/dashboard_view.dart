@@ -25,7 +25,6 @@ class _DashboardViewState extends State<DashboardView> {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
 
-    // Screens managed as a list
     final List<Widget> screens = [
       HomeView(),
       VideoView(),
@@ -38,10 +37,12 @@ class _DashboardViewState extends State<DashboardView> {
       body: Stack(
         clipBehavior: Clip.none,
         children: [
-          Obx(() => IndexedStack(
-                index: dashboardController.currentIndex.value,
-                children: screens,
-              )),
+          Obx(
+            () => IndexedStack(
+              index: dashboardController.currentIndex.value,
+              children: screens,
+            ),
+          ),
           // Bottom navigation bar
           Positioned(
             bottom: 0,
@@ -67,8 +68,8 @@ class _DashboardViewState extends State<DashboardView> {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         border: Border.all(
-                          color: AppColors.mainColor, // Set the border color
-                          width: 4.0, // Set the border width
+                          color: AppColors.mainColor,
+                          width: 4.0,
                         ),
                       ),
                       child: FloatingActionButton(
@@ -76,7 +77,7 @@ class _DashboardViewState extends State<DashboardView> {
                         shape: const CircleBorder(),
                         elevation: 4.0,
                         onPressed: () {
-                          Get.to(()=> WriteEmailView());
+                          Get.to(() => WriteEmailView());
                         },
                         child: Image.asset(
                           AppImages.arrowRightUp,
@@ -123,12 +124,11 @@ class _DashboardViewState extends State<DashboardView> {
           children: [
             Image.asset(
               dashboardController.currentIndex.value == index
-                  ? activeImage // Use filled image for active state
-                  : inactiveImage, // Use outline image for inactive state
-              //height: 24,
+                  ? activeImage
+                  : inactiveImage,
               scale: 4,
             ),
-            const SizedBox(height: 4), // Spacing between image and label
+            const SizedBox(height: 4),
             Text(
               label,
               style: TextStyle(
