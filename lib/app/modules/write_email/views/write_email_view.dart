@@ -145,7 +145,7 @@ class _WriteEmailViewState extends State<WriteEmailView> {
               _buildProfileSummary(),
               sh100,
               Text(
-                "Upload Video",
+                "Chose Video",
                 style: h4,
               ),
               sh8,

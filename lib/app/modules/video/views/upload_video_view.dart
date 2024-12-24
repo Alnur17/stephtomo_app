@@ -48,7 +48,7 @@ class UploadVideoView extends StatelessWidget {
             ),
             SizedBox(height: 24),
             Text(
-              "Upload video",
+              "Upload Video",
               style: h5,
             ),
             SizedBox(height: 8),
