@@ -38,7 +38,6 @@ class _DashboardViewState extends State<DashboardView> {
       body: Stack(
         clipBehavior: Clip.none,
         children: [
-          // Display the selected screen based on the index
           Obx(() => IndexedStack(
                 index: dashboardController.currentIndex.value,
                 children: screens,

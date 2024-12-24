@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../common/app_color/app_colors.dart';
-import '../../../../common/app_images/app_images.dart';
 import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/widgets/college_profile_card.dart';
 import '../../home/controllers/home_controller.dart';
@@ -27,15 +26,7 @@ class _BookmarksViewState extends State<BookmarksView> {
         scrolledUnderElevation: 0,
         title: Text('Saved Collage',style: titleStyle),
         centerTitle: true,
-        leading: GestureDetector(
-          onTap: () {
-            Get.back();
-          },
-          child: Image.asset(
-            AppImages.back,
-            scale: 4,
-          ),
-        ),
+        automaticallyImplyLeading: false,
       ),
       body: Obx(() {
         final savedColleges = homeController.savedColleges();

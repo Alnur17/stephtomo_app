@@ -1,23 +1,17 @@
 import 'package:get/get.dart';
 
 class WriteEmailController extends GetxController {
-  //TODO: Implement WriteEmailController
+  var checkbox = List.generate(10, (index) => false.obs).obs;
 
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
+  void markAll() {
+    bool allSelected = checkbox.every((item) => item.value);
+
+    for (var check in checkbox) {
+      check.value = !allSelected;
+    }
   }
 
-  @override
-  void onReady() {
-    super.onReady();
+  void toggleCheckbox(int index) {
+    checkbox[index].value = !checkbox[index].value;
   }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
 }

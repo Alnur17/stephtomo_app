@@ -126,6 +126,7 @@ class EditProfileView extends GetView {
                 text: 'Update',
                 onPressed: () {},
               ),
+              sh30,
             ],
           ),
         ),

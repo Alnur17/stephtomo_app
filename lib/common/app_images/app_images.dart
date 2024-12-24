@@ -6,6 +6,7 @@ class AppImages {
   static const checkboxFilled = "assets/icons/checkbox-filled.png";
   static const back = "assets/icons/back.png";
   static const arrowDown = "assets/icons/arrow down.png";
+  static const arrowDownGreen = "assets/icons/arrow-down-green.png";
   static const arrowRight = "assets/icons/arrow-right.png";
   static const notification = "assets/icons/notification.png";
   static const homeOutline = "assets/icons/home-outline.png";
@@ -42,6 +43,7 @@ class AppImages {
   static const addCircle = "assets/icons/add_circle.png";
   static const play = "assets/icons/play.png";
   static const upload = "assets/icons/upload.png";
+  static const send = "assets/icons/send.png";
 
 
   static const backgroundImage = "assets/images/background image.png";
