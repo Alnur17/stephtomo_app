@@ -1,7 +1,9 @@
 import 'package:get/get.dart';
 
+import '../../../data/dummy_data.dart';
+
 class WriteEmailController extends GetxController {
-  var checkbox = List.generate(10, (index) => false.obs).obs;
+  var checkbox = List.generate(data.length, (index) => false.obs).obs;
 
   void markAll() {
     bool allSelected = checkbox.every((item) => item.value);

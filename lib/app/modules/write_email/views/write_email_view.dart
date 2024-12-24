@@ -8,6 +8,7 @@ import 'package:stephtomo_app/common/widgets/custom_button.dart';
 import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
 import '../../../../common/widgets/custom_textfelid.dart';
+import '../../../data/dummy_data.dart';
 import '../controllers/write_email_controller.dart';
 
 class WriteEmailView extends StatefulWidget {
@@ -63,7 +64,7 @@ class _WriteEmailViewState extends State<WriteEmailView> {
                     itemBuilder: (context) => [
                       PopupMenuItem(
                         child: Container(
-                          width: Get.width * 0.9,
+                          width: 300,
                           height: 400,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(24),
@@ -79,32 +80,39 @@ class _WriteEmailViewState extends State<WriteEmailView> {
                               ),
                               Expanded(
                                 child: ListView.builder(
-                                  itemCount: controller.checkbox.length,
+                                  itemCount: data.length,
                                   itemBuilder: (context, index) {
+                                    final person = data[index];
                                     return Obx(
                                       () => ListTile(
                                         leading: CircleAvatar(
                                           backgroundImage:
-                                              NetworkImage(AppImages.profile),
+                                              NetworkImage(person['image']),
                                         ),
-                                        title: Text('David Wayne'),
+                                        title: Text(person['name']),
                                         subtitle: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Text('Head Coach'),
-                                            Text('Oxford University'),
+                                            Text(person['role']),
+                                            Text(person['university']),
                                           ],
                                         ),
                                         trailing: GestureDetector(
                                           onTap: () {
                                             controller.toggleCheckbox(index);
                                           },
-                                          child: Image.asset(
-                                            controller.checkbox[index].value
-                                                ? AppImages.checkboxFilled
-                                                : AppImages.checkbox,
-                                            scale: 4,
+                                          child: Container(
+                                            height: 50,
+                                            decoration: ShapeDecoration(
+                                              shape: CircleBorder(),
+                                            ),
+                                            child: Image.asset(
+                                              controller.checkbox[index].value
+                                                  ? AppImages.checkboxFilled
+                                                  : AppImages.checkbox,
+                                              scale: 4,
+                                            ),
                                           ),
                                         ),
                                       ),
