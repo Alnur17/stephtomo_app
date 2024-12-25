@@ -16,7 +16,8 @@ class TermsOfConditionsView extends StatelessWidget {
       backgroundColor: AppColors.white,
       appBar: AppBar(
         backgroundColor: AppColors.white,
-        title: Text('Terms of Conditions',style: titleStyle,),
+        scrolledUnderElevation: 0,
+        title: Text('Terms of Services',style: titleStyle,),
         centerTitle: true,
         leading: GestureDetector(
           onTap: () {

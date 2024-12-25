@@ -15,6 +15,7 @@ class PrivacyPolicyView extends StatelessWidget{
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         backgroundColor: AppColors.white,
         title: Text('Privacy Policy',style: titleStyle,),
         centerTitle: true,

@@ -16,6 +16,7 @@ class AboutUsView extends StatelessWidget {
       backgroundColor: AppColors.white,
       appBar: AppBar(
         backgroundColor: AppColors.white,
+        scrolledUnderElevation: 0,
         title: Text('About Us',style: titleStyle,),
         centerTitle: true,
         leading: GestureDetector(
