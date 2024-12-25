@@ -56,6 +56,7 @@ class AppImages {
   static const collegeImage = "assets/images/college image.jpg";
   static const subscriptionBox = "assets/images/subscription box.png";
   static const paymentSuccess = "assets/images/payment success.png";
+  static const notFound = "assets/images/not found image.png";
 
 
 

@@ -22,12 +22,6 @@ class _SearchViewState extends State<SearchView> {
   final HomeController homeController = Get.put(HomeController());
 
   @override
-  void initState() {
-    super.initState();
-    homeController.initializeData(data);
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.white,
@@ -61,28 +55,42 @@ class _SearchViewState extends State<SearchView> {
             sh16,
             Expanded(
               child: Obx(
-                () => ListView.builder(
-                  itemCount: homeController.filteredData.length,
-                  itemBuilder: (context, index) {
-                    var item = homeController.filteredData[index];
-                    return Obx(
-                      () => CollegeProfileCard(
-                        image: item['image'] ?? AppImages.collegeImage,
-                        university: item['university'],
-                        name: item['name'],
-                        role: item['role'],
-                        email: item['email'],
-                        isSaved: homeController.isSaved(item),
-                        onFacebookTap: () {},
-                        onTwitterTap: () {},
-                        onInstagramTap: () {},
-                        onBookmarkTap: () {
-                          homeController.toggleSaveCollege(item);
-                        },
+                    () {
+                  if (homeController.filteredData.isEmpty) {
+                    return Center(
+                      child: Text(
+                        'Data not found',
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 16,
+                        ),
                       ),
                     );
-                  },
-                ),
+                  } else {
+                    return ListView.builder(
+                      itemCount: homeController.filteredData.length,
+                      itemBuilder: (context, index) {
+                        var item = homeController.filteredData[index];
+                        return Obx(
+                              () => CollegeProfileCard(
+                            image: item['image'],
+                            university: item['university'],
+                            name: item['name'],
+                            role: item['role'],
+                            email: item['email'],
+                            isSaved: homeController.isSaved(item),
+                            onFacebookTap: () {},
+                            onTwitterTap: () {},
+                            onInstagramTap: () {},
+                            onBookmarkTap: () {
+                              homeController.toggleSaveCollege(item);
+                            },
+                          ),
+                        );
+                      },
+                    );
+                  }
+                },
               ),
             ),
           ],

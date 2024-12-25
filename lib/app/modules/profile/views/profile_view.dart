@@ -18,7 +18,9 @@ import '../../sign_in/views/sign_in_view.dart';
 import '../controllers/profile_controller.dart';
 
 class ProfileView extends GetView<ProfileController> {
-  const ProfileView({super.key});
+  final bool showBackButton;
+
+  const ProfileView({super.key, this.showBackButton = false});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,18 @@ class ProfileView extends GetView<ProfileController> {
           style: titleStyle,
         ),
         centerTitle: true,
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: showBackButton,
+        leading: showBackButton
+            ? GestureDetector(
+                onTap: () {
+                  Get.back();
+                },
+                child: Image.asset(
+                  AppImages.back,
+                  scale: 4,
+                ),
+              )
+            : null,
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 16, right: 16),
@@ -71,7 +84,7 @@ class ProfileView extends GetView<ProfileController> {
             Divider(),
             CustomListTile(
               onTap: () {
-                Get.to(()=> AllEmailHistoryView());
+                Get.to(() => AllEmailHistoryView());
               },
               leading: AppImages.history,
               title: 'History',
@@ -95,7 +108,7 @@ class ProfileView extends GetView<ProfileController> {
             Divider(),
             CustomListTile(
               onTap: () {
-                 Get.to(() => TermsOfConditionsView());
+                Get.to(() => TermsOfConditionsView());
               },
               leading: AppImages.termsAndCondition,
               title: 'Terms of Services',
@@ -103,7 +116,9 @@ class ProfileView extends GetView<ProfileController> {
             Divider(),
             CustomListTile(
               onTap: () {
-                 Get.to(() => PrivacyPolicyView(),);
+                Get.to(
+                  () => PrivacyPolicyView(),
+                );
               },
               leading: AppImages.privacy,
               title: 'Privacy Policy',
@@ -150,7 +165,8 @@ class ProfileView extends GetView<ProfileController> {
             children: [
               OutlinedButton(
                 onPressed: () {
-                  Get.offAll(() => SignInView(), transition: Transition.leftToRight);
+                  Get.offAll(() => SignInView(),
+                      transition: Transition.leftToRight);
                 },
                 style: OutlinedButton.styleFrom(
                   side: BorderSide(color: AppColors.mainColor, width: 1.5),
@@ -193,5 +209,4 @@ class ProfileView extends GetView<ProfileController> {
       ),
     );
   }
-
 }

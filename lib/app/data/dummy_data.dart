@@ -29,7 +29,7 @@ final List<Map<String, dynamic>> data = [
     'role': 'Research Fellow',
     'email': 'emma.watson@cambridge.ac.uk',
     'image':
-    'https://www.visitcambridge.org/app/uploads/2021/11/corpus-christi-1600x0-c-default.jpg',
+    'https://www.tclf.org/sites/default/files/thumbnails/image/CA_Berkeley_UniversityOfCaliforniaAtBerkeley_byCharlieNguyen-Flickr_2008_001_Sig.jpg',
   },
   {
     'university': 'Oxford University',
@@ -61,7 +61,7 @@ final List<Map<String, dynamic>> data = [
     'role': 'Director of Research',
     'email': 'olivia.brown@mit.edu',
     'image':
-    'https://alum.mit.edu/sites/default/files/images/Slice_23.09.22_Rankings.jpg',
+    'https://news.mit.edu/sites/default/files/styles/news_article__image_gallery/public/images/201709/%2520Aerial-AboveSummit-Christopher%2520Harting_2.png?itok=dFHQI8zn',
   },
   {
     'university': 'Columbia University',
@@ -69,7 +69,7 @@ final List<Map<String, dynamic>> data = [
     'role': 'Associate Professor',
     'email': 'ethan.green@columbia.edu',
     'image':
-    'https://i0.wp.com/thecustodianus.com/wp-content/uploads/2023/04/Columbia-University-1.jpg?fit=1000%2C642&ssl=1',
+    'https://www.appily.com/sites/default/files/styles/max_1200/public/images/hero/college/190150_hero.jpg?itok=xJZlqHGh',
   },
   {
     'university': 'Oxford University',

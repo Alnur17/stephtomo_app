@@ -50,7 +50,7 @@ class CollegeProfileCard extends StatelessWidget {
                 image,
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) => Image.asset(
-                  AppImages.collegeImage,
+                  AppImages.notFound,
                   fit: BoxFit.cover,
                 ),
               ),

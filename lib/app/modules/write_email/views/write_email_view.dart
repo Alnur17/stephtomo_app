@@ -28,6 +28,7 @@ class _WriteEmailViewState extends State<WriteEmailView> {
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         backgroundColor: AppColors.white,
         title: Text(
           "Write",
@@ -45,7 +46,7 @@ class _WriteEmailViewState extends State<WriteEmailView> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.only(left: 16.0,right: 16),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -95,7 +96,7 @@ class _WriteEmailViewState extends State<WriteEmailView> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(person['role']),
-                                            Text(person['university']),
+                                            Text(person['university'],maxLines: 1, overflow: TextOverflow.ellipsis,),
                                           ],
                                         ),
                                         trailing: GestureDetector(
@@ -143,7 +144,12 @@ class _WriteEmailViewState extends State<WriteEmailView> {
               Divider(),
               sh16,
               _buildProfileSummary(),
-              sh100,
+              sh16,
+              CustomTextField(
+                height: 150,
+                hintText: 'Compose email',
+              ),
+              sh16,
               Text(
                 "Chose Video",
                 style: h4,

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:stephtomo_app/app/modules/home/views/notification_view.dart';
 import 'package:stephtomo_app/app/modules/home/views/search_view.dart';
+import 'package:stephtomo_app/app/modules/profile/views/profile_view.dart';
 import 'package:stephtomo_app/common/app_images/app_images.dart';
 import 'package:stephtomo_app/common/size_box/custom_sizebox.dart';
 import '../../../../common/app_color/app_colors.dart';
@@ -10,10 +12,26 @@ import '../../../../common/widgets/college_profile_card.dart';
 import '../../../data/dummy_data.dart';
 import '../controllers/home_controller.dart';
 
-class HomeView extends GetView<HomeController> {
-  HomeView({super.key});
+class HomeView extends StatefulWidget {
+  const HomeView({super.key});
 
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
   final HomeController homeController = Get.put(HomeController());
+
+  @override
+  void initState() {
+    super.initState();
+    homeController.initializeData(data);
+
+  }
+
+  Future<void> _refreshData() async {
+    await homeController.initializeData(data); // Reinitialize data
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,10 +59,15 @@ class HomeView extends GetView<HomeController> {
                     right: 0,
                     top: 16,
                     child: ListTile(
-                      leading: const CircleAvatar(
-                        radius: 35,
-                        backgroundImage: NetworkImage(
-                          AppImages.profile,
+                      leading: GestureDetector(
+                        onTap: () {
+                          Get.to(() => ProfileView(showBackButton: true));
+                        },
+                        child: const CircleAvatar(
+                          radius: 35,
+                          backgroundImage: NetworkImage(
+                            AppImages.profile,
+                          ),
                         ),
                       ),
                       title: Text(
@@ -121,45 +144,75 @@ class HomeView extends GetView<HomeController> {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Recommend Collage',
-                    style: h3.copyWith(
-                      fontWeight: FontWeight.w500,
+              child: RefreshIndicator(
+                color: AppColors.mainColor,
+                backgroundColor: AppColors.white,
+                onRefresh: _refreshData,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Recommend Collage',
+                      style: h3.copyWith(
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                  ),
-                  sh8,
-                  Expanded(
-                    child: ListView.builder(
-                      padding: EdgeInsets.zero,
-                      itemCount: data.length,
-                      itemBuilder: (context, index) {
-                        var item = data[index];
-                        return Padding(
-                          padding: EdgeInsets.only(
-                            bottom: index == data.length - 1 ? 100 : 8,
-                          ),
-                          child: Obx(() => CollegeProfileCard(
-                                image: item['image'] ?? AppImages.collegeImage,
-                                university: item['university'],
-                                name: item['name'],
-                                role: item['role'],
-                                email: item['email'],
-                                isSaved: controller.isSaved(item),
-                                onFacebookTap: () {},
-                                onTwitterTap: () {},
-                                onInstagramTap: () {},
-                                onBookmarkTap: () {
-                                  controller.toggleSaveCollege(item);
-                                },
-                              )),
-                        );
-                      },
+                    sh8,
+                    Expanded(
+                      child: Obx(() {
+                        if (homeController.isLoading.value) {
+                          return ListView.builder(
+                            padding: EdgeInsets.zero,
+                            itemCount: 6,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: 8),
+                                child: Shimmer.fromColors(
+                                  baseColor: Colors.grey[300]!,
+                                  highlightColor: Colors.grey[100]!,
+                                  child: Container(
+                                    height: 100,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        } else {
+                          return ListView.builder(
+                            padding: EdgeInsets.zero,
+                            itemCount: data.length,
+                            itemBuilder: (context, index) {
+                              var item = data[index];
+                              return Padding(
+                                padding: EdgeInsets.only(
+                                  bottom: index == data.length - 1 ? 100 : 8,
+                                ),
+                                child: Obx(() => CollegeProfileCard(
+                                  image: item['image'],
+                                  university: item['university'],
+                                  name: item['name'],
+                                  role: item['role'],
+                                  email: item['email'],
+                                  isSaved: homeController.isSaved(item),
+                                  onFacebookTap: () {},
+                                  onTwitterTap: () {},
+                                  onInstagramTap: () {},
+                                  onBookmarkTap: () {
+                                    homeController.toggleSaveCollege(item);
+                                  },
+                                )),
+                              );
+                            },
+                          );
+                        }
+                      }),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

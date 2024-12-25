@@ -4,10 +4,14 @@ class HomeController extends GetxController {
   var savedColleges = <Map<String, dynamic>>[].obs;
   var searchQuery = ''.obs;
   var filteredData = <Map<String, dynamic>>[].obs;
+  var isLoading = true.obs;
 
   // Initialize with all data
-  void initializeData(List<Map<String, dynamic>> data) {
+   initializeData(List<Map<String, dynamic>> data) async {
+    isLoading.value = true;
+    await Future.delayed(Duration(seconds: 2));
     filteredData.assignAll(data);
+    isLoading.value = false;
   }
 
   void toggleSaveCollege(Map<String, dynamic> college) {
