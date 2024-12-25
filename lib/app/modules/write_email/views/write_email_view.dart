@@ -164,6 +164,7 @@ class _WriteEmailViewState extends State<WriteEmailView> {
                 text: 'Send',
                 onPressed: () {},
               ),
+              sh16
             ],
           ),
         ),

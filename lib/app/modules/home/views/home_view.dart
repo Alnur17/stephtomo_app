@@ -10,6 +10,7 @@ import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/widgets/college_profile_card.dart';
 import '../../../data/dummy_data.dart';
+import '../../profile/controllers/profile_controller.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends StatefulWidget {
@@ -21,12 +22,12 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   final HomeController homeController = Get.put(HomeController());
+  final ProfileController profileController = Get.put(ProfileController());
 
   @override
   void initState() {
     super.initState();
     homeController.initializeData(data);
-
   }
 
   Future<void> _refreshData() async {
@@ -58,48 +59,55 @@ class _HomeViewState extends State<HomeView> {
                     left: 0,
                     right: 0,
                     top: 16,
-                    child: ListTile(
-                      leading: GestureDetector(
-                        onTap: () {
-                          Get.to(() => ProfileView(showBackButton: true));
-                        },
-                        child: const CircleAvatar(
-                          radius: 35,
-                          backgroundImage: NetworkImage(
-                            AppImages.profile,
+                    child: Obx(
+                      () => ListTile(
+                        leading: GestureDetector(
+                          onTap: () {
+                            Get.to(() => ProfileView(showBackButton: true));
+                          },
+                          child: CircleAvatar(
+                            radius: 35,
+                            backgroundImage:
+                                profileController.profileImage.value != null
+                                    ? FileImage(
+                                        profileController.profileImage.value!,
+                                      ) as ImageProvider
+                                    : AssetImage(
+                                        AppImages.profileAvatarPlaceholder,
+                                      ),
                           ),
                         ),
-                      ),
-                      title: Text(
-                        'Sultan Md. Alnur',
-                        style: appBarStyle.copyWith(
-                          color: AppColors.white,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      subtitle: Text(
-                        '47 W 13th St, NY, NY 10011, USA',
-                        style: h5.copyWith(
-                          color: AppColors.white,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      trailing: GestureDetector(
-                        onTap: () {
-                          Get.to(() => NotificationView());
-                        },
-                        child: Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
+                        title: Text(
+                          'Sultan Md. Alnur',
+                          style: appBarStyle.copyWith(
                             color: AppColors.white,
                           ),
-                          child: Image.asset(
-                            AppImages.notification,
-                            scale: 4,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        subtitle: Text(
+                          '47 W 13th St, NY, NY 10011, USA',
+                          style: h5.copyWith(
+                            color: AppColors.white,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        trailing: GestureDetector(
+                          onTap: () {
+                            Get.to(() => NotificationView());
+                          },
+                          child: Container(
+                            height: 40,
+                            width: 40,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: AppColors.white,
+                            ),
+                            child: Image.asset(
+                              AppImages.notification,
+                              scale: 4,
+                            ),
                           ),
                         ),
                       ),
@@ -192,19 +200,19 @@ class _HomeViewState extends State<HomeView> {
                                   bottom: index == data.length - 1 ? 100 : 8,
                                 ),
                                 child: Obx(() => CollegeProfileCard(
-                                  image: item['image'],
-                                  university: item['university'],
-                                  name: item['name'],
-                                  role: item['role'],
-                                  email: item['email'],
-                                  isSaved: homeController.isSaved(item),
-                                  onFacebookTap: () {},
-                                  onTwitterTap: () {},
-                                  onInstagramTap: () {},
-                                  onBookmarkTap: () {
-                                    homeController.toggleSaveCollege(item);
-                                  },
-                                )),
+                                      image: item['image'],
+                                      university: item['university'],
+                                      name: item['name'],
+                                      role: item['role'],
+                                      email: item['email'],
+                                      isSaved: homeController.isSaved(item),
+                                      onFacebookTap: () {},
+                                      onTwitterTap: () {},
+                                      onInstagramTap: () {},
+                                      onBookmarkTap: () {
+                                        homeController.toggleSaveCollege(item);
+                                      },
+                                    )),
                               );
                             },
                           );

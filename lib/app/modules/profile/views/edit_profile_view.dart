@@ -1,6 +1,8 @@
-import 'package:flutter/material.dart';
+import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../../../common/app_color/app_colors.dart';
 import '../../../../../common/app_images/app_images.dart';
@@ -8,9 +10,28 @@ import '../../../../../common/size_box/custom_sizebox.dart';
 import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/widgets/custom_button.dart';
 import '../../../../common/widgets/custom_textfelid.dart';
+import '../controllers/profile_controller.dart';
 
-class EditProfileView extends GetView {
+class EditProfileView extends StatefulWidget {
   const EditProfileView({super.key});
+
+  @override
+  State<EditProfileView> createState() => _EditProfileViewState();
+}
+
+class _EditProfileViewState extends State<EditProfileView> {
+  final ProfileController profileController = Get.find<ProfileController>();
+
+  Future<void> _pickImage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? pickedFile =
+    await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      profileController.setTempImage(File(pickedFile.path));
+      setState(() {});
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,26 +52,42 @@ class EditProfileView extends GetView {
           ),
         ),
       ),
-      body:Padding(
+      body: Padding(
         padding: const EdgeInsets.only(left: 16, right: 16),
         child: SingleChildScrollView(
           child: Column(
             children: [
-              sh30,
+              sh20,
               Stack(
+                clipBehavior: Clip.none,
                 children: [
                   CircleAvatar(
-                    radius: 50,
-                    backgroundImage: NetworkImage(AppImages.profile),
+                    radius: 60,
+                    backgroundImage: profileController.tempImage != null
+                        ? FileImage(profileController.tempImage!)
+                    as ImageProvider
+                        : profileController.profileImage.value != null
+                        ? FileImage(profileController.profileImage.value!)
+                    as ImageProvider
+                        : AssetImage(AppImages.profileAvatarPlaceholder),
                   ),
                   Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: Image.asset(
-                      AppImages.editProfile,
-                      scale: 4,
+                    bottom: -5,
+                    right: -5,
+                    child: GestureDetector(
+                      onTap: _pickImage,
+                      child: Container(
+                        height: 35,
+                        width: 35,
+                        decoration: ShapeDecoration(
+                            shape: CircleBorder(), color: AppColors.blueLight),
+                        child: Image.asset(
+                          AppImages.editProfile,
+                          scale: 4,
+                        ),
+                      ),
                     ),
-                  )
+                  ),
                 ],
               ),
               sh16,
@@ -124,7 +161,10 @@ class EditProfileView extends GetView {
               sh20,
               CustomButton(
                 text: 'Update',
-                onPressed: () {},
+                onPressed: () {
+                  profileController.confirmProfileImage();
+                  Get.back();
+                },
               ),
               sh30,
             ],

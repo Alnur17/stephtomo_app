@@ -1,22 +1,24 @@
+import 'dart:io';
+
 import 'package:get/get.dart';
 
 class ProfileController extends GetxController {
 
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
+  var profileImage = Rxn<File>();
+  File? tempImage;
+
+  void setTempImage(File image) {
+    tempImage = image;
   }
 
-  @override
-  void onReady() {
-    super.onReady();
+  void confirmProfileImage() {
+    if (tempImage != null) {
+      profileImage.value = tempImage;
+      tempImage = null; // Clearing the temp image after update
+    }
   }
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
+  // void updateProfileImage(File image) {
+  //   profileImage.value = image;
+  // }
 }

@@ -23,7 +23,9 @@ class AppColors{
   static const green = Color(0xff00BA11);
   static const borderColor = Color(0xff000000);
   static const textColorWhite = Color(0xfffdfdfd);
+  static const blueLight = Color(0xff105FCB);
   static const blue = Color(0xff1A63A6);
+  static const blueDark = Color(0xff283891);
   static const lightBlue = Color(0xff40C4FF);
   static const hintColor = Color(0xff8b8989);
   static const greenLight = Color(0xffEDF8F7);

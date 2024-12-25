@@ -210,47 +210,62 @@ final List<Map<String, dynamic>> videoData = [
   {
     "title": "Sample Title 1",
     "image": 'https://oxfordshireguardian.co.uk/wp-content/uploads/2022/11/Tom-Tower-Christ-Church-Oxford-University.jpeg',
+    "video": "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4",
   },
   {
     "title": "Sample Title 2",
-    "image": "https://oxfordshireguardian.co.uk/wp-content/uploads/2022/11/Tom-Tower-Christ-Church-Oxford-University.jpeg"
+    "image": "https://oxfordshireguardian.co.uk/wp-content/uploads/2022/11/Tom-Tower-Christ-Church-Oxford-University.jpeg",
+    "video": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
   },
   {
     "title": "Sample Title 3",
-    "image": "https://news.berkeley.edu/wp-content/uploads/2024/10/231101UCB073-1024x683.jpg"
+    "image": "https://news.berkeley.edu/wp-content/uploads/2024/10/231101UCB073-1024x683.jpg",
+    "video": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+
   },{
     "title": "Sample Title 3",
-    "image": "https://news.berkeley.edu/wp-content/uploads/2024/10/231101UCB073-1024x683.jpg"
+    "image": "https://news.berkeley.edu/wp-content/uploads/2024/10/231101UCB073-1024x683.jpg",
+    "video": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
   },{
     "title": "Sample Title 3",
-    "image": "https://news.berkeley.edu/wp-content/uploads/2024/10/231101UCB073-1024x683.jpg"
+    "image": "https://news.berkeley.edu/wp-content/uploads/2024/10/231101UCB073-1024x683.jpg",
+    "video": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
   },{
     "title": "Sample Title 3",
-    "image": "https://news.berkeley.edu/wp-content/uploads/2024/10/231101UCB073-1024x683.jpg"
+    "image": "https://news.berkeley.edu/wp-content/uploads/2024/10/231101UCB073-1024x683.jpg",
+    "video": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
   },{
     "title": "Sample Title 3",
-    "image": "https://news.berkeley.edu/wp-content/uploads/2024/10/231101UCB073-1024x683.jpg"
+    "image": "https://news.berkeley.edu/wp-content/uploads/2024/10/231101UCB073-1024x683.jpg",
+    "video": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
   },{
     "title": "Sample Title 3",
-    "image": "https://news.berkeley.edu/wp-content/uploads/2024/10/231101UCB073-1024x683.jpg"
+    "image": "https://news.berkeley.edu/wp-content/uploads/2024/10/231101UCB073-1024x683.jpg",
+    "video": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
   },{
     "title": "Sample Title 3",
-    "image": "https://news.berkeley.edu/wp-content/uploads/2024/10/231101UCB073-1024x683.jpg"
+    "image": "https://news.berkeley.edu/wp-content/uploads/2024/10/231101UCB073-1024x683.jpg",
+    "video": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
   },{
     "title": "Sample Title 3",
-    "image": "https://news.berkeley.edu/wp-content/uploads/2024/10/231101UCB073-1024x683.jpg"
+    "image": "https://news.berkeley.edu/wp-content/uploads/2024/10/231101UCB073-1024x683.jpg",
+    "video": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
   },{
     "title": "Sample Title 3",
-    "image": "https://news.berkeley.edu/wp-content/uploads/2024/10/231101UCB073-1024x683.jpg"
+    "image": "https://news.berkeley.edu/wp-content/uploads/2024/10/231101UCB073-1024x683.jpg",
+    "video": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
   },{
     "title": "Sample Title 3",
-    "image": "https://news.berkeley.edu/wp-content/uploads/2024/10/231101UCB073-1024x683.jpg"
+    "image": "https://news.berkeley.edu/wp-content/uploads/2024/10/231101UCB073-1024x683.jpg",
+    "video": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
   },{
     "title": "Sample Title 3",
-    "image": "https://news.berkeley.edu/wp-content/uploads/2024/10/231101UCB073-1024x683.jpg"
+    "image": "https://news.berkeley.edu/wp-content/uploads/2024/10/231101UCB073-1024x683.jpg",
+    "video": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
   },
   {
     "title": "Sample Title 4",
-    "image": "https://i0.wp.com/thecustodianus.com/wp-content/uploads/2023/04/Columbia-University-1.jpg?fit=1000%2C642&ssl=1"
+    "image": "https://i0.wp.com/thecustodianus.com/wp-content/uploads/2023/04/Columbia-University-1.jpg?fit=1000%2C642&ssl=1",
+    "video": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
   }
 ];

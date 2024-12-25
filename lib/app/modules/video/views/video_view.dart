@@ -97,8 +97,8 @@ class _VideoViewState extends State<VideoView> {
                         child: GestureDetector(
                           onTap: () {
                             Get.to(() => VideoDetailsView(
-                                  videoItem['image'],
-                                  videoItem['title'],
+                              videoTitle: videoItem['title'],
+                              videoUrl: videoItem['video'],
                                 ));
                           },
                           child: Image.asset(

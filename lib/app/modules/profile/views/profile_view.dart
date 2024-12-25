@@ -24,6 +24,7 @@ class ProfileView extends GetView<ProfileController> {
 
   @override
   Widget build(BuildContext context) {
+    ProfileController profileController = Get.put(ProfileController());
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: AppBar(
@@ -52,33 +53,45 @@ class ProfileView extends GetView<ProfileController> {
         child: Column(
           children: [
             sh30,
-            ListTile(
-              leading: CircleAvatar(
-                radius: 30,
-                backgroundImage: NetworkImage(
-                  AppImages.profile,
+            Obx(
+              () => ListTile(
+                leading: CircleAvatar(
+                  radius: 30,
+                  backgroundImage: profileController.profileImage.value != null
+                      ? FileImage(profileController.profileImage.value!)
+                          as ImageProvider
+                      : AssetImage(AppImages.profileAvatarPlaceholder),
                 ),
-              ),
-              title: Text(
-                'Sultan Md. Alnur',
-                style: h3,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              subtitle: Text(
-                'abc0126@gmail.com',
-                style: h4,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              trailing: GestureDetector(
+                title: Text(
+                  'Sultan Md. Alnur',
+                  style: h3,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                subtitle: Text(
+                  'abc0126@gmail.com',
+                  style: h4,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                trailing: GestureDetector(
                   onTap: () {
                     Get.to(() => EditProfileView());
                   },
-                  child: Image.asset(
-                    AppImages.edit,
-                    scale: 4,
-                  )),
+                  child: Container(
+                    height: 40,
+                    width: 40,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: AppColors.blueDark,
+                    ),
+                    child: Image.asset(
+                      AppImages.edit,
+                      scale: 4,
+                    ),
+                  ),
+                ),
+              ),
             ),
             sh30,
             Divider(),
