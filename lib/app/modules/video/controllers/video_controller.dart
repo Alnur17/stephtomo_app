@@ -6,7 +6,7 @@ class VideoController extends GetxController {
   late VideoPlayerController videoPlayerController;
   var isInitialized = false.obs;
   var showControls = true.obs;
-  var isPlaying = false.obs; // New observable for play/pause state
+  var isPlaying = false.obs;
 
   @override
   void onInit() {
@@ -18,7 +18,7 @@ class VideoController extends GetxController {
       ..initialize().then((_) {
         isInitialized.value = true;
         videoPlayerController.play();
-        isPlaying.value = true; // Update the state when video starts playing
+        isPlaying.value = true;
         hideControlsAfterDelay();
       });
   }
@@ -39,10 +39,10 @@ class VideoController extends GetxController {
   void togglePlayPause() {
     if (videoPlayerController.value.isPlaying) {
       videoPlayerController.pause();
-      isPlaying.value = false; // Update the observable
+      isPlaying.value = false;
     } else {
       videoPlayerController.play();
-      isPlaying.value = true; // Update the observable
+      isPlaying.value = true;
     }
     hideControlsAfterDelay();
   }
