@@ -6,18 +6,19 @@ import '../app_text_style/styles.dart';
 class CustomListTileWithColor extends StatelessWidget {
   final String? leadingIconPath;
   final String title;
-  final String? trailingIconPath; // Made optional
+  final String? trailingIconPath;
   final VoidCallback onTap;
   final Color? backgroundColor;
   final Color? textColor;
 
   const CustomListTileWithColor({
     super.key,
-    this.leadingIconPath, // Made optional
+    this.leadingIconPath,
     required this.title,
-    this.trailingIconPath, // Defaults to null
+    this.trailingIconPath,
     required this.onTap,
-    this.backgroundColor = AppColors.silver, this.textColor,
+    this.backgroundColor = AppColors.silver,
+    this.textColor,
   });
 
   @override
@@ -25,7 +26,7 @@ class CustomListTileWithColor extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        height: 55,
+        height: 54,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           color: backgroundColor,
@@ -42,7 +43,7 @@ class CustomListTileWithColor extends StatelessWidget {
               if (leadingIconPath != null) const SizedBox(width: 16),
               Text(
                 title,
-                style: h3.copyWith(color: textColor ?? Colors.black),
+                style: h4.copyWith(color: textColor ?? Colors.black),
               ),
               const Spacer(),
               if (trailingIconPath != null)

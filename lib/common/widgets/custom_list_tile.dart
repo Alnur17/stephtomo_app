@@ -7,8 +7,7 @@ class CustomListTile extends StatelessWidget {
   final String title;
   final Widget? trailing;
   final VoidCallback? onTap;
-  final bool
-      useBackgroundImage;
+  final bool useBackgroundImage;
 
   const CustomListTile({
     super.key,

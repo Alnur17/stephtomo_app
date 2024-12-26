@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stephtomo_app/common/app_color/app_colors.dart';
+import 'package:stephtomo_app/common/size_box/custom_sizebox.dart';
 
 import '../app_images/app_images.dart';
 
@@ -32,32 +33,41 @@ class CustomPopupMenuButton extends StatelessWidget {
       itemBuilder: (context) => [
         PopupMenuItem(
           value: 'copy_link',
-          child: Row(
-            children: [
-              Image.asset(AppImages.copyLink,scale: 4,),
-              SizedBox(width: 8),
-              Text('Copy link'),
-            ],
+          child: SizedBox(
+            width: 90,
+            child: Row(
+              children: [
+                Image.asset(AppImages.copyLink,scale: 4,),
+                sw8,
+                Text('Copy link'),
+              ],
+            ),
           ),
         ),
         PopupMenuItem(
           value: 'edit',
-          child: Row(
-            children: [
-              Image.asset(AppImages.editTwo,scale: 4,),
-              SizedBox(width: 8),
-              Text('Edit'),
-            ],
+          child: SizedBox(
+            width: 90,
+            child: Row(
+              children: [
+                Image.asset(AppImages.editTwo,scale: 4,),
+                sw8,
+                Text('Edit'),
+              ],
+            ),
           ),
         ),
         PopupMenuItem(
           value: 'delete',
-          child: Row(
-            children: [
-              Image.asset(AppImages.delete,scale: 4,),
-              SizedBox(width: 8),
-              Text('Delete'),
-            ],
+          child: SizedBox(
+            width: 90,
+            child: Row(
+              children: [
+                Image.asset(AppImages.delete,scale: 4,),
+                sw8,
+                Text('Delete'),
+              ],
+            ),
           ),
         ),
       ],

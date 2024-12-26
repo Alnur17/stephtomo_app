@@ -56,10 +56,12 @@ class VideoDetailsView extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(16),
                         child: AspectRatio(
-                          aspectRatio: controller.videoPlayerController.value.aspectRatio,
+                          aspectRatio: controller
+                              .videoPlayerController.value.aspectRatio,
                           child: GestureDetector(
                             onTap: controller.toggleControls,
-                            child: VideoPlayer(controller.videoPlayerController),
+                            child:
+                                VideoPlayer(controller.videoPlayerController),
                           ),
                         ),
                       ),
@@ -73,30 +75,33 @@ class VideoDetailsView extends StatelessWidget {
                     );
                   }
                 }),
-                Obx(() {
-                  if (controller.showControls.value && controller.isInitialized.value) {
-                    return Positioned(
-                      top: 0,
-                      bottom: 0,
-                      right: 0,
-                      left: 0,
-                      child: Center(
-                        child: GestureDetector(
-                          onTap: controller.togglePlayPause,
-                          child: Icon(
-                            controller.videoPlayerController.value.isPlaying
-                                ? Icons.pause_circle
-                                : Icons.play_circle,
-                            size: 60,
-                            color: Colors.white,
+                Obx(
+                  () {
+                    if (controller.showControls.value &&
+                        controller.isInitialized.value) {
+                      return Positioned(
+                        top: 0,
+                        bottom: 0,
+                        right: 0,
+                        left: 0,
+                        child: Center(
+                          child: GestureDetector(
+                            onTap: controller.togglePlayPause,
+                            child: Icon(
+                              controller.isPlaying.value
+                                  ? Icons.pause_circle
+                                  : Icons.play_circle,
+                              size: 60,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  } else {
-                    return const SizedBox.shrink();
-                  }
-                }),
+                      );
+                    } else {
+                      return const SizedBox.shrink();
+                    }
+                  },
+                ),
               ],
             ),
             sh16,
