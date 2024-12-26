@@ -45,7 +45,7 @@ class CollegeProfileCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
             ),
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(8),
               child: Image.network(
                 image,
                 fit: BoxFit.cover,

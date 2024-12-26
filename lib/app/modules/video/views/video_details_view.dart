@@ -70,7 +70,7 @@ class VideoDetailsView extends StatelessWidget {
                     return SizedBox(
                       height: 300,
                       child: Center(
-                        child: CircularProgressIndicator(),
+                        child: CircularProgressIndicator(color: AppColors.mainColor,),
                       ),
                     );
                   }
