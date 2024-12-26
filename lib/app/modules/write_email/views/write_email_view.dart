@@ -4,6 +4,8 @@ import 'package:intl/intl.dart';
 import 'package:stephtomo_app/common/app_color/app_colors.dart';
 import 'package:stephtomo_app/common/app_images/app_images.dart';
 import 'package:stephtomo_app/common/widgets/custom_button.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
@@ -22,6 +24,18 @@ class _WriteEmailViewState extends State<WriteEmailView> {
   final WriteEmailController controller = Get.put(WriteEmailController());
   String? selectedEmail;
   DateTime? reminderDate;
+  File? _selectedVideo;
+
+  Future<void> _pickVideo() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickVideo(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      setState(() {
+        _selectedVideo = File(pickedFile.path);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +60,7 @@ class _WriteEmailViewState extends State<WriteEmailView> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.only(left: 16.0,right: 16),
+        padding: const EdgeInsets.only(left: 16.0, right: 16),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -96,7 +110,11 @@ class _WriteEmailViewState extends State<WriteEmailView> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(person['role']),
-                                            Text(person['university'],maxLines: 1, overflow: TextOverflow.ellipsis,),
+                                            Text(
+                                              person['university'],
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
                                           ],
                                         ),
                                         trailing: GestureDetector(
@@ -231,7 +249,7 @@ class _WriteEmailViewState extends State<WriteEmailView> {
 
   Widget _buildUploadContainer() {
     return GestureDetector(
-      onTap: () {},
+      onTap: _pickVideo,
       child: Container(
         height: 130,
         decoration: BoxDecoration(
@@ -239,10 +257,15 @@ class _WriteEmailViewState extends State<WriteEmailView> {
           borderRadius: BorderRadius.circular(8),
         ),
         child: Center(
-          child: Image.asset(
-            AppImages.upload,
-            scale: 4,
-          ),
+          child: _selectedVideo == null
+              ? Image.asset(
+                  AppImages.upload,
+                  scale: 4,
+                )
+              : Text(
+                  "Video Selected",
+                  style: h4,
+                ),
         ),
       ),
     );
