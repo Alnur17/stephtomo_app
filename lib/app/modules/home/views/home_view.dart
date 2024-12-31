@@ -136,7 +136,7 @@ class _HomeViewState extends State<HomeView> {
                             ),
                             sw12,
                             Text(
-                              'Search Collage',
+                              'Search College',
                               style: h5,
                             ),
                           ],
@@ -160,7 +160,7 @@ class _HomeViewState extends State<HomeView> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Recommend Collage',
+                      'Recommend College',
                       style: h3.copyWith(
                         fontWeight: FontWeight.w500,
                       ),

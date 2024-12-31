@@ -12,7 +12,7 @@ class SearchFiled extends StatelessWidget {
     return CustomTextField(
       onChange: onChanged,
       preIcon: Image.asset(AppImages.search,scale: 4,),
-      hintText: 'Search Collage',
+      hintText: 'Search College',
       borderRadius: 30,
     );
   }

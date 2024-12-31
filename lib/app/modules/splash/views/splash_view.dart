@@ -5,7 +5,6 @@ import 'package:stephtomo_app/common/app_color/app_colors.dart';
 import 'package:stephtomo_app/common/app_images/app_images.dart';
 
 import '../../onboarding/views/onboarding_view.dart';
-import '../controllers/splash_controller.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
