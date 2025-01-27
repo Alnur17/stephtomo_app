@@ -112,21 +112,20 @@ class _SignInViewState extends State<SignInView> {
                   Get.to(()=> DashboardView());
                 },
               ),
-              sh16,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Expanded(child: Divider()),
-                  sw10,
-                  Text(
-                    'Or sign in with',
-                    style: h4.copyWith(color: AppColors.greyDark),
-                  ),
-                  sw10,
-                  const Expanded(child: Divider()),
-                ],
-              ),
-              sh10,
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //   children: [
+              //     const Expanded(child: Divider()),
+              //     sw10,
+              //     Text(
+              //       'Or sign in with',
+              //       style: h4.copyWith(color: AppColors.greyDark),
+              //     ),
+              //     sw10,
+              //     const Expanded(child: Divider()),
+              //   ],
+              // ),
+              sh24,
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

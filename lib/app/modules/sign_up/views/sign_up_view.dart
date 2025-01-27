@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:stephtomo_app/app/modules/sign_up/controllers/sign_up_controller.dart';
 import 'package:stephtomo_app/app/modules/sign_up/views/sign_up_two_view.dart';
 import 'package:stephtomo_app/common/app_color/app_colors.dart';
 import 'package:stephtomo_app/common/app_images/app_images.dart';
@@ -19,6 +20,15 @@ class SignUpView extends StatefulWidget {
 }
 
 class _SignUpViewState extends State<SignUpView> {
+  SignUpController signupController = Get.put(SignUpController());
+
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController yearController = TextEditingController();
+  final TextEditingController gpaController = TextEditingController();
+  final TextEditingController heightController = TextEditingController();
+  final TextEditingController primaryController = TextEditingController();
+  final TextEditingController secondaryController = TextEditingController();
+
   String? handPreference;
   String? batPreference;
   String? throwPreference;
@@ -88,6 +98,7 @@ class _SignUpViewState extends State<SignUpView> {
                   ),
                   sh8,
                   CustomTextField(
+                    controller: nameController,
                     hintText: 'Enter your name',
                   ),
                   sh16,
@@ -97,6 +108,7 @@ class _SignUpViewState extends State<SignUpView> {
                   ),
                   sh8,
                   CustomTextField(
+                    controller: yearController,
                     hintText: 'Enter your grad year',
                   ),
                   sh16,
@@ -106,6 +118,7 @@ class _SignUpViewState extends State<SignUpView> {
                   ),
                   sh8,
                   CustomTextField(
+                    controller: gpaController,
                     hintText: 'Enter your GPA',
                   ),
                   sh16,
@@ -114,14 +127,6 @@ class _SignUpViewState extends State<SignUpView> {
                     style: h5,
                   ),
                   sh8,
-                  // CustomTextField(
-                  //   hintText: 'Drop down here',
-                  //   sufIcon: Image.asset(
-                  //     AppImages.arrowDown,
-                  //     scale: 4,
-                  //   ),
-                  // ),
-
                   Container(
                     height: 54,
                     padding: EdgeInsets.symmetric(horizontal: 16),
@@ -134,12 +139,16 @@ class _SignUpViewState extends State<SignUpView> {
                         value: selectedSport,
                         dropdownColor: AppColors.white,
                         isExpanded: true,
-                        icon: Image.asset(AppImages.arrowDown,scale: 4,),
+                        icon: Image.asset(
+                          AppImages.arrowDown,
+                          scale: 4,
+                        ),
                         hint: Text(
                           'Drop down here',
                           style: h6.copyWith(color: AppColors.grey),
                         ),
-                        items: ['Softball', 'Baseball', 'Soccer'].map((String sport) {
+                        items: ['Softball', 'Baseball', 'Soccer']
+                            .map((String sport) {
                           return DropdownMenuItem<String>(
                             value: sport,
                             child: Text(
@@ -150,7 +159,8 @@ class _SignUpViewState extends State<SignUpView> {
                         }).toList(),
                         onChanged: (String? newValue) {
                           setState(() {
-                            selectedSport = newValue; // Update the selected value
+                            selectedSport =
+                                newValue; // Update the selected value
                           });
                         },
                       ),
@@ -163,6 +173,7 @@ class _SignUpViewState extends State<SignUpView> {
                   ),
                   sh8,
                   CustomTextField(
+                    controller: heightController,
                     hintText: 'Enter your height',
                   ),
                   sh16,
@@ -172,6 +183,7 @@ class _SignUpViewState extends State<SignUpView> {
                   ),
                   sh8,
                   CustomTextField(
+                    controller: primaryController,
                     hintText: 'Enter your primary position',
                   ),
                   sh16,
@@ -181,6 +193,7 @@ class _SignUpViewState extends State<SignUpView> {
                   ),
                   sh8,
                   CustomTextField(
+                    controller: secondaryController,
                     hintText: 'Enter your secondary position',
                   ),
                   sh16,
@@ -222,7 +235,20 @@ class _SignUpViewState extends State<SignUpView> {
               CustomButton(
                 text: 'Continue',
                 onPressed: () {
-                  Get.to(() => SignUpTwoView());
+                  signupController.saveFirstScreenData({
+                    'name': nameController.text,
+                    'grad_year': yearController.text,
+                    'gpa': gpaController.text,
+                    'height': heightController.text,
+                    'primary_position': primaryController.text,
+                    'secondary_position': secondaryController.text,
+                    'bawling_preference': handPreference,
+                    'batting_preference': batPreference,
+                    'throwing_preference': throwPreference,
+                    'sport': selectedSport,
+                  });
+
+                  Get.to(() => const SignUpTwoView());
                 },
               ),
               sh24,
@@ -269,7 +295,6 @@ class _SignUpViewState extends State<SignUpView> {
             return Expanded(
               child: RadioListTile<String>(
                 activeColor: AppColors.mainColor,
-
                 contentPadding: EdgeInsets.zero,
                 title: Text(
                   option,

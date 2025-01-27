@@ -122,70 +122,70 @@ final List<Map<String, dynamic>> emailData = [
     'imageUrl': 'https://wallpapers.com/images/hd/cool-profile-pictures-panda-man-gsl2ntkjj3hrk84s.jpg',
     'message':
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-  },{
+  }, {
     'name': 'Taylor Smith',
     'role': 'Team Manager',
     'time': '20m ago',
     'imageUrl': 'https://wallpapers.com/images/hd/cool-profile-pictures-panda-man-gsl2ntkjj3hrk84s.jpg',
     'message':
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-  },{
+  }, {
     'name': 'Taylor Smith',
     'role': 'Team Manager',
     'time': '20m ago',
     'imageUrl': 'https://wallpapers.com/images/hd/cool-profile-pictures-panda-man-gsl2ntkjj3hrk84s.jpg',
     'message':
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-  },{
+  }, {
     'name': 'Taylor Smith',
     'role': 'Team Manager',
     'time': '20m ago',
     'imageUrl': 'https://wallpapers.com/images/hd/cool-profile-pictures-panda-man-gsl2ntkjj3hrk84s.jpg',
     'message':
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-  },{
+  }, {
     'name': 'Taylor Smith',
     'role': 'Team Manager',
     'time': '20m ago',
     'imageUrl': 'https://wallpapers.com/images/hd/cool-profile-pictures-panda-man-gsl2ntkjj3hrk84s.jpg',
     'message':
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-  },{
+  }, {
     'name': 'Taylor Smith',
     'role': 'Team Manager',
     'time': '20m ago',
     'imageUrl': 'https://wallpapers.com/images/hd/cool-profile-pictures-panda-man-gsl2ntkjj3hrk84s.jpg',
     'message':
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-  },{
+  }, {
     'name': 'Taylor Smith',
     'role': 'Team Manager',
     'time': '20m ago',
     'imageUrl': 'https://wallpapers.com/images/hd/cool-profile-pictures-panda-man-gsl2ntkjj3hrk84s.jpg',
     'message':
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-  },{
+  }, {
     'name': 'Taylor Smith',
     'role': 'Team Manager',
     'time': '20m ago',
     'imageUrl': 'https://wallpapers.com/images/hd/cool-profile-pictures-panda-man-gsl2ntkjj3hrk84s.jpg',
     'message':
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-  },{
+  }, {
     'name': 'Taylor Smith',
     'role': 'Team Manager',
     'time': '20m ago',
     'imageUrl': 'https://wallpapers.com/images/hd/cool-profile-pictures-panda-man-gsl2ntkjj3hrk84s.jpg',
     'message':
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-  },{
+  }, {
     'name': 'Taylor Smith',
     'role': 'Team Manager',
     'time': '20m ago',
     'imageUrl': 'https://wallpapers.com/images/hd/cool-profile-pictures-panda-man-gsl2ntkjj3hrk84s.jpg',
     'message':
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-  },{
+  }, {
     'name': 'Taylor Smith',
     'role': 'Team Manager',
     'time': '20m ago',
@@ -204,8 +204,6 @@ final List<Map<String, dynamic>> emailData = [
 ];
 
 
-
-
 final List<Map<String, dynamic>> videoData = [
   {
     "title": "Sample Title 1",
@@ -222,43 +220,43 @@ final List<Map<String, dynamic>> videoData = [
     "image": "https://news.berkeley.edu/wp-content/uploads/2024/10/231101UCB073-1024x683.jpg",
     "video": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
 
-  },{
+  }, {
     "title": "Sample Title 3",
     "image": "https://news.berkeley.edu/wp-content/uploads/2024/10/231101UCB073-1024x683.jpg",
     "video": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-  },{
+  }, {
     "title": "Sample Title 3",
     "image": "https://news.berkeley.edu/wp-content/uploads/2024/10/231101UCB073-1024x683.jpg",
     "video": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-  },{
+  }, {
     "title": "Sample Title 3",
     "image": "https://news.berkeley.edu/wp-content/uploads/2024/10/231101UCB073-1024x683.jpg",
     "video": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-  },{
+  }, {
     "title": "Sample Title 3",
     "image": "https://news.berkeley.edu/wp-content/uploads/2024/10/231101UCB073-1024x683.jpg",
     "video": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-  },{
+  }, {
     "title": "Sample Title 3",
     "image": "https://news.berkeley.edu/wp-content/uploads/2024/10/231101UCB073-1024x683.jpg",
     "video": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-  },{
+  }, {
     "title": "Sample Title 3",
     "image": "https://news.berkeley.edu/wp-content/uploads/2024/10/231101UCB073-1024x683.jpg",
     "video": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-  },{
+  }, {
     "title": "Sample Title 3",
     "image": "https://news.berkeley.edu/wp-content/uploads/2024/10/231101UCB073-1024x683.jpg",
     "video": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-  },{
+  }, {
     "title": "Sample Title 3",
     "image": "https://news.berkeley.edu/wp-content/uploads/2024/10/231101UCB073-1024x683.jpg",
     "video": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-  },{
+  }, {
     "title": "Sample Title 3",
     "image": "https://news.berkeley.edu/wp-content/uploads/2024/10/231101UCB073-1024x683.jpg",
     "video": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-  },{
+  }, {
     "title": "Sample Title 3",
     "image": "https://news.berkeley.edu/wp-content/uploads/2024/10/231101UCB073-1024x683.jpg",
     "video": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",

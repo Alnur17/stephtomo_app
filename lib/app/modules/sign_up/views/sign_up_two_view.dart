@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:stephtomo_app/app/modules/dashboard/views/dashboard_view.dart';
 
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_images/app_images.dart';
@@ -10,6 +9,7 @@ import '../../../../common/size_box/custom_sizebox.dart';
 import '../../../../common/widgets/custom_button.dart';
 import '../../../../common/widgets/custom_textfelid.dart';
 import '../../sign_in/views/sign_in_view.dart';
+import '../controllers/sign_up_controller.dart';
 
 class SignUpTwoView extends StatefulWidget {
   const SignUpTwoView({super.key});
@@ -20,6 +20,17 @@ class SignUpTwoView extends StatefulWidget {
 
 class _SignUpTwoViewState extends State<SignUpTwoView> {
   bool isChecked = false;
+
+  SignUpController signupController = Get.put(SignUpController());
+
+  final TextEditingController teamController = TextEditingController();
+  final TextEditingController coachController = TextEditingController();
+  final TextEditingController coachPhoneController = TextEditingController();
+  final TextEditingController coachEmailController = TextEditingController();
+  final TextEditingController majorController = TextEditingController();
+  final TextEditingController ncaaController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -85,6 +96,7 @@ class _SignUpTwoViewState extends State<SignUpTwoView> {
                   ),
                   sh8,
                   CustomTextField(
+                    controller: teamController,
                     hintText: 'Enter your club team name',
                   ),
                   sh16,
@@ -94,6 +106,7 @@ class _SignUpTwoViewState extends State<SignUpTwoView> {
                   ),
                   sh8,
                   CustomTextField(
+                    controller: coachController,
                     hintText: 'Enter your club coach name',
                   ),
                   sh16,
@@ -103,6 +116,7 @@ class _SignUpTwoViewState extends State<SignUpTwoView> {
                   ),
                   sh8,
                   CustomTextField(
+                    controller: coachPhoneController,
                     hintText: 'Enter your club coach phone number',
                   ),
                   sh16,
@@ -112,6 +126,7 @@ class _SignUpTwoViewState extends State<SignUpTwoView> {
                   ),
                   sh8,
                   CustomTextField(
+                    controller: coachEmailController,
                     hintText: 'Enter your club coach email',
                   ),
                   sh16,
@@ -121,6 +136,7 @@ class _SignUpTwoViewState extends State<SignUpTwoView> {
                   ),
                   sh8,
                   CustomTextField(
+                    controller: majorController,
                     hintText: 'Enter your intended major',
                   ),
                   sh16,
@@ -130,6 +146,7 @@ class _SignUpTwoViewState extends State<SignUpTwoView> {
                   ),
                   sh8,
                   CustomTextField(
+                    controller: ncaaController,
                     hintText: 'Enter your NCAA eligibility number',
                   ),
                   sh16,
@@ -139,6 +156,7 @@ class _SignUpTwoViewState extends State<SignUpTwoView> {
                   ),
                   sh8,
                   CustomTextField(
+                    controller: emailController,
                     hintText: 'Enter your email',
                   ),
                   sh16,
@@ -148,6 +166,7 @@ class _SignUpTwoViewState extends State<SignUpTwoView> {
                   ),
                   sh8,
                   CustomTextField(
+                    controller: passwordController,
                     hintText: '*************',
                     sufIcon: Image.asset(
                       AppImages.eyeClose,
@@ -164,7 +183,9 @@ class _SignUpTwoViewState extends State<SignUpTwoView> {
                           });
                         },
                         child: Image.asset(
-                          isChecked ? AppImages.checkboxFilled : AppImages.checkbox,
+                          isChecked
+                              ? AppImages.checkboxFilled
+                              : AppImages.checkbox,
                           scale: 4,
                         ),
                       ),
@@ -183,7 +204,17 @@ class _SignUpTwoViewState extends State<SignUpTwoView> {
               CustomButton(
                 text: 'Sign Up',
                 onPressed: () {
-                  Get.to(() => DashboardView());
+                  signupController.signUp(
+                      {
+                    'club_team': teamController.text,
+                    'club_coach_phone': coachPhoneController.text,
+                    'club_coach_email': coachEmailController.text,
+                    'intended_major': majorController.text,
+                    'ncaa_eligibility_number': ncaaController.text,
+                    'email': emailController.text,
+                    'password': passwordController.text,
+                  });
+                  Get.offAll(() => SignInView());
                 },
               ),
               sh24,
