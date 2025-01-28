@@ -1,19 +1,21 @@
 class Api {
   /// base url
 
-  static const baseUrl = "192.168.10.204:5000/api";
+  static const baseUrl = "http://192.168.10.204:5000/api";
 
 
   ///auth
-  static const signUp = "$baseUrl/auth/create-athlete";
-  static const login = "$baseUrl/auth/login";
+  static const signUp = "$baseUrl/auth/create-athlete"; //done
+  static const login = "$baseUrl/auth/login"; //done
   //static const changePassword = "$baseUrl/auth/change-password";
-  static const forgotPassword = "$baseUrl/auth/send-otp"; //
-  static const otpVerify = "$baseUrl/auth/verify-otp";
+  static const forgotPassword = "$baseUrl/auth/send-otp"; //done
+  static const otpVerify = "$baseUrl/auth/verify-otp";  //done
   static const sentOtp = "$baseUrl/auth/send-otp";
   static const resetForgottenPassword = "$baseUrl/auth/reset-forgotten-password";
   //static  profileExtra({required userId}) => "$baseUrl/users/$userId";
   //static  profileUpdate({required userId}) => "$baseUrl/general-users/$userId";
+
+  static const collegeData = "$baseUrl/colleges";
 
   ///submit
   static  getSubmit({required categoryId, required userId}) => "$baseUrl/submissions?categoryId=$categoryId&limit=90000&authorRoleBaseId=$userId";

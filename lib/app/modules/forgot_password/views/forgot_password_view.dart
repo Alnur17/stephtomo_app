@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:stephtomo_app/app/modules/email_verification/views/email_verification_view.dart';
 
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_images/app_images.dart';
@@ -12,7 +11,11 @@ import '../../../../common/widgets/custom_textfelid.dart';
 import '../controllers/forgot_password_controller.dart';
 
 class ForgotPasswordView extends GetView<ForgotPasswordController> {
-  const ForgotPasswordView({super.key});
+  ForgotPasswordView({super.key});
+
+  final TextEditingController emailTEController = TextEditingController();
+  final ForgotPasswordController forgotPasswordController =
+      Get.put(ForgotPasswordController());
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +68,7 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
               ),
               sh8,
               CustomTextField(
+                controller: emailTEController,
                 hintText: 'Enter your email',
               ),
             ],
@@ -72,11 +76,13 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
         ),
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(left: 16,right: 16,bottom: 100),
+        padding: const EdgeInsets.only(left: 16, right: 16, bottom: 100),
         child: CustomButton(
-          text: 'Update',
+          text: 'Get OTP',
           onPressed: () {
-            Get.to(()=> EmailVerificationView());
+            forgotPasswordController.forgotPassword(
+              email: emailTEController.text.toLowerCase(),
+            );
           },
         ),
       ),

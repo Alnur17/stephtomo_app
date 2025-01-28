@@ -3,14 +3,11 @@ import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:stephtomo_app/app/modules/home/views/notification_view.dart';
 import 'package:stephtomo_app/app/modules/home/views/search_view.dart';
-import 'package:stephtomo_app/app/modules/profile/views/profile_view.dart';
 import 'package:stephtomo_app/common/app_images/app_images.dart';
 import 'package:stephtomo_app/common/size_box/custom_sizebox.dart';
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/widgets/college_profile_card.dart';
-import '../../../data/dummy_data.dart';
-import '../../profile/controllers/profile_controller.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends StatefulWidget {
@@ -22,16 +19,15 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   final HomeController homeController = Get.put(HomeController());
-  final ProfileController profileController = Get.put(ProfileController());
 
   @override
   void initState() {
     super.initState();
-    homeController.initializeData(data);
+    homeController.fetchCollegeData(); // Calls API when page loads
   }
 
   Future<void> _refreshData() async {
-    await homeController.initializeData(data); // Reinitialize data
+    await homeController.fetchCollegeData(); // Fetch fresh API data
   }
 
   @override
@@ -40,115 +36,8 @@ class _HomeViewState extends State<HomeView> {
       backgroundColor: AppColors.white,
       body: Column(
         children: [
-          Container(
-            alignment: Alignment.topCenter,
-            width: double.infinity,
-            height: 175,
-            decoration: const BoxDecoration(
-              color: AppColors.mainColor,
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(30),
-                bottomRight: Radius.circular(30),
-              ),
-            ),
-            child: SafeArea(
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  Positioned(
-                    left: 0,
-                    right: 0,
-                    top: 16,
-                    child: Obx(
-                      () => ListTile(
-                        leading: GestureDetector(
-                          onTap: () {
-                            Get.to(() => ProfileView(showBackButton: true));
-                          },
-                          child: CircleAvatar(
-                            radius: 35,
-                            backgroundImage:
-                                profileController.profileImage.value != null
-                                    ? FileImage(
-                                        profileController.profileImage.value!,
-                                      ) as ImageProvider
-                                    : AssetImage(
-                                        AppImages.profileAvatarPlaceholder,
-                                      ),
-                          ),
-                        ),
-                        title: Text(
-                          'Sultan Md. Alnur',
-                          style: appBarStyle.copyWith(
-                            color: AppColors.white,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        subtitle: Text(
-                          '47 W 13th St, NY, NY 10011, USA',
-                          style: h5.copyWith(
-                            color: AppColors.white,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        trailing: GestureDetector(
-                          onTap: () {
-                            Get.to(() => NotificationView());
-                          },
-                          child: Container(
-                            height: 40,
-                            width: 40,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: AppColors.white,
-                            ),
-                            child: Image.asset(
-                              AppImages.notification,
-                              scale: 4,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 16,
-                    right: 16,
-                    bottom: -25,
-                    child: GestureDetector(
-                      onTap: () {
-                        Get.to(() => SearchView());
-                      },
-                      child: Container(
-                        height: 54,
-                        padding: EdgeInsets.only(left: 16, right: 16),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            color: AppColors.white,
-                            border: Border.all(color: AppColors.silver)),
-                        child: Row(
-                          children: [
-                            Image.asset(
-                              AppImages.search,
-                              scale: 4,
-                            ),
-                            sw12,
-                            Text(
-                              'Search College',
-                              style: h5,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          sh50,
+          _buildTopSection(context),
+          sh30,
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -156,75 +45,187 @@ class _HomeViewState extends State<HomeView> {
                 color: AppColors.mainColor,
                 backgroundColor: AppColors.white,
                 onRefresh: _refreshData,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Recommend College',
-                      style: h3.copyWith(
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    sh8,
-                    Expanded(
-                      child: Obx(() {
-                        if (homeController.isLoading.value) {
-                          return ListView.builder(
-                            padding: EdgeInsets.zero,
-                            itemCount: 6,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding: const EdgeInsets.only(bottom: 8),
-                                child: Shimmer.fromColors(
-                                  baseColor: Colors.grey[300]!,
-                                  highlightColor: Colors.grey[100]!,
-                                  child: Container(
-                                    height: 100,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                          );
-                        } else {
-                          return ListView.builder(
-                            padding: EdgeInsets.zero,
-                            itemCount: data.length,
-                            itemBuilder: (context, index) {
-                              var item = data[index];
-                              return Padding(
-                                padding: EdgeInsets.only(
-                                  bottom: index == data.length - 1 ? 100 : 8,
-                                ),
-                                child: Obx(() => CollegeProfileCard(
-                                      image: item['image'],
-                                      university: item['university'],
-                                      name: item['name'],
-                                      role: item['role'],
-                                      email: item['email'],
-                                      isSaved: homeController.isSaved(item),
-                                      onFacebookTap: () {},
-                                      onTwitterTap: () {},
-                                      onInstagramTap: () {},
-                                      onBookmarkTap: () {
-                                        homeController.toggleSaveCollege(item);
-                                      },
-                                    )),
-                              );
-                            },
-                          );
-                        }
-                      }),
-                    ),
-                  ],
-                ),
+                child: Obx(() {
+                  if (homeController.isLoading.value) {
+                    return _buildShimmerList();
+                  } else if (homeController.filteredData.isEmpty) {
+                    return _buildNoDataView();
+                  } else {
+                    return _buildCollegeList();
+                  }
+                }),
               ),
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildTopSection(BuildContext context) {
+    return Container(
+      alignment: Alignment.topCenter,
+      width: double.infinity,
+      height: 175,
+      decoration: const BoxDecoration(
+        color: AppColors.mainColor,
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(30),
+          bottomRight: Radius.circular(30),
+        ),
+      ),
+      child: SafeArea(
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Positioned(
+              left: 0,
+              right: 0,
+              top: 16,
+              child: ListTile(
+                leading: CircleAvatar(
+                  radius: 35,
+                  backgroundImage: AssetImage(AppImages.profileAvatarPlaceholder),
+                ),
+                title: Text(
+                  'User Name',
+                  style: appBarStyle.copyWith(
+                    color: AppColors.white,
+                  ),
+                ),
+                subtitle: Text(
+                  'Address Placeholder',
+                  style: h5.copyWith(
+                    color: AppColors.white,
+                  ),
+                ),
+                trailing: GestureDetector(
+                  onTap: () {
+                    Get.to(() => NotificationView());
+                  },
+                  child: Container(
+                    height: 40,
+                    width: 40,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: AppColors.white,
+                    ),
+                    child: Image.asset(
+                      AppImages.notification,
+                      scale: 4,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              left: 16,
+              right: 16,
+              bottom: -25,
+              child: GestureDetector(
+                onTap: () {
+                  Get.to(() => SearchView());
+                },
+                child: Container(
+                  height: 54,
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    color: AppColors.white,
+                    border: Border.all(color: AppColors.silver),
+                  ),
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        AppImages.search,
+                        scale: 4,
+                      ),
+                      sw12,
+                      Text(
+                        'Search College',
+                        style: h5,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildShimmerList() {
+    return ListView.builder(
+      padding: EdgeInsets.zero,
+      itemCount: 6,
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 8),
+          child: Shimmer.fromColors(
+            baseColor: Colors.grey[300]!,
+            highlightColor: Colors.grey[100]!,
+            child: Container(
+              height: 100,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildCollegeList() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        sh16,
+        Text(
+          'Recommended College',
+          style: h3.copyWith(fontWeight: FontWeight.w500),
+        ),
+        sh16,
+        Expanded(
+          child: ListView.builder(
+            padding: EdgeInsets.zero,
+            itemCount: homeController.filteredData.length,
+            itemBuilder: (context, index) {
+              var college = homeController.filteredData[index];
+              return Padding(
+                padding: EdgeInsets.only(
+                  bottom: index == homeController.filteredData.length - 1 ? 100 : 8,
+                ),
+                child: CollegeProfileCard(
+                  image: college.image ?? "Unknown",
+                  university: college.collegeName ?? "",
+                  name: college.coachName ?? "",
+                  role: college.coachTitle ?? "",
+                  email: college.coachEmail ?? "",
+                  isSaved: homeController.isSaved(college),
+                  onFacebookTap: () {},
+                  onTwitterTap: () {},
+                  onInstagramTap: () {},
+                  onBookmarkTap: () {
+                    homeController.toggleSaveCollege(college);
+                  },
+                ),
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildNoDataView() {
+    return Center(
+      child: Text(
+        'No recommended colleges available.',
+        style: TextStyle(color: Colors.grey, fontSize: 16),
       ),
     );
   }

@@ -62,17 +62,17 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.FORGOT_PASSWORD,
-      page: () => const ForgotPasswordView(),
+      page: () =>  ForgotPasswordView(),
       binding: ForgotPasswordBinding(),
     ),
     GetPage(
       name: _Paths.EMAIL_VERIFICATION,
-      page: () => const EmailVerificationView(),
+      page: () =>  EmailVerificationView(email: '',),
       binding: EmailVerificationBinding(),
     ),
     GetPage(
       name: _Paths.CREATE_NEW_PASSWORD,
-      page: () => const CreateNewPasswordView(),
+      page: () =>  CreateNewPasswordView( email: '',),
       binding: CreateNewPasswordBinding(),
     ),
     GetPage(

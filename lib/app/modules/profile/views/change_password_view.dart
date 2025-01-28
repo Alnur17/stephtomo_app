@@ -71,7 +71,7 @@ class ChangePasswordView extends GetView {
             sh16,
             GestureDetector(
               onTap: () {
-                Get.to(() => const ForgotPasswordView());
+                Get.to(() =>  ForgotPasswordView());
               },
               child: Align(
                 alignment: Alignment.topRight,

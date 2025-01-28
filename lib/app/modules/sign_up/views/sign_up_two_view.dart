@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_images/app_images.dart';
 import '../../../../common/app_text_style/styles.dart';
@@ -81,7 +79,7 @@ class _SignUpTwoViewState extends State<SignUpTwoView> {
               ),
               sh5,
               Text(
-                '(2 of 2 )',
+                '(2 of 2)',
                 style: h4.copyWith(
                   fontWeight: FontWeight.w500,
                 ),
@@ -101,7 +99,7 @@ class _SignUpTwoViewState extends State<SignUpTwoView> {
                   ),
                   sh16,
                   Text(
-                    'Club coach',
+                    'Club coach name',
                     style: h5,
                   ),
                   sh8,
@@ -118,6 +116,7 @@ class _SignUpTwoViewState extends State<SignUpTwoView> {
                   CustomTextField(
                     controller: coachPhoneController,
                     hintText: 'Enter your club coach phone number',
+                   // keyboardType: TextInputType.phone,
                   ),
                   sh16,
                   Text(
@@ -128,6 +127,7 @@ class _SignUpTwoViewState extends State<SignUpTwoView> {
                   CustomTextField(
                     controller: coachEmailController,
                     hintText: 'Enter your club coach email',
+                    //keyboardType: TextInputType.emailAddress,
                   ),
                   sh16,
                   Text(
@@ -158,6 +158,7 @@ class _SignUpTwoViewState extends State<SignUpTwoView> {
                   CustomTextField(
                     controller: emailController,
                     hintText: 'Enter your email',
+                   // keyboardType: TextInputType.emailAddress,
                   ),
                   sh16,
                   Text(
@@ -168,9 +169,17 @@ class _SignUpTwoViewState extends State<SignUpTwoView> {
                   CustomTextField(
                     controller: passwordController,
                     hintText: '*************',
-                    sufIcon: Image.asset(
-                      AppImages.eyeClose,
-                      scale: 4,
+                    //obscureText: true,
+                    sufIcon: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          // Logic to toggle password visibility
+                        });
+                      },
+                      child: Image.asset(
+                        AppImages.eyeClose,
+                        scale: 4,
+                      ),
                     ),
                   ),
                   sh16,
@@ -204,17 +213,30 @@ class _SignUpTwoViewState extends State<SignUpTwoView> {
               CustomButton(
                 text: 'Sign Up',
                 onPressed: () {
+                  if (teamController.text.isEmpty ||
+                      coachPhoneController.text.isEmpty ||
+                      coachEmailController.text.isEmpty ||
+                      majorController.text.isEmpty ||
+                      ncaaController.text.isEmpty ||
+                      emailController.text.isEmpty ||
+                      passwordController.text.isEmpty ||
+                      !isChecked) {
+                    Get.snackbar('Error', 'Please fill all required fields and accept the terms.');
+                    return;
+                  }
+
                   signupController.signUp(
-                      {
-                    'club_team': teamController.text,
-                    'club_coach_phone': coachPhoneController.text,
-                    'club_coach_email': coachEmailController.text,
-                    'intended_major': majorController.text,
-                    'ncaa_eligibility_number': ncaaController.text,
-                    'email': emailController.text,
-                    'password': passwordController.text,
-                  });
-                  Get.offAll(() => SignInView());
+                    {
+                      "club_team": teamController.text,
+                      "club_coach_name": coachController.text,
+                      "club_coach_phone": int.tryParse(coachPhoneController.text) ?? 0,
+                      "club_coach_email": coachEmailController.text,
+                      "intended_major": majorController.text,
+                      "ncaa_eligibility_number": ncaaController.text,
+                      "email": emailController.text,
+                      "password": passwordController.text,
+                    },
+                  );
                 },
               ),
               sh24,

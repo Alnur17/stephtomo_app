@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:stephtomo_app/app/modules/sign_up/controllers/sign_up_controller.dart';
 import 'package:stephtomo_app/app/modules/sign_up/views/sign_up_two_view.dart';
@@ -8,7 +7,6 @@ import 'package:stephtomo_app/common/app_images/app_images.dart';
 import 'package:stephtomo_app/common/size_box/custom_sizebox.dart';
 import 'package:stephtomo_app/common/widgets/custom_button.dart';
 import 'package:stephtomo_app/common/widgets/custom_textfelid.dart';
-
 import '../../../../common/app_text_style/styles.dart';
 import '../../sign_in/views/sign_in_view.dart';
 
@@ -110,6 +108,7 @@ class _SignUpViewState extends State<SignUpView> {
                   CustomTextField(
                     controller: yearController,
                     hintText: 'Enter your grad year',
+                    //keyboardType: TextInputType.number,
                   ),
                   sh16,
                   Text(
@@ -120,6 +119,7 @@ class _SignUpViewState extends State<SignUpView> {
                   CustomTextField(
                     controller: gpaController,
                     hintText: 'Enter your GPA',
+                    //keyboardType: TextInputType.number,
                   ),
                   sh16,
                   Text(
@@ -150,7 +150,7 @@ class _SignUpViewState extends State<SignUpView> {
                         items: ['Softball', 'Baseball', 'Soccer']
                             .map((String sport) {
                           return DropdownMenuItem<String>(
-                            value: sport,
+                            value: sport.toLowerCase(),
                             child: Text(
                               sport,
                               style: h5,
@@ -175,6 +175,7 @@ class _SignUpViewState extends State<SignUpView> {
                   CustomTextField(
                     controller: heightController,
                     hintText: 'Enter your height',
+                    //keyboardType: TextInputType.number,
                   ),
                   sh16,
                   Text(
@@ -203,7 +204,8 @@ class _SignUpViewState extends State<SignUpView> {
                     handPreference,
                     (value) {
                       setState(() {
-                        handPreference = value;
+                        handPreference =
+                            value == 'Left handed' ? 'left' : 'right';
                       });
                     },
                   ),
@@ -214,7 +216,7 @@ class _SignUpViewState extends State<SignUpView> {
                     batPreference,
                     (value) {
                       setState(() {
-                        batPreference = value;
+                        batPreference = value == 'Bat left' ? 'left' : 'right';
                       });
                     },
                   ),
@@ -225,7 +227,8 @@ class _SignUpViewState extends State<SignUpView> {
                     throwPreference,
                     (value) {
                       setState(() {
-                        throwPreference = value;
+                        throwPreference =
+                            value == 'Throw left' ? 'left' : 'right';
                       });
                     },
                   ),
@@ -235,17 +238,30 @@ class _SignUpViewState extends State<SignUpView> {
               CustomButton(
                 text: 'Continue',
                 onPressed: () {
+                  if (nameController.text.isEmpty ||
+                      yearController.text.isEmpty ||
+                      gpaController.text.isEmpty ||
+                      heightController.text.isEmpty ||
+                      selectedSport == null ||
+                      handPreference == null ||
+                      batPreference == null ||
+                      throwPreference == null) {
+                    Get.snackbar('Error', 'Please fill all required fields');
+                    return;
+                  }
+
                   signupController.saveFirstScreenData({
-                    'name': nameController.text,
-                    'grad_year': yearController.text,
-                    'gpa': gpaController.text,
-                    'height': heightController.text,
-                    'primary_position': primaryController.text,
-                    'secondary_position': secondaryController.text,
-                    'bawling_preference': handPreference,
-                    'batting_preference': batPreference,
-                    'throwing_preference': throwPreference,
-                    'sport': selectedSport,
+                    "name": nameController.text,
+                    "grad_year": int.tryParse(yearController.text) ?? 0,
+                    "gpa": double.tryParse(gpaController.text) ?? 0.0,
+                    //"height": double.tryParse(heightController.text) ?? 0.0,
+                    "height": heightController.text,
+                    "primary_position": primaryController.text,
+                    "secondary_position": secondaryController.text,
+                    "bawling_preference": handPreference?.toLowerCase(),
+                    "batting_preference": batPreference?.toLowerCase(),
+                    "throwing_preference": throwPreference?.toLowerCase(),
+                    "sport": selectedSport,
                   });
 
                   Get.to(() => const SignUpTwoView());

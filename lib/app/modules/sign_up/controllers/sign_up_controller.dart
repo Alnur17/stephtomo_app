@@ -1,6 +1,8 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:stephtomo_app/app/data/api.dart';
-
+import 'package:stephtomo_app/app/modules/dashboard/views/dashboard_view.dart';
 import '../../../../common/helper/local_store.dart';
 import '../../../data/base_client.dart';
 
@@ -9,9 +11,13 @@ class SignUpController extends GetxController {
 
   // Save first-screen data
   void saveFirstScreenData(Map<String, dynamic> data) {
+    // Remove null or empty fields
+    data.removeWhere((key, value) => value == null || value == '');
     firstScreenData.assignAll(data);
     LocalStorage.saveData(
-        key: 'firstScreenData', data: data); // Save to storage
+      key: 'firstScreenData',
+      data: data,
+    ); // Save to storage
   }
 
   // Retrieve first-screen data
@@ -21,36 +27,51 @@ class SignUpController extends GetxController {
 
   // API call for sign-up
   Future<void> signUp(Map<String, dynamic> secondScreenData) async {
-    final url = Api.signUp; // Use your API endpoint
+    final url = Api.signUp;
     final requestBody = {
-      ...firstScreenData, // Combine first screen data
-      ...secondScreenData, // Combine second screen data
+      ...firstScreenData,
+      ...secondScreenData,
     };
 
+    // Validate requestBody
+    if (requestBody.values.any((value) => value == null || value == '')) {
+      Get.snackbar('Error', 'Please fill all required fields.');
+      return;
+    }
+
     try {
-      // Call API using BaseClient
       final response = await BaseClient.postRequest(
         api: url,
-        body: requestBody,
-        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(requestBody),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
       );
 
       // Handle response
       final responseData = await BaseClient.handleResponse(response);
 
-      print("==========================$responseData=====================>");
       if (responseData != null) {
-        // Save token and user info using LocalStorage
-        LocalStorage.saveData(key: 'token', data: responseData['token']);
-        LocalStorage.saveData(key: 'user', data: responseData['user']);
+        final token = responseData['data']?['accessToken'];
+        final userId = responseData['data']?['athlete']?['_id'];
 
-        // Success notification and navigate to dashboard
-        Get.snackbar('Success', 'Account created successfully!');
-        Get.offAllNamed('/dashboard'); // Update route as per your setup
+        if (token != null && userId != null) {
+          // Save token and user info using LocalStorage
+          LocalStorage.saveData(key: 'token', data: token);
+          LocalStorage.saveData(key: 'userId', data: userId);
+
+          // Success notification and navigate to dashboard
+          Get.snackbar('Success', 'Account created successfully!');
+          Get.offAll(() => DashboardView()); // Update route as per your setup
+        } else {
+          Get.snackbar('Error', 'Invalid response from server.');
+        }
       }
     } catch (e) {
       // Handle errors
-      Get.snackbar('Error', e.toString());
+      print('SignUp Error: $e');
+      Get.snackbar('Error', 'Failed to sign up. Please try again.');
     }
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 
 import '../../../../common/app_color/app_colors.dart';
@@ -15,7 +14,7 @@ class BookmarksView extends StatefulWidget {
 }
 
 class _BookmarksViewState extends State<BookmarksView> {
-  final HomeController homeController = Get.find();
+  final HomeController homeController = Get.find<HomeController>();
 
   @override
   Widget build(BuildContext context) {
@@ -24,40 +23,46 @@ class _BookmarksViewState extends State<BookmarksView> {
       appBar: AppBar(
         backgroundColor: AppColors.white,
         scrolledUnderElevation: 0,
-        title: Text('Saved Collage', style: titleStyle),
+        title: Text('Saved Colleges', style: titleStyle),
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),
       body: Obx(() {
-        final savedColleges = homeController.savedColleges();
+        final savedColleges = homeController.savedColleges;
         if (savedColleges.isEmpty) {
           return const Center(
             child: Text(
               'No saved colleges.',
-              style: TextStyle(fontSize: 16),
+              style: TextStyle(fontSize: 16, color: Colors.grey),
             ),
           );
         }
         return ListView.builder(
           itemCount: savedColleges.length,
           itemBuilder: (context, index) {
-            final item = savedColleges[index];
+            final college = savedColleges[index]; // Datum object
             return Padding(
               padding: EdgeInsets.only(
                 bottom: index == savedColleges.length - 1 ? 100 : 8,
               ),
               child: CollegeProfileCard(
-                image: item['image'] ?? '',
-                university: item['university'],
-                name: item['name'],
-                role: item['role'],
-                email: item['email'],
+                image: college.image ?? '',
+                university: college.collegeName ?? 'Unknown',
+                name: college.coachName ?? 'Unknown',
+                role: college.coachTitle ?? '',
+                email: college.coachEmail ?? '',
                 isSaved: true,
-                onFacebookTap: () {},
-                onTwitterTap: () {},
-                onInstagramTap: () {},
+                onFacebookTap: () {
+                  // Define Facebook action if needed
+                },
+                onTwitterTap: () {
+                  // Define Twitter action if needed
+                },
+                onInstagramTap: () {
+                  // Define Instagram action if needed
+                },
                 onBookmarkTap: () {
-                  homeController.toggleSaveCollege(item);
+                  homeController.toggleSaveCollege(college);
                 },
               ),
             );

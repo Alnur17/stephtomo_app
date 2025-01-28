@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:stephtomo_app/app/modules/create_new_password/views/create_new_password_view.dart';
 
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_images/app_images.dart';
@@ -14,7 +13,11 @@ import '../../../../common/widgets/custom_button.dart';
 import '../controllers/email_verification_controller.dart';
 
 class EmailVerificationView extends GetView<EmailVerificationController> {
-  const EmailVerificationView({super.key});
+  final String email;
+   EmailVerificationView({super.key, required this.email});
+   final TextEditingController otpTEController = TextEditingController();
+
+   final EmailVerificationController emailVerificationController = Get.put(EmailVerificationController());
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +69,7 @@ class EmailVerificationView extends GetView<EmailVerificationController> {
                 // ),
                 sh30,
                 PinCodeTextField(
+                  controller: otpTEController,
                   length: 6,
                   // Set the length to 6
                   obscureText: false,
@@ -121,7 +125,7 @@ class EmailVerificationView extends GetView<EmailVerificationController> {
         child: CustomButton(
           text: 'Verify OTP',
           onPressed: () {
-            Get.to(() => CreateNewPasswordView());
+            emailVerificationController.verifyOtp(email: email , otp: otpTEController.text);
           },
         ),
       ),

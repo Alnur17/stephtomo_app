@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:stephtomo_app/app/modules/dashboard/views/dashboard_view.dart';
+import 'package:stephtomo_app/app/modules/sign_in/controllers/sign_in_controller.dart';
 import 'package:stephtomo_app/common/app_color/app_colors.dart';
 
 import '../../../../common/app_images/app_images.dart';
@@ -19,8 +19,9 @@ class SignInView extends StatefulWidget {
 }
 
 class _SignInViewState extends State<SignInView> {
-  final TextEditingController emailTEController = TextEditingController();
-  final TextEditingController passwordTEController = TextEditingController();
+  SignInController signInController = Get.put(SignInController());
+  final TextEditingController emailTEController = TextEditingController(text: "admin@gmail.com");
+  final TextEditingController passwordTEController = TextEditingController(text: "admin");
 
   bool isChecked = false;
 
@@ -83,7 +84,9 @@ class _SignInViewState extends State<SignInView> {
                           });
                         },
                         child: Image.asset(
-                          isChecked ? AppImages.checkboxFilled : AppImages.checkbox,
+                          isChecked
+                              ? AppImages.checkboxFilled
+                              : AppImages.checkbox,
                           scale: 4,
                         ),
                       ),
@@ -96,7 +99,7 @@ class _SignInViewState extends State<SignInView> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Get.to(() => const ForgotPasswordView());
+                      Get.to(() =>  ForgotPasswordView());
                     },
                     child: Text(
                       'Forgot the password?',
@@ -106,11 +109,22 @@ class _SignInViewState extends State<SignInView> {
                 ],
               ),
               sh30,
-              CustomButton(
-                text: 'Sign In',
-                onPressed: () {
-                  Get.to(()=> DashboardView());
-                },
+              Obx(
+                () => signInController.isLoading.value == true
+                    ? Center(
+                        child: CircularProgressIndicator(
+                          color: AppColors.white,
+                        ),
+                      )
+                    : CustomButton(
+                        text: 'Sign In',
+                        onPressed: () {
+                          signInController.loginController(
+                            email: emailTEController.text,
+                            password: passwordTEController.text,
+                          );
+                        },
+                      ),
               ),
               // Row(
               //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -136,7 +150,7 @@ class _SignInViewState extends State<SignInView> {
                   GestureDetector(
                     onTap: () {
                       Get.to(
-                            () => const SignUpView(),
+                        () => const SignUpView(),
                       );
                     },
                     child: Text(

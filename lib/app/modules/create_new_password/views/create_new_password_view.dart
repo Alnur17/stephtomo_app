@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:stephtomo_app/app/modules/sign_in/views/sign_in_view.dart';
 
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_images/app_images.dart';
@@ -12,7 +11,17 @@ import '../../../../common/widgets/custom_textfelid.dart';
 import '../controllers/create_new_password_controller.dart';
 
 class CreateNewPasswordView extends GetView<CreateNewPasswordController> {
-  const CreateNewPasswordView({super.key});
+  final String email;
+
+  //final String otp;
+  CreateNewPasswordView( {super.key, required this.email,});
+
+  final CreateNewPasswordController createNewPasswordController =
+      Get.put(CreateNewPasswordController());
+  final TextEditingController passwordTEController = TextEditingController();
+  final TextEditingController confirmPasswordTEController =
+      TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,8 +73,12 @@ class CreateNewPasswordView extends GetView<CreateNewPasswordController> {
               ),
               sh8,
               CustomTextField(
+                controller: passwordTEController,
                 hintText: 'Enter your password',
-                sufIcon: Image.asset(AppImages.eyeClose,scale: 4,),
+                sufIcon: Image.asset(
+                  AppImages.eyeClose,
+                  scale: 4,
+                ),
               ),
               sh16,
               Align(
@@ -78,19 +91,28 @@ class CreateNewPasswordView extends GetView<CreateNewPasswordController> {
               ),
               sh8,
               CustomTextField(
+                controller: confirmPasswordTEController,
                 hintText: 'Confirm your Password',
-                sufIcon: Image.asset(AppImages.eyeClose,scale: 4,),
+                sufIcon: Image.asset(
+                  AppImages.eyeClose,
+                  scale: 4,
+                ),
               ),
             ],
           ),
         ),
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(left: 16,right: 16,bottom: 100),
+        padding: const EdgeInsets.only(left: 16, right: 16, bottom: 100),
         child: CustomButton(
           text: 'Save',
           onPressed: () {
-            Get.to(()=> SignInView());
+            if (passwordTEController.text == confirmPasswordTEController.text) {
+              createNewPasswordController.forgotNewPassword(
+                newPassword: passwordTEController.text,
+                email: email,
+              );
+            }
           },
         ),
       ),
