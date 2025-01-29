@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:stephtomo_app/app/data/dummy_data.dart';
 import 'package:stephtomo_app/app/modules/video/views/upload_video_view.dart';
 import 'package:stephtomo_app/app/modules/video/views/video_details_view.dart';
 import 'package:stephtomo_app/common/widgets/custom_button.dart';
@@ -10,30 +9,17 @@ import '../../../../common/app_images/app_images.dart';
 import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
 import '../../../../common/widgets/custom_popup_menu_button.dart';
+import '../controllers/video_controller.dart';
 
-class VideoView extends StatefulWidget {
-  const VideoView({super.key});
+class VideoView extends StatelessWidget {
+  final VideoController videoController = Get.put(VideoController());
 
-  @override
-  State<VideoView> createState() => _VideoViewState();
-}
+  VideoView({super.key});
 
-class _VideoViewState extends State<VideoView> {
-  late List<Map<String, dynamic>> videos;
-
-  @override
-  void initState() {
-    super.initState();
-    videos = videoData;
-  }
-
+  /// Refresh video list
   Future<void> _refreshData() async {
-    await Future.delayed(Duration(seconds: 2));
-    setState(() {
-      videos = videoData;
-    });
+    await videoController.fetchVideos();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +29,7 @@ class _VideoViewState extends State<VideoView> {
         backgroundColor: AppColors.white,
         scrolledUnderElevation: 0,
         title: Text(
-          'Video',
+          'Videos',
           style: titleStyle,
         ),
         centerTitle: true,
@@ -63,84 +49,91 @@ class _VideoViewState extends State<VideoView> {
             ),
             sh16,
             Expanded(
-              child: RefreshIndicator(
-                backgroundColor: AppColors.white,
-                color: AppColors.mainColor,
-                onRefresh: _refreshData,
-                child: GridView.builder(
-                  padding: const EdgeInsets.only(bottom: 100),
-                  itemCount: videoData.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 16,
-                    crossAxisSpacing: 16,
-                    childAspectRatio: 0.9,
-                  ),
-                  itemBuilder: (context, index) {
-                    var videoItem = videoData[index];
-                    return Stack(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(16),
-                          child: Image.network(
-                            videoItem['image'],
-                            fit: BoxFit.cover,
-                            height: Get.height,
-                            width: Get.width,
-                            errorBuilder: (context, error, stackTrace) {
-                              return Image.asset(
-                                AppImages.notFound,
-                                fit: BoxFit.cover,
-                                height: Get.height,
-                                width: Get.width,
-                              );
-                            },
-                          ),
-                        ),
+              child: Obx(() {
+                if (videoController.isLoading.value) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (videoController.videos.isEmpty) {
+                  return Center(child: Text("No videos available"));
+                }
 
-                        Positioned(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16),
-                              color: Colors.black38,
+                return RefreshIndicator(
+                  backgroundColor: AppColors.white,
+                  color: AppColors.mainColor,
+                  onRefresh: _refreshData,
+                  child: GridView.builder(
+                    padding: const EdgeInsets.only(bottom: 100),
+                    itemCount: videoController.videos.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 16,
+                      crossAxisSpacing: 16,
+                      childAspectRatio: 0.9,
+                    ),
+                    itemBuilder: (context, index) {
+                      var videoItem = videoController.videos[index];
+                      return Stack(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(16),
+                            child: Image.network(
+                              videoItem.url ?? '',
+                              fit: BoxFit.cover,
+                              height: Get.height,
+                              width: Get.width,
+                              errorBuilder: (context, error, stackTrace) {
+                                return Image.asset(
+                                  AppImages.notFound,
+                                  fit: BoxFit.cover,
+                                  height: Get.height,
+                                  width: Get.width,
+                                );
+                              },
                             ),
                           ),
-                        ),
-                        Positioned(
-                          top: 12,
-                          right: 0,
-                          child: CustomPopupMenuButton(),
-                        ),
-                        Positioned(
-                          bottom: 12,
-                          right: 12,
-                          left: 12,
-                          child: Text(
-                            videoItem['title'],
-                            style: h4.copyWith(color: AppColors.white),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        Center(
-                          child: GestureDetector(
-                            onTap: () {
-                              Get.to(() => VideoDetailsView(
-                                videoTitle: videoItem['title'],
-                                videoUrl: videoItem['video'],
-                                  ));
-                            },
-                            child: Image.asset(
-                              AppImages.play,
-                              scale: 4,
+                          Positioned(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(16),
+                                color: Colors.black38,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    );
-                  },
-                ),
-              ),
+                          Positioned(
+                            top: 12,
+                            right: 0,
+                            child: CustomPopupMenuButton(),
+                          ),
+                          Positioned(
+                            bottom: 12,
+                            right: 12,
+                            left: 12,
+                            child: Text(
+                              videoItem.title ?? '',
+                              style: h4.copyWith(color: AppColors.white),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          Center(
+                            child: GestureDetector(
+                              onTap: () {
+                                Get.to(() => VideoDetailsView(
+                                  videoTitle: videoItem.title ?? '',
+                                  videoUrl: videoItem.url ?? '',
+                                ));
+                              },
+                              child: Image.asset(
+                                AppImages.play,
+                                scale: 4,
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                );
+              }),
             ),
           ],
         ),

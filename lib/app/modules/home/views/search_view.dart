@@ -17,7 +17,7 @@ class SearchView extends StatefulWidget {
 }
 
 class _SearchViewState extends State<SearchView> {
-  final HomeController homeController = Get.find<HomeController>(); // Use Get.find() instead of Get.put()
+  final HomeController homeController = Get.find<HomeController>();
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +48,7 @@ class _SearchViewState extends State<SearchView> {
             // Search Field
             SearchFiled(
               onChanged: (value) {
-                homeController.searchColleges(value); // Use existing filtered data
+                homeController.searchColleges(value);
               },
             ),
             sh16,
@@ -74,7 +74,7 @@ class _SearchViewState extends State<SearchView> {
                       var college = homeController.filteredData[index];
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 8),
-                        child: CollegeProfileCard(
+                        child: Obx(() => CollegeProfileCard(
                           image: college.image ?? "Unknown",
                           university: college.collegeName ?? "",
                           name: college.coachName ?? "",
@@ -87,7 +87,7 @@ class _SearchViewState extends State<SearchView> {
                           onBookmarkTap: () {
                             homeController.toggleSaveCollege(college);
                           },
-                        ),
+                        ),),
                       );
                     },
                   );

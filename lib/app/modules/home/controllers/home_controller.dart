@@ -13,13 +13,13 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchCollegeData(); // Fetch data when the controller is initialized
+    fetchCollegeData();
   }
 
   /// **Fetch College Data from API**
   Future<void> fetchCollegeData() async {
     try {
-      isLoading(true); // Show loading state
+      isLoading(true);
 
       var response = await BaseClient.getRequest(api: Api.collegeData);
       var responseData = await BaseClient.handleResponse(response);
@@ -35,7 +35,7 @@ class HomeController extends GetxController {
     }
   }
 
-  /// **Save or Unsave a College**
+  /// **Save or Unsaved a College**
   void toggleSaveCollege(Datum college) {
     if (savedColleges.contains(college)) {
       savedColleges.remove(college);

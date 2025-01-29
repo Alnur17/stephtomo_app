@@ -1,34 +1,120 @@
 import 'dart:async';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 
+import '../../../../common/app_constant/app_constant.dart';
+import '../../../../common/helper/local_store.dart';
+import '../../../data/api.dart';
+import '../../../data/base_client.dart';
+import '../model/video_model.dart';
+
 class VideoController extends GetxController {
-  late VideoPlayerController videoPlayerController;
+  VideoPlayerController? videoPlayerController;
   var isInitialized = false.obs;
   var showControls = true.obs;
   var isPlaying = false.obs;
+  var isLoading = true.obs;
+  var videos = <Datum>[].obs; // Observable list to hold videos
 
   @override
   void onInit() {
     super.onInit();
+    fetchVideos(); // Fetch videos on initialization
   }
 
+  /// Fetch video data from API using BaseClient
+  Future<void> fetchVideos() async {
+    try {
+      isLoading.value = true;
+      debugPrint("Fetching videos...");
+
+      // Fetch stored token
+      String? token = LocalStorage.getData(key: AppConstant.token);
+      if (token == null || token.isEmpty) {
+        debugPrint("No token found! Redirecting to login.");
+        return;
+      }
+
+      debugPrint("Using Token: $token");
+
+      // Ensure correct token format
+      var headers = {
+        "Authorization": "Bearer, $token",
+        "Content-Type": "application/json",
+      };
+
+      debugPrint("Request Headers: $headers");
+
+      var response = await BaseClient.getRequest(api: Api.videoData, headers: headers);
+      var jsonResponse = await BaseClient.handleResponse(response);
+
+      debugPrint("API Response: $jsonResponse");
+
+      if (jsonResponse['success'] == true) {
+        videos.value = VideoModel.fromJson(jsonResponse)
+            .data
+            .where((video) => video.url != null && video.url!.isNotEmpty)
+            .toList();
+
+        debugPrint("Videos Loaded: ${videos.length} items");
+      } else {
+        debugPrint("API Error: ${jsonResponse['message']}");
+      }
+    } catch (e) {
+      debugPrint("API Fetch Error: $e");
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  /// Initializes video player with a URL
   void initializeVideo(String videoUrl) {
-    videoPlayerController = VideoPlayerController.networkUrl(Uri.parse(videoUrl))
-      ..initialize().then((_) {
-        isInitialized.value = true;
-        videoPlayerController.play();
-        isPlaying.value = true;
-        hideControlsAfterDelay();
-      });
-  }
+    if (videoUrl.isEmpty || !Uri.parse(videoUrl).isAbsolute) {
+      debugPrint("Error: Invalid or empty video URL!");
+      return;
+    }
 
-  void hideControlsAfterDelay() {
-    Timer(const Duration(seconds: 3), () {
-      showControls.value = false;
+    if (videoPlayerController != null) {
+      videoPlayerController!.dispose();
+      videoPlayerController = null;
+    }
+
+    debugPrint("Initializing video: $videoUrl");
+
+    videoPlayerController = VideoPlayerController.networkUrl(Uri.parse(videoUrl));
+
+    videoPlayerController!.initialize().then((_) {
+      debugPrint("Video Initialized Successfully");
+      isInitialized.value = true;
+      isPlaying.value = true;
+      videoPlayerController!.play();
+      hideControlsAfterDelay();
+    }).catchError((error) {
+      debugPrint("Video initialization failed: $error");
+
+      // Retry initialization after 3 seconds
+      Future.delayed(const Duration(seconds: 3), () {
+        debugPrint("Retrying video initialization...");
+        initializeVideo(videoUrl);
+      });
+    });
+
+    videoPlayerController!.addListener(() {
+      isPlaying.value = videoPlayerController!.value.isPlaying;
     });
   }
 
+  /// Hide controls after 3 seconds
+  void hideControlsAfterDelay() {
+    Timer(const Duration(seconds: 3), () {
+      if (isPlaying.value) {
+        showControls.value = false;
+      }
+    });
+  }
+
+  /// Toggle controls visibility
   void toggleControls() {
     showControls.value = !showControls.value;
     if (showControls.value) {
@@ -36,12 +122,15 @@ class VideoController extends GetxController {
     }
   }
 
+  /// Toggle play/pause
   void togglePlayPause() {
-    if (videoPlayerController.value.isPlaying) {
-      videoPlayerController.pause();
+    if (videoPlayerController == null) return;
+
+    if (videoPlayerController!.value.isPlaying) {
+      videoPlayerController!.pause();
       isPlaying.value = false;
     } else {
-      videoPlayerController.play();
+      videoPlayerController!.play();
       isPlaying.value = true;
     }
     hideControlsAfterDelay();
@@ -49,7 +138,11 @@ class VideoController extends GetxController {
 
   @override
   void onClose() {
-    videoPlayerController.dispose();
+    debugPrint("Disposing video player...");
+    videoPlayerController?.pause();
+    videoPlayerController?.dispose();
+    videoPlayerController = null;
+    isInitialized.value = false; // ✅ Reset initialization state
     super.onClose();
   }
 }

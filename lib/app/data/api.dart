@@ -17,6 +17,10 @@ class Api {
 
   static const collegeData = "$baseUrl/colleges";
 
+
+  ///video data
+  static const videoData = "$baseUrl/videos";
+
   ///submit
   static  getSubmit({required categoryId, required userId}) => "$baseUrl/submissions?categoryId=$categoryId&limit=90000&authorRoleBaseId=$userId";
    static const submissions = "$baseUrl/submissions";

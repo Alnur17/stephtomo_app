@@ -44,6 +44,8 @@ class _BookmarksViewState extends State<BookmarksView> {
             return Padding(
               padding: EdgeInsets.only(
                 bottom: index == savedColleges.length - 1 ? 100 : 8,
+                right: 16,
+                left: 16,
               ),
               child: CollegeProfileCard(
                 image: college.image ?? '',

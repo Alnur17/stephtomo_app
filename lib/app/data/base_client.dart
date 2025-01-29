@@ -17,6 +17,8 @@ class BaseClient {
   static getRequest({required String api, params, headers}) async {
 
     debugPrint("API Hit: $api");
+    debugPrint("Header: $headers");
+
     http.Response response = await http.get(
       Uri.parse(api).replace(queryParameters: params),
       headers: headers,

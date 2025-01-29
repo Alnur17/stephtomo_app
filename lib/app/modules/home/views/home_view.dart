@@ -20,14 +20,14 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   final HomeController homeController = Get.put(HomeController());
 
-  @override
-  void initState() {
-    super.initState();
-    homeController.fetchCollegeData(); // Calls API when page loads
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   homeController.fetchCollegeData();
+  // }
 
   Future<void> _refreshData() async {
-    await homeController.fetchCollegeData(); // Fetch fresh API data
+    await homeController.fetchCollegeData();
   }
 
   @override
@@ -85,7 +85,8 @@ class _HomeViewState extends State<HomeView> {
               child: ListTile(
                 leading: CircleAvatar(
                   radius: 35,
-                  backgroundImage: AssetImage(AppImages.profileAvatarPlaceholder),
+                  backgroundImage:
+                      AssetImage(AppImages.profileAvatarPlaceholder),
                 ),
                 title: Text(
                   'User Name',
@@ -197,21 +198,24 @@ class _HomeViewState extends State<HomeView> {
               var college = homeController.filteredData[index];
               return Padding(
                 padding: EdgeInsets.only(
-                  bottom: index == homeController.filteredData.length - 1 ? 100 : 8,
+                  bottom:
+                      index == homeController.filteredData.length - 1 ? 100 : 8,
                 ),
-                child: CollegeProfileCard(
-                  image: college.image ?? "Unknown",
-                  university: college.collegeName ?? "",
-                  name: college.coachName ?? "",
-                  role: college.coachTitle ?? "",
-                  email: college.coachEmail ?? "",
-                  isSaved: homeController.isSaved(college),
-                  onFacebookTap: () {},
-                  onTwitterTap: () {},
-                  onInstagramTap: () {},
-                  onBookmarkTap: () {
-                    homeController.toggleSaveCollege(college);
-                  },
+                child: Obx(
+                  () => CollegeProfileCard(
+                    image: college.image ?? "Unknown",
+                    university: college.collegeName ?? "",
+                    name: college.coachName ?? "",
+                    role: college.coachTitle ?? "",
+                    email: college.coachEmail ?? "",
+                    isSaved: homeController.isSaved(college),
+                    onFacebookTap: () {},
+                    onTwitterTap: () {},
+                    onInstagramTap: () {},
+                    onBookmarkTap: () {
+                      homeController.toggleSaveCollege(college);
+                    },
+                  ),
                 ),
               );
             },
@@ -225,7 +229,7 @@ class _HomeViewState extends State<HomeView> {
     return Center(
       child: Text(
         'No recommended colleges available.',
-        style: TextStyle(color: Colors.grey, fontSize: 16),
+        style: h3.copyWith(color: AppColors.grey),
       ),
     );
   }
