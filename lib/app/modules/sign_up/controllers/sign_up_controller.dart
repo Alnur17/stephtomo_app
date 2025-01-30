@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:stephtomo_app/app/data/api.dart';
-import 'package:stephtomo_app/app/modules/sign_up/views/verify_your_email_view.dart';
 import '../../../../common/helper/local_store.dart';
 import '../../../data/base_client.dart';
 
@@ -63,8 +62,7 @@ class SignUpController extends GetxController {
 
           // Success notification and navigate to dashboard
           Get.snackbar('Success', 'Account created successfully!');
-          Get.offAll(() =>
-              VerifyYourEmailView(email:,)); // Update route as per your setup
+          //Get.offAll(() => VerifyYourEmailView(email:,)); // Update route as per your setup
         } else {
           Get.snackbar('Error', 'Invalid response from server.');
         }

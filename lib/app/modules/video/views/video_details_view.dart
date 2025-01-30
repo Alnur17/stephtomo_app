@@ -80,7 +80,7 @@ class _VideoDetailsViewState extends State<VideoDetailsView> {
                 Obx(() {
                   if (controller.isInitialized.value && controller.videoPlayerController != null) {
                     return SizedBox(
-                      height: 300,
+                      height: 230,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(16),
                         child: AspectRatio(
@@ -94,7 +94,7 @@ class _VideoDetailsViewState extends State<VideoDetailsView> {
                     );
                   } else {
                     return const SizedBox(
-                      height: 300,
+                      height: 230,
                       child: Center(
                         child: CircularProgressIndicator(),
                       ),
