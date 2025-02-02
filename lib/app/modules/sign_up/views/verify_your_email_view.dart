@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:stephtomo_app/app/modules/sign_up/controllers/sign_up_controller.dart';
 
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_images/app_images.dart';
@@ -13,10 +14,12 @@ import '../../../../common/widgets/custom_button.dart';
 
 class VerifyYourEmailView extends GetView {
   final String email;
+
   VerifyYourEmailView({super.key, required this.email});
+
   final TextEditingController otpTEController = TextEditingController();
 
-  //final EmailVerificationController emailVerificationController = Get.put(EmailVerificationController());
+  final SignUpController signupController = Get.put(SignUpController());
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +61,7 @@ class VerifyYourEmailView extends GetView {
                 ),
                 sh16,
                 Text(
-                  'Please enter the 6 digit code that was sent to xyz@gmail.com ',
+                  'Please enter the 6 digit code that was sent to $email ',
                   style: h5,
                   textAlign: TextAlign.center,
                 ),
@@ -124,7 +127,12 @@ class VerifyYourEmailView extends GetView {
         child: CustomButton(
           text: 'Verify OTP',
           onPressed: () {
-            //emailVerificationController.verifyOtp(email: email , otp: otpTEController.text);
+            String otp = otpTEController.text.trim();
+            if (otp.length == 6) {
+              signupController.verifyOtp(email: email, otp: otp);
+            } else {
+              Get.snackbar('Error', 'Please enter a valid 6-digit OTP.');
+            }
           },
         ),
       ),

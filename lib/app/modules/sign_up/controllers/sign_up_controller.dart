@@ -1,9 +1,12 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:get/get.dart';
 import 'package:stephtomo_app/app/data/api.dart';
+import 'package:stephtomo_app/app/modules/sign_in/views/sign_in_view.dart';
 import '../../../../common/helper/local_store.dart';
 import '../../../data/base_client.dart';
+import '../views/verify_your_email_view.dart';
 
 class SignUpController extends GetxController {
   var firstScreenData = {}.obs; // Reactive state for first-screen data
@@ -54,6 +57,7 @@ class SignUpController extends GetxController {
       if (responseData != null) {
         final token = responseData['data']?['accessToken'];
         final userId = responseData['data']?['athlete']?['_id'];
+        final email = requestBody['email'];
 
         if (token != null && userId != null) {
           // Save token and user info using LocalStorage
@@ -62,7 +66,7 @@ class SignUpController extends GetxController {
 
           // Success notification and navigate to dashboard
           Get.snackbar('Success', 'Account created successfully!');
-          //Get.offAll(() => VerifyYourEmailView(email:,)); // Update route as per your setup
+          Get.offAll(() => VerifyYourEmailView(email: email,)); // Update route as per your setup
         } else {
           Get.snackbar('Error', 'Invalid response from server.');
         }
@@ -71,6 +75,32 @@ class SignUpController extends GetxController {
       // Handle errors
       print('SignUp Error: $e');
       Get.snackbar('Error', 'Failed to sign up. Please try again.');
+    }
+  }
+
+  /// **Verify OTP API Call**
+  Future<void> verifyOtp({required String email, required String otp}) async {
+    final url = Api.otpVerify;
+    final requestBody = {"email": email, "otp": otp};
+
+    try {
+      final response = await BaseClient.postRequest(
+        api: url,
+        body: jsonEncode(requestBody),
+        headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+      );
+
+      final responseData = await BaseClient.handleResponse(response);
+
+      if (responseData != null && responseData['success'] == true) {
+        Get.snackbar('Success', 'OTP verified successfully!');
+        Get.offAll(()=> SignInView());
+      } else {
+        Get.snackbar('Error', responseData['message'] ?? 'Invalid OTP');
+      }
+    } catch (e) {
+      log('OTP Verification Error: $e');
+      Get.snackbar('Error', 'Failed to verify OTP. Please try again.');
     }
   }
 }

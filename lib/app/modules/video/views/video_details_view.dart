@@ -31,7 +31,8 @@ class _VideoDetailsViewState extends State<VideoDetailsView> {
 
     // Ensure video is properly initialized
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!controller.isInitialized.value || controller.videoPlayerController == null) {
+      if (!controller.isInitialized.value ||
+          controller.videoPlayerController == null) {
         controller.initializeVideo(widget.videoUrl);
       }
     });
@@ -78,22 +79,29 @@ class _VideoDetailsViewState extends State<VideoDetailsView> {
             Stack(
               children: [
                 Obx(() {
-                  if (controller.isInitialized.value && controller.videoPlayerController != null) {
+                  if (controller.isInitialized.value &&
+                      controller.videoPlayerController != null) {
                     return SizedBox(
                       height: 230,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(16),
                         child: AspectRatio(
-                          aspectRatio: controller.videoPlayerController!.value.aspectRatio,
+                          aspectRatio: controller
+                              .videoPlayerController!.value.aspectRatio,
                           child: GestureDetector(
                             onTap: controller.toggleControls,
-                            child: VideoPlayer(controller.videoPlayerController!),
+                            child:
+                                VideoPlayer(controller.videoPlayerController!),
                           ),
                         ),
                       ),
                     );
                   } else {
-                    return const SizedBox(
+                    return  Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        color: AppColors.grey,
+                      ),
                       height: 230,
                       child: Center(
                         child: CircularProgressIndicator(),
@@ -102,7 +110,8 @@ class _VideoDetailsViewState extends State<VideoDetailsView> {
                   }
                 }),
                 Obx(() {
-                  if (controller.showControls.value && controller.isInitialized.value) {
+                  if (controller.showControls.value &&
+                      controller.isInitialized.value) {
                     return Positioned(
                       top: 0,
                       bottom: 0,
@@ -112,7 +121,9 @@ class _VideoDetailsViewState extends State<VideoDetailsView> {
                         child: GestureDetector(
                           onTap: controller.togglePlayPause,
                           child: Icon(
-                            controller.isPlaying.value ? Icons.pause_circle : Icons.play_circle,
+                            controller.isPlaying.value
+                                ? Icons.pause_circle
+                                : Icons.play_circle,
                             size: 60,
                             color: Colors.white,
                           ),

@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:stephtomo_app/common/app_color/app_colors.dart';
-import 'package:stephtomo_app/common/app_text_style/styles.dart';
-import 'package:stephtomo_app/common/widgets/custom_button.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:stephtomo_app/app/data/api.dart';
+import 'package:stephtomo_app/common/widgets/custom_loader.dart';
 import 'package:video_player/video_player.dart';
 import 'dart:io';
+import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
+import 'package:path/path.dart';
+import 'dart:convert';
 
-import '../../../../common/app_images/app_images.dart';
+import '../../../../common/app_color/app_colors.dart';
+import '../../../../common/app_constant/app_constant.dart';
+import '../../../../common/app_text_style/styles.dart';
+import '../../../../common/helper/local_store.dart';
+import '../../../../common/widgets/custom_button.dart';
 import '../../../../common/widgets/custom_textfelid.dart';
+import '../../../../common/app_images/app_images.dart';
 
 class UploadVideoView extends StatefulWidget {
   const UploadVideoView({super.key});
@@ -20,6 +28,8 @@ class UploadVideoView extends StatefulWidget {
 class _UploadVideoViewState extends State<UploadVideoView> {
   File? _selectedVideo;
   VideoPlayerController? _videoPlayerController;
+  final TextEditingController _titleController = TextEditingController();
+  bool _isUploading = false;
 
   Future<void> _pickVideo() async {
     final picker = ImagePicker();
@@ -50,9 +60,98 @@ class _UploadVideoViewState extends State<UploadVideoView> {
     });
   }
 
+  Future<void> _uploadVideo() async {
+    if (_selectedVideo == null || _titleController.text.isEmpty) {
+      Get.snackbar(
+        'Error',
+        'Please select a video and enter a title.',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: AppColors.red,
+        colorText: Colors.white,
+      );
+      return;
+    }
+
+    setState(() {
+      _isUploading = true; // Start the loading process
+    });
+
+    try {
+      String token = LocalStorage.getData(key: AppConstant.token);
+
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse(Api.uploadVideo),
+      );
+
+      // ✅ Encode payload as JSON
+      Map<String, dynamic> payloadData = {
+        "title": _titleController.text.trim(),
+      };
+
+      request.fields['payload'] = jsonEncode(payloadData);
+
+      // ✅ Attach Video File
+      var videoStream = http.ByteStream(_selectedVideo!.openRead());
+      var videoLength = await _selectedVideo!.length();
+      var multipartFile = http.MultipartFile(
+        'video',
+        videoStream,
+        videoLength,
+        filename: basename(_selectedVideo!.path),
+        contentType: MediaType('video', 'mp4'),
+      );
+      request.files.add(multipartFile);
+
+      request.headers['Authorization'] = 'Bearer, $token';
+      request.headers['Content-Type'] = 'multipart/form-data';
+
+      // ✅ Send Request
+      var response = await request.send();
+      var responseString = await response.stream.bytesToString();
+      var responseData = jsonDecode(responseString);
+
+      setState(() {
+        _isUploading = false; // End the loading process
+      });
+
+      if (response.statusCode == 201) {
+        Get.snackbar(
+          'Success',
+          'Video uploaded successfully!',
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+        );
+        _clearVideo();
+        _titleController.clear();
+      } else {
+        Get.snackbar(
+          'Error',
+          'Upload failed: ${responseData["message"] ?? "Unknown error"}',
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: AppColors.red,
+          colorText: Colors.white,
+        );
+      }
+    } catch (e) {
+      setState(() {
+        _isUploading = false; // End the loading process
+      });
+      Get.snackbar(
+        'Error',
+        'Upload failed: $e',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: AppColors.red,
+        colorText: Colors.white,
+      );
+    }
+  }
+
   @override
   void dispose() {
     _videoPlayerController?.dispose();
+    _titleController.dispose();
     super.dispose();
   }
 
@@ -83,20 +182,15 @@ class _UploadVideoViewState extends State<UploadVideoView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              "Title",
-              style: h5,
-            ),
-            SizedBox(height: 8),
+            Text("Title", style: h5),
+            const SizedBox(height: 8),
             CustomTextField(
+              controller: _titleController,
               hintText: "Enter your title name",
             ),
-            SizedBox(height: 24),
-            Text(
-              "Upload Video",
-              style: h5,
-            ),
-            SizedBox(height: 8),
+            const SizedBox(height: 24),
+            Text("Upload Video", style: h5),
+            const SizedBox(height: 8),
             GestureDetector(
               onTap: _pickVideo,
               child: Container(
@@ -107,10 +201,7 @@ class _UploadVideoViewState extends State<UploadVideoView> {
                 ),
                 child: Center(
                   child: _selectedVideo == null
-                      ? Image.asset(
-                    AppImages.upload,
-                    scale: 4,
-                  )
+                      ? Image.asset(AppImages.upload, scale: 4)
                       : _videoPlayerController != null &&
                       _videoPlayerController!.value.isInitialized
                       ? ClipRRect(
@@ -120,7 +211,7 @@ class _UploadVideoViewState extends State<UploadVideoView> {
                       child: VideoPlayer(_videoPlayerController!),
                     ),
                   )
-                      : CircularProgressIndicator(),
+                      : const CircularProgressIndicator(),
                 ),
               ),
             ),
@@ -129,29 +220,11 @@ class _UploadVideoViewState extends State<UploadVideoView> {
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(left: 16, right: 16, bottom: 50),
-        child: CustomButton(
+        child: _isUploading== true ? CustomLoader(color: AppColors.white) : CustomButton(
           text: 'Submit',
-          onPressed: () {
-            if (_selectedVideo != null) {
-              Get.snackbar(
-                'Success',
-                'Video submitted successfully!',
-                snackPosition: SnackPosition.TOP,
-                backgroundColor: Colors.green,
-                colorText: Colors.white,
-              );
-              _clearVideo();
-            } else {
-              Get.snackbar(
-                'Error',
-                'Please select a video before submitting.',
-                snackPosition: SnackPosition.TOP,
-                backgroundColor: AppColors.red,
-                colorText: Colors.white,
-              );
-            }
-          },
-        ),
+          onPressed: _uploadVideo,
+
+        )
       ),
     );
   }

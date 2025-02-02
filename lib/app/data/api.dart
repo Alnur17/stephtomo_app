@@ -17,6 +17,9 @@ class Api {
 
   static const collegeData = "$baseUrl/colleges";
 
+  /// upload video
+  static const uploadVideo = "$baseUrl/videos";
+
 
   ///video data
   static const videoData = "$baseUrl/videos";
