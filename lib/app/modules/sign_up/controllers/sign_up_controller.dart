@@ -9,7 +9,7 @@ import '../../../data/base_client.dart';
 import '../views/verify_your_email_view.dart';
 
 class SignUpController extends GetxController {
-  var firstScreenData = {}.obs; // Reactive state for first-screen data
+  var firstScreenData = {}.obs;
 
   // Save first-screen data
   void saveFirstScreenData(Map<String, dynamic> data) {
@@ -55,20 +55,21 @@ class SignUpController extends GetxController {
       final responseData = await BaseClient.handleResponse(response);
 
       if (responseData != null) {
-        final token = responseData['data']?['accessToken'];
-        final userId = responseData['data']?['athlete']?['_id'];
+        //final token = responseData['data']['accessToken'];
+        final userId = responseData['data']['athlete']['_id'];
         final email = requestBody['email'];
 
-        if (token != null && userId != null) {
+        //if (token != null && userId != null) {
+        if ( userId != null) {
           // Save token and user info using LocalStorage
-          LocalStorage.saveData(key: 'token', data: token);
+          //LocalStorage.saveData(key: 'token', data: token);
           LocalStorage.saveData(key: 'userId', data: userId);
 
           // Success notification and navigate to dashboard
           Get.snackbar('Success', 'Account created successfully!');
-          Get.offAll(() => VerifyYourEmailView(email: email,)); // Update route as per your setup
+          Get.offAll(() => VerifyYourEmailView(email: email,));
         } else {
-          Get.snackbar('Error', 'Invalid response from server.');
+         // Get.snackbar('Error', 'Invalid response from server.');
         }
       }
     } catch (e) {
@@ -79,9 +80,9 @@ class SignUpController extends GetxController {
   }
 
   /// **Verify OTP API Call**
-  Future<void> verifyOtp({required String email, required String otp}) async {
+  Future<void> verifyEmail({required String email, required String otp, required bool verifyEmail,}) async {
     final url = Api.otpVerify;
-    final requestBody = {"email": email, "otp": otp};
+    final requestBody = {"email": email, "otp": otp, "verify_email": verifyEmail};
 
     try {
       final response = await BaseClient.postRequest(

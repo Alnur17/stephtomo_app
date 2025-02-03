@@ -20,6 +20,11 @@ class Api {
   /// upload video
   static const uploadVideo = "$baseUrl/videos";
 
+  ///showBookMarked
+  static const bookMarked = "$baseUrl/college-bookmarks";
+
+  ///Create BookMarked
+  static const addBookMark = "$baseUrl/college-bookmarks";
 
   ///video data
   static const videoData = "$baseUrl/videos";

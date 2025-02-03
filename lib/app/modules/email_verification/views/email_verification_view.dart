@@ -125,7 +125,7 @@ class EmailVerificationView extends GetView<EmailVerificationController> {
         child: CustomButton(
           text: 'Verify OTP',
           onPressed: () {
-            emailVerificationController.verifyOtp(email: email , otp: otpTEController.text);
+            emailVerificationController.verifyOtp(email: email , otp: otpTEController.text,);
           },
         ),
       ),

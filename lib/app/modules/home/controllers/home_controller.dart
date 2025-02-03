@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'package:get/get.dart';
-
+import 'package:stephtomo_app/common/app_constant/app_constant.dart';
+import 'package:stephtomo_app/common/helper/local_store.dart';
 import '../../../data/api.dart';
 import '../../../data/base_client.dart';
 import '../model/college_model.dart';
@@ -14,13 +16,13 @@ class HomeController extends GetxController {
   void onInit() {
     super.onInit();
     fetchCollegeData();
+    getBookmarkedColleges();
   }
 
   /// **Fetch College Data from API**
   Future<void> fetchCollegeData() async {
     try {
       isLoading(true);
-
       var response = await BaseClient.getRequest(api: Api.collegeData);
       var responseData = await BaseClient.handleResponse(response);
 
@@ -31,29 +33,110 @@ class HomeController extends GetxController {
     } catch (e) {
       print("Error fetching college data: $e");
     } finally {
-      isLoading(false); // Hide loading state
+      isLoading(false);
     }
   }
 
-  /// **Save or Unsaved a College**
+  /// **Add Bookmark**
+  Future<void> addBookmark(String collegeId) async {
+    try {
+      String token = LocalStorage.getData(key: AppConstant.token);
+      var body = {"college": collegeId};
+      var headers = {
+        "Authorization": "Bearer, $token",  // Fix comma in Bearer token
+        'Content-Type': 'application/json',
+      };
+
+      var response = await BaseClient.postRequest(
+        api: Api.addBookMark,
+        body: jsonEncode(body),
+        headers: headers,
+      );
+
+      var responseData = await BaseClient.handleResponse(response);
+      print("Bookmark Response: $responseData"); // Debugging
+
+      if (responseData != null && responseData["success"] == true) {
+        print("Bookmark added successfully");
+        await getBookmarkedColleges(); // Refresh bookmarks
+      }
+    } catch (e) {
+      print("Error adding bookmark: $e");
+    }
+  }
+
+  /// **Remove Bookmark**
+  // Future<void> removeBookmark(String collegeId) async {
+  //   try {
+  //     String token = LocalStorage.getData(key: AppConstant.token);
+  //     var headers = {
+  //       "Authorization": "Bearer, $token",
+  //     };
+  //
+  //     var response = await BaseClient.deleteRequest(
+  //       api: "${Api.removeBookMark}/$collegeId",
+  //       headers: headers,
+  //     );
+  //
+  //     var responseData = await BaseClient.handleResponse(response);
+  //     print("Remove Bookmark Response: $responseData"); // Debugging
+  //
+  //     if (responseData != null && responseData["success"] == true) {
+  //       print("Bookmark removed successfully");
+  //       savedColleges.removeWhere((college) => college.id == collegeId);
+  //     }
+  //   } catch (e) {
+  //     print("Error removing bookmark: $e");
+  //   }
+  // }
+
+  /// **Get Bookmarked Colleges**
+  Future<void> getBookmarkedColleges() async {
+    try {
+      String token = LocalStorage.getData(key: AppConstant.token);
+      print("Fetching bookmarks with token: $token"); // Debugging
+
+      var response = await BaseClient.getRequest(
+        api: Api.bookMarked,
+        headers: {
+          "Authorization": "Bearer, $token",
+        },
+      );
+
+      var responseData = await BaseClient.handleResponse(response);
+      print("Bookmark API Response: $responseData"); // Debugging
+
+      if (responseData != null && responseData["data"] is List) {
+        List<Datum> bookmarks = (responseData["data"] as List)
+            .map((e) => Datum.fromJson(e))
+            .toList();
+        savedColleges.assignAll(bookmarks);
+        print("Bookmarked colleges count: ${savedColleges.length}");
+      }
+    } catch (e) {
+      print("Error fetching bookmarks: $e");
+    }
+  }
+
+  /// **Toggle Bookmark**
   void toggleSaveCollege(Datum college) {
-    if (savedColleges.contains(college)) {
-      savedColleges.remove(college);
+    if (isSaved(college)) {
+      //removeBookmark(college.id ?? '');
     } else {
-      savedColleges.add(college);
+      addBookmark(college.id ?? '');
     }
   }
 
   /// **Check if a College is Saved**
   bool isSaved(Datum college) {
-    return savedColleges.contains(college);
+    return savedColleges.any((saved) => saved.id == college.id);
   }
 
-  /// **Search for Colleges Based on Query**
+  /// **Search Colleges**
   void searchColleges(String query) {
     searchQuery.value = query;
     if (query.isEmpty) {
-      fetchCollegeData(); // Reload data if query is empty
+      fetchCollegeData();
     } else {
       filteredData.assignAll(
         filteredData.where((college) {

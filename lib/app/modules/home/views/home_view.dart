@@ -213,7 +213,7 @@ class _HomeViewState extends State<HomeView> {
                     onTwitterTap: () {},
                     onInstagramTap: () {},
                     onBookmarkTap: () {
-                      homeController.toggleSaveCollege(college);
+                      homeController.addBookmark(college.id ?? "");
                     },
                   ),
                 ),

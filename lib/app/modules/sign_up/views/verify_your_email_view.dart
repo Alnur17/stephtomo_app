@@ -129,7 +129,7 @@ class VerifyYourEmailView extends GetView {
           onPressed: () {
             String otp = otpTEController.text.trim();
             if (otp.length == 6) {
-              signupController.verifyOtp(email: email, otp: otp);
+              signupController.verifyEmail(email: email, otp: otp, verifyEmail: true);
             } else {
               Get.snackbar('Error', 'Please enter a valid 6-digit OTP.');
             }

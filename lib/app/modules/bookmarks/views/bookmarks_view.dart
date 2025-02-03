@@ -17,6 +17,14 @@ class _BookmarksViewState extends State<BookmarksView> {
   final HomeController homeController = Get.find<HomeController>();
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      homeController.getBookmarkedColleges();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.white,
@@ -29,6 +37,9 @@ class _BookmarksViewState extends State<BookmarksView> {
       ),
       body: Obx(() {
         final savedColleges = homeController.savedColleges;
+        print(
+            "Rendering bookmarks: ${savedColleges.length} items"); // Debugging
+
         if (savedColleges.isEmpty) {
           return const Center(
             child: Text(
@@ -37,10 +48,13 @@ class _BookmarksViewState extends State<BookmarksView> {
             ),
           );
         }
+
         return ListView.builder(
           itemCount: savedColleges.length,
           itemBuilder: (context, index) {
-            final college = savedColleges[index]; // Datum object
+            final college = savedColleges[index];
+            print("Displaying college: ${college.collegeName}"); // Debugging
+
             return Padding(
               padding: EdgeInsets.only(
                 bottom: index == savedColleges.length - 1 ? 100 : 8,
@@ -53,16 +67,10 @@ class _BookmarksViewState extends State<BookmarksView> {
                 name: college.coachName ?? 'Unknown',
                 role: college.coachTitle ?? '',
                 email: college.coachEmail ?? '',
-                isSaved: true,
-                onFacebookTap: () {
-                  // Define Facebook action if needed
-                },
-                onTwitterTap: () {
-                  // Define Twitter action if needed
-                },
-                onInstagramTap: () {
-                  // Define Instagram action if needed
-                },
+                isSaved: homeController.isSaved(college),
+                onFacebookTap: () {},
+                onTwitterTap: () {},
+                onInstagramTap: () {},
                 onBookmarkTap: () {
                   homeController.toggleSaveCollege(college);
                 },
