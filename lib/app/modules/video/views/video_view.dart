@@ -35,32 +35,32 @@ class VideoView extends StatelessWidget {
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            CustomButton(
-              text: 'Add New Video',
-              onPressed: () {
-                Get.to(() => UploadVideoView());
-              },
-              imageAssetPath: AppImages.addCircle,
-              borderRadius: 30,
-            ),
-            sh16,
-            Expanded(
-              child: Obx(() {
-                if (videoController.isLoading.value) {
-                  return Center(child: CircularProgressIndicator());
-                } else if (videoController.videos.isEmpty) {
-                  return Center(child: Text("No videos available"));
-                }
+      body: RefreshIndicator(
+        backgroundColor: AppColors.white,
+        color: AppColors.mainColor,
+        onRefresh: _refreshData,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              CustomButton(
+                text: 'Add New Video',
+                onPressed: () {
+                  Get.to(() => UploadVideoView());
+                },
+                imageAssetPath: AppImages.addCircle,
+                borderRadius: 30,
+              ),
+              sh16,
+              Expanded(
+                child: Obx(() {
+                  if (videoController.isLoading.value) {
+                    return Center(child: CircularProgressIndicator());
+                  } else if (videoController.videos.isEmpty) {
+                    return Center(child: Text("No videos available"));
+                  }
 
-                return RefreshIndicator(
-                  backgroundColor: AppColors.white,
-                  color: AppColors.mainColor,
-                  onRefresh: _refreshData,
-                  child: GridView.builder(
+                  return GridView.builder(
                     padding: const EdgeInsets.only(bottom: 100),
                     itemCount: videoController.videos.length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -101,7 +101,15 @@ class VideoView extends StatelessWidget {
                           Positioned(
                             top: 12,
                             right: 0,
-                            child: CustomPopupMenuButton(),
+                            child: CustomPopupMenuButton(
+                              onDeleteSuccess: () {
+                                videoController.deleteVideo(
+                                  videoItem.id ?? '',
+                                  videoItem.title ?? '',
+                                  videoItem.url ?? '',
+                                );
+                              },
+                            ),
                           ),
                           Positioned(
                             bottom: 12,
@@ -118,9 +126,10 @@ class VideoView extends StatelessWidget {
                             child: GestureDetector(
                               onTap: () {
                                 Get.to(() => VideoDetailsView(
-                                  videoTitle: videoItem.title ?? '',
-                                  videoUrl: videoItem.url ?? '',
-                                ));
+                                      videoTitle: videoItem.title ?? '',
+                                      videoUrl: videoItem.url ?? '',
+                                      id: videoItem.id ?? '',
+                                    ));
                               },
                               child: Image.asset(
                                 AppImages.play,
@@ -131,11 +140,11 @@ class VideoView extends StatelessWidget {
                         ],
                       );
                     },
-                  ),
-                );
-              }),
-            ),
-          ],
+                  );
+                }),
+              ),
+            ],
+          ),
         ),
       ),
     );

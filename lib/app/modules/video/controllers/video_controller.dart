@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 
+import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_constant/app_constant.dart';
 import '../../../../common/helper/local_store.dart';
 import '../../../data/api.dart';
@@ -21,6 +22,22 @@ class VideoController extends GetxController {
   void onInit() {
     super.onInit();
     fetchVideos(); // Fetch videos on initialization
+  }
+
+  void deleteVideo(String id, String title, String url) async {
+    try {
+      var body = {"title": title, "url": url};
+      var response = await BaseClient.deleteRequest(
+          api: Api.deleteVideo(id: id), body: body);
+      var data = await BaseClient.handleResponse(response);
+      if (data != null) {
+        Get.snackbar("Success", "Video deleted successfully",
+            backgroundColor: AppColors.green);
+        fetchVideos(); // Refresh video list
+      }
+    } catch (e) {
+      Get.snackbar("Error", e.toString(), backgroundColor: AppColors.red);
+    }
   }
 
   /// Fetch video data from API using BaseClient
@@ -46,7 +63,8 @@ class VideoController extends GetxController {
 
       debugPrint("Request Headers: $headers");
 
-      var response = await BaseClient.getRequest(api: Api.videoData, headers: headers);
+      var response =
+          await BaseClient.getRequest(api: Api.videoData, headers: headers);
       var jsonResponse = await BaseClient.handleResponse(response);
 
       debugPrint("API Response: $jsonResponse");
@@ -82,7 +100,8 @@ class VideoController extends GetxController {
 
     debugPrint("Initializing video: $videoUrl");
 
-    videoPlayerController = VideoPlayerController.networkUrl(Uri.parse(videoUrl));
+    videoPlayerController =
+        VideoPlayerController.networkUrl(Uri.parse(videoUrl));
 
     videoPlayerController!.initialize().then((_) {
       debugPrint("Video Initialized Successfully");

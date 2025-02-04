@@ -17,6 +17,7 @@ import '../../../../common/helper/local_store.dart';
 import '../../../../common/widgets/custom_button.dart';
 import '../../../../common/widgets/custom_textfelid.dart';
 import '../../../../common/app_images/app_images.dart';
+import '../controllers/video_controller.dart';
 
 class UploadVideoView extends StatefulWidget {
   const UploadVideoView({super.key});
@@ -26,6 +27,8 @@ class UploadVideoView extends StatefulWidget {
 }
 
 class _UploadVideoViewState extends State<UploadVideoView> {
+  final VideoController videoController = Get.find();
+
   File? _selectedVideo;
   VideoPlayerController? _videoPlayerController;
   final TextEditingController _titleController = TextEditingController();
@@ -69,7 +72,7 @@ class _UploadVideoViewState extends State<UploadVideoView> {
         backgroundColor: AppColors.red,
         colorText: Colors.white,
       );
-      return;
+      return ;
     }
 
     setState(() {
@@ -123,6 +126,7 @@ class _UploadVideoViewState extends State<UploadVideoView> {
           backgroundColor: Colors.green,
           colorText: Colors.white,
         );
+        videoController.fetchVideos();
         _clearVideo();
         _titleController.clear();
       } else {

@@ -11,10 +11,12 @@ import '../controllers/video_controller.dart';
 class VideoDetailsView extends StatefulWidget {
   final String videoTitle;
   final String videoUrl;
+  final String id;
 
   const VideoDetailsView({
     required this.videoTitle,
     required this.videoUrl,
+    required this.id,
     super.key,
   });
 
@@ -28,7 +30,7 @@ class _VideoDetailsViewState extends State<VideoDetailsView> {
   @override
   void initState() {
     super.initState();
-
+    controller.fetchVideos();
     // Ensure video is properly initialized
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!controller.isInitialized.value ||
@@ -97,7 +99,7 @@ class _VideoDetailsViewState extends State<VideoDetailsView> {
                       ),
                     );
                   } else {
-                    return  Container(
+                    return Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16),
                         color: AppColors.grey,
@@ -148,7 +150,15 @@ class _VideoDetailsViewState extends State<VideoDetailsView> {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                CustomPopupMenuButton(),
+                CustomPopupMenuButton(
+                  onDeleteSuccess: () {
+                    controller.deleteVideo(
+                      widget.id,
+                      widget.videoTitle,
+                      widget.videoUrl,
+                    );
+                  },
+                ),
               ],
             ),
           ],
