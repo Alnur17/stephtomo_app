@@ -27,6 +27,8 @@ class Api {
   static const videoData = "$baseUrl/videos"; // done
 
   ///video delete by id
-  static String deleteVideo({required String id}) => "$baseUrl/videos/$id"; //
+  static String deleteVideo({required String id}) => "$baseUrl/videos/$id"; //done
+
+  static String updateVideo({required String id}) => "$baseUrl/videos/$id"; //
 
 }

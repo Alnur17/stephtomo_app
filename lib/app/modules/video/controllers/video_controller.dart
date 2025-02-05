@@ -24,6 +24,11 @@ class VideoController extends GetxController {
     fetchVideos(); // Fetch videos on initialization
   }
 
+
+  // void editVideo(){
+  //
+  // }
+
   void deleteVideo(String id, String title, String url) async {
     try {
       var body = {"title": title, "url": url};
@@ -40,7 +45,7 @@ class VideoController extends GetxController {
     }
   }
 
-  /// Fetch video data from API using BaseClient
+  /// Fetch video data from API
   Future<void> fetchVideos() async {
     try {
       isLoading.value = true;

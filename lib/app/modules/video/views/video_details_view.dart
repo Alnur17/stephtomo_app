@@ -6,6 +6,7 @@ import '../../../../common/app_images/app_images.dart';
 import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
 import '../../../../common/widgets/custom_popup_menu_button.dart';
+import '../controllers/upload_video_controller.dart';
 import '../controllers/video_controller.dart';
 
 class VideoDetailsView extends StatefulWidget {
@@ -26,6 +27,8 @@ class VideoDetailsView extends StatefulWidget {
 
 class _VideoDetailsViewState extends State<VideoDetailsView> {
   final VideoController controller = Get.find<VideoController>();
+  final UploadVideoController uploadVideoController =
+      Get.put(UploadVideoController());
 
   @override
   void initState() {
@@ -158,6 +161,9 @@ class _VideoDetailsViewState extends State<VideoDetailsView> {
                       widget.videoUrl,
                     );
                   },
+                  videoId: widget.id,
+                  videoTitle: widget.videoTitle,
+                  videoUrl: widget.videoUrl,
                 ),
               ],
             ),

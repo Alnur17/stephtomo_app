@@ -55,6 +55,24 @@ class BaseClient {
     );
     return response;
   }
+
+  static putRequest({required String api, body}) async {
+    String token = LocalStorage.getData(key: AppConstant.token);
+    var headers = {
+      'Content-Type': "application/json",
+      "Authorization": "Bearer $token"
+    };
+    debugPrint("API Hit: $api");
+    debugPrint("body: $body");
+    http.Response response = await http.put(
+      Uri.parse(api),
+      body: body,
+      headers: headers,
+    );
+    return response;
+  }
+
+
   static deleteRequest({required String api, body,}) async {
 
     String token = LocalStorage.getData(key: AppConstant.token);

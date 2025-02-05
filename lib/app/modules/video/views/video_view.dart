@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:stephtomo_app/app/modules/video/controllers/upload_video_controller.dart';
 import 'package:stephtomo_app/app/modules/video/views/upload_video_view.dart';
 import 'package:stephtomo_app/app/modules/video/views/video_details_view.dart';
 import 'package:stephtomo_app/common/widgets/custom_button.dart';
@@ -13,6 +14,8 @@ import '../controllers/video_controller.dart';
 
 class VideoView extends StatelessWidget {
   final VideoController videoController = Get.put(VideoController());
+  final UploadVideoController uploadVideoController =
+      Get.put(UploadVideoController());
 
   VideoView({super.key});
 
@@ -109,6 +112,9 @@ class VideoView extends StatelessWidget {
                                   videoItem.url ?? '',
                                 );
                               },
+                              videoId: videoItem.id ?? '',
+                              videoTitle: videoItem.title ?? '',
+                              videoUrl: videoItem.url ?? '',
                             ),
                           ),
                           Positioned(

@@ -1,19 +1,23 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stephtomo_app/common/app_color/app_colors.dart';
 import 'package:stephtomo_app/common/size_box/custom_sizebox.dart';
+import '../../app/modules/video/views/edit_video_view.dart';
 import '../app_images/app_images.dart';
 
 class CustomPopupMenuButton extends StatelessWidget {
-
   final VoidCallback onDeleteSuccess;
+  final String videoId;
+  final String videoTitle;
+  final String videoUrl;
 
   const CustomPopupMenuButton({
     super.key,
     required this.onDeleteSuccess,
+    required this.videoId,
+    required this.videoTitle,
+    required this.videoUrl,
   });
-
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +37,15 @@ class CustomPopupMenuButton extends StatelessWidget {
               Get.back();
             },
           );
-        }
+        } else if (value == 'edit') {
+          print("Editing video with ID: $videoId, URL: $videoUrl");
+          Get.to(() => EditVideoView(
+
+            videoId: videoId,
+            videoTitle: videoTitle,
+            videoUrl: videoUrl,
+          ));
+        } else {}
       },
       itemBuilder: (context) => [
         _buildMenuItem('Copy link', AppImages.copyLink, 'copy_link'),
@@ -43,7 +55,8 @@ class CustomPopupMenuButton extends StatelessWidget {
     );
   }
 
-  PopupMenuItem<String> _buildMenuItem(String text, String asset, String value) {
+  PopupMenuItem<String> _buildMenuItem(
+      String text, String asset, String value) {
     return PopupMenuItem(
       value: value,
       child: Row(

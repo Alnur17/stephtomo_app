@@ -1,31 +1,35 @@
+import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:stephtomo_app/app/data/api.dart';
-import 'package:stephtomo_app/app/modules/video/views/video_view.dart';
-import 'package:stephtomo_app/common/helper/local_store.dart';
-import 'package:stephtomo_app/common/app_constant/app_constant.dart';
-import 'package:stephtomo_app/common/app_color/app_colors.dart';
-import 'package:stephtomo_app/app/modules/video/controllers/video_controller.dart';
-import 'package:video_player/video_player.dart';
-import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:path/path.dart';
-import 'dart:convert';
+import 'package:video_player/video_player.dart';
+import '../../../../common/app_color/app_colors.dart';
+import '../../../../common/app_constant/app_constant.dart';
+import '../../../../common/helper/local_store.dart';
+import '../../../data/api.dart';
 
-class UploadVideoController extends GetxController {
-  final VideoController videoController = Get.find();
-
+class EditVideoController extends GetxController {
   Rx<File?> selectedVideo = Rx<File?>(null);
-  Rx<VideoPlayerController?> videoPlayerController =
-  Rx<VideoPlayerController?>(null);
+  Rx<VideoPlayerController?> videoPlayerController = Rx<VideoPlayerController?>(null);
   final TextEditingController titleController = TextEditingController();
-  RxBool isUploading = false.obs;
+  RxBool isUpdating = false.obs;
   RxBool isVideoLoading = false.obs;
 
-
-
+  void initializeExistingVideo(String videoUrl) {
+    if (videoUrl.isNotEmpty) {
+      videoPlayerController.value = VideoPlayerController.networkUrl(Uri.parse(videoUrl))
+        ..initialize().then((_) {
+          videoPlayerController.value!.setLooping(true);
+          videoPlayerController.refresh(); // This updates Obx()
+        }).catchError((error) {
+          print("Error initializing video: $error");
+        });
+    }
+  }
   Future<void> pickVideo() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickVideo(source: ImageSource.gallery);
@@ -48,17 +52,11 @@ class UploadVideoController extends GetxController {
     }
   }
 
-  void clearVideo() {
-    selectedVideo.value = null;
-    videoPlayerController.value?.dispose();
-    videoPlayerController.value = null;
-  }
-
-  Future<void> uploadVideo() async {
-    if (selectedVideo.value == null || titleController.text.isEmpty) {
+  Future<void> updateVideo(String videoId) async {
+    if (titleController.text.isEmpty) {
       Get.snackbar(
         'Error',
-        'Please select a video and enter a title.',
+        'Please enter a title.',
         snackPosition: SnackPosition.TOP,
         backgroundColor: AppColors.red,
         colorText: Colors.white,
@@ -66,71 +64,69 @@ class UploadVideoController extends GetxController {
       return;
     }
 
-    isUploading.value = true;
+    isUpdating.value = true;
 
     try {
       String token = LocalStorage.getData(key: AppConstant.token);
-
       var request = http.MultipartRequest(
-        'POST',
-        Uri.parse(Api.uploadVideo),
+        'PUT',
+        Uri.parse(Api.updateVideo(id: videoId)),
       );
 
-      // Encode payload as JSON
       Map<String, dynamic> payloadData = {
-        "title": titleController.text.trim(),
+        "title": titleController.text.trim(), // Include title change
       };
 
       request.fields['payload'] = jsonEncode(payloadData);
 
-      // Attach Video File
-      var videoStream = http.ByteStream(selectedVideo.value!.openRead());
-      var videoLength = await selectedVideo.value!.length();
-      var multipartFile = http.MultipartFile(
-        'video',
-        videoStream,
-        videoLength,
-        filename: basename(selectedVideo.value!.path),
-        contentType: MediaType('video', 'mp4'),
-      );
-      request.files.add(multipartFile);
+      // **Attach video only if the user selected a new one**
+      if (selectedVideo.value != null) {
+        var videoStream = http.ByteStream(selectedVideo.value!.openRead());
+        var videoLength = await selectedVideo.value!.length();
+        var multipartFile = http.MultipartFile(
+          'video',
+          videoStream,
+          videoLength,
+          filename: basename(selectedVideo.value!.path),
+          contentType: MediaType('video', 'mp4'),
+        );
+        request.files.add(multipartFile);
+      }
 
       request.headers['Authorization'] = 'Bearer, $token';
       request.headers['Content-Type'] = 'multipart/form-data';
 
-      // Send Request
       var response = await request.send();
       var responseString = await response.stream.bytesToString();
       var responseData = jsonDecode(responseString);
 
-      isUploading.value = false;
+      isUpdating.value = false;
 
-      if (response.statusCode == 201) {
+      if (response.statusCode == 200) {
         Get.snackbar(
           'Success',
-          'Video uploaded successfully!',
+          'Video updated successfully!',
           snackPosition: SnackPosition.TOP,
           backgroundColor: Colors.green,
           colorText: Colors.white,
         );
-        videoController.fetchVideos();
         clearVideo();
         titleController.clear();
-        Get.offAll(VideoView());
+        Get.back();
       } else {
         Get.snackbar(
           'Error',
-          'Upload failed: ${responseData["message"] ?? "Unknown error"}',
+          'Update failed: ${responseData["message"] ?? "Unknown error"}',
           snackPosition: SnackPosition.TOP,
           backgroundColor: AppColors.red,
           colorText: Colors.white,
         );
       }
     } catch (e) {
-      isUploading.value = false;
+      isUpdating.value = false;
       Get.snackbar(
         'Error',
-        'Upload failed: $e',
+        'Update failed: $e',
         snackPosition: SnackPosition.TOP,
         backgroundColor: AppColors.red,
         colorText: Colors.white,
@@ -139,6 +135,11 @@ class UploadVideoController extends GetxController {
   }
 
 
+  void clearVideo() {
+    selectedVideo.value = null;
+    videoPlayerController.value?.dispose();
+    videoPlayerController.value = null;
+  }
 
   @override
   void onClose() {
