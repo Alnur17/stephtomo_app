@@ -139,7 +139,6 @@ class UploadVideoController extends GetxController {
   }
 
 
-
   @override
   void onClose() {
     videoPlayerController.value?.dispose();
