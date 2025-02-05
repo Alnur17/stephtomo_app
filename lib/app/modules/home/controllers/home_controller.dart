@@ -93,8 +93,11 @@ class HomeController extends GetxController {
   /// **Get Bookmarked Colleges**
   Future<void> getBookmarkedColleges() async {
     try {
+      isLoading(true); // Start loading state
+      update();
+
       String token = LocalStorage.getData(key: AppConstant.token);
-      print("Fetching bookmarks with token: $token"); // Debugging
+      print("Fetching bookmarks with token: $token");
 
       var response = await BaseClient.getRequest(
         api: Api.bookMarked,
@@ -104,7 +107,7 @@ class HomeController extends GetxController {
       );
 
       var responseData = await BaseClient.handleResponse(response);
-      print("Bookmark API Response: $responseData"); // Debugging
+      print("Bookmark API Response: $responseData");
 
       if (responseData != null && responseData["data"] is List) {
         List<Datum> bookmarks = (responseData["data"] as List)
@@ -115,8 +118,12 @@ class HomeController extends GetxController {
       }
     } catch (e) {
       print("Error fetching bookmarks: $e");
+    } finally {
+      isLoading(false); // Stop loading
+      update();
     }
   }
+
 
   /// **Toggle Bookmark**
   void toggleSaveCollege(Datum college) {

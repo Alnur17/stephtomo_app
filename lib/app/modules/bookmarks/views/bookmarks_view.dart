@@ -19,9 +19,7 @@ class _BookmarksViewState extends State<BookmarksView> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      homeController.getBookmarkedColleges();
-    });
+    homeController.getBookmarkedColleges();
   }
 
   @override
@@ -36,9 +34,12 @@ class _BookmarksViewState extends State<BookmarksView> {
         automaticallyImplyLeading: false,
       ),
       body: Obx(() {
+        if (homeController.isLoading.value) {
+          return Center(child: CircularProgressIndicator(color: AppColors.mainColor));
+        }
+
         final savedColleges = homeController.savedColleges;
-        print(
-            "Rendering bookmarks: ${savedColleges.length} items"); // Debugging
+        print("Rendering bookmarks: ${savedColleges.length} items");
 
         if (savedColleges.isEmpty) {
           return const Center(
@@ -53,7 +54,7 @@ class _BookmarksViewState extends State<BookmarksView> {
           itemCount: savedColleges.length,
           itemBuilder: (context, index) {
             final college = savedColleges[index];
-            print("Displaying college: ${college.collegeName}"); // Debugging
+            print("Displaying college: ${college.collegeName}");
 
             return Padding(
               padding: EdgeInsets.only(
@@ -79,6 +80,7 @@ class _BookmarksViewState extends State<BookmarksView> {
           },
         );
       }),
+
     );
   }
 }
