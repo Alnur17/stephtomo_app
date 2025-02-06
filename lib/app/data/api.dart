@@ -15,10 +15,10 @@ class Api {
   static const collegeData = "$baseUrl/colleges"; //done
 
   ///showBookMarked
-  static const bookMarked = "$baseUrl/college-bookmarks";
+  static const bookMarked = "$baseUrl/college-bookmarks"; // done
 
   ///Create BookMarked
-  static const addBookMark = "$baseUrl/college-bookmarks";
+  static const addBookMark = "$baseUrl/college-bookmarks"; //done
 
   /// upload video
   static const uploadVideo = "$baseUrl/videos"; // done
