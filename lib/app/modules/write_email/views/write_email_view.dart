@@ -54,7 +54,7 @@ class _WriteEmailViewState extends State<WriteEmailView> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('From:', style: h4),
+                  Text('To : ', style: h4),
                   sw8,
                   PopupMenuButton(
                     color: AppColors.white,
@@ -132,7 +132,7 @@ class _WriteEmailViewState extends State<WriteEmailView> {
               Divider(),
               Row(
                 children: [
-                  Text('Subject:', style: h4),
+                  Text('Subject : ', style: h4),
                   sw8,
                   Expanded(
                     child: CustomTextField(

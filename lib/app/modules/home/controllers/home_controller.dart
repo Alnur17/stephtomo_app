@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:get/get.dart';
+import 'package:stephtomo_app/app/modules/bookmarks/controllers/bookmarks_controller.dart';
 import 'package:stephtomo_app/common/app_constant/app_constant.dart';
 import 'package:stephtomo_app/common/helper/local_store.dart';
 import '../../../data/api.dart';
@@ -7,6 +8,7 @@ import '../../../data/base_client.dart';
 import '../model/college_model.dart';
 
 class HomeController extends GetxController {
+  final BookmarksController bookmarksController = Get.put(BookmarksController());
   var savedColleges = <Datum>[].obs;
   var searchQuery = ''.obs;
   var filteredData = <Datum>[].obs;
@@ -16,7 +18,7 @@ class HomeController extends GetxController {
   void onInit() {
     super.onInit();
     fetchCollegeData();
-    getBookmarkedColleges();
+    bookmarksController.getBookmarkedColleges();
   }
 
   /// **Fetch College Data from API**
@@ -58,7 +60,7 @@ class HomeController extends GetxController {
 
       if (responseData != null && responseData["success"] == true) {
         print("Bookmark added successfully");
-        await getBookmarkedColleges(); // Refresh bookmarks
+        await bookmarksController.getBookmarkedColleges(); // Refresh bookmarks
       }
     } catch (e) {
       print("Error adding bookmark: $e");
@@ -89,40 +91,6 @@ class HomeController extends GetxController {
   //     print("Error removing bookmark: $e");
   //   }
   // }
-
-  /// **Get Bookmarked Colleges**
-  Future<void> getBookmarkedColleges() async {
-    try {
-      isLoading(true); // Start loading state
-      update();
-
-      String token = LocalStorage.getData(key: AppConstant.token);
-      print("Fetching bookmarks with token: $token");
-
-      var response = await BaseClient.getRequest(
-        api: Api.bookMarked,
-        headers: {
-          "Authorization": "Bearer, $token",
-        },
-      );
-
-      var responseData = await BaseClient.handleResponse(response);
-      print("Bookmark API Response: $responseData");
-
-      if (responseData != null && responseData["data"] is List) {
-        List<Datum> bookmarks = (responseData["data"] as List)
-            .map((e) => Datum.fromJson(e))
-            .toList();
-        savedColleges.assignAll(bookmarks);
-        print("Bookmarked colleges count: ${savedColleges.length}");
-      }
-    } catch (e) {
-      print("Error fetching bookmarks: $e");
-    } finally {
-      isLoading(false); // Stop loading
-      update();
-    }
-  }
 
 
   /// **Toggle Bookmark**

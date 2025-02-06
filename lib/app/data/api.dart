@@ -29,6 +29,8 @@ class Api {
   ///video delete by id
   static String deleteVideo({required String id}) => "$baseUrl/videos/$id"; //done
 
-  static String updateVideo({required String id}) => "$baseUrl/videos/$id"; //
+  static String updateVideo({required String id}) => "$baseUrl/videos/$id"; //done
+
+  static String allEmail = "$baseUrl/emails"; // done
 
 }

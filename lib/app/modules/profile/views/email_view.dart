@@ -5,10 +5,9 @@ import 'package:get/get.dart';
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_images/app_images.dart';
 import '../../../../common/app_text_style/styles.dart';
-import '../../../../common/size_box/custom_sizebox.dart';
 
 class EmailView extends StatelessWidget {
-  final String image;
+  final String? image;
   final String name;
   final String time;
   final String message;
@@ -49,7 +48,7 @@ class EmailView extends StatelessWidget {
             ListTile(
               leading: CircleAvatar(
                 radius: 30,
-                backgroundImage: NetworkImage(image),
+                backgroundImage: NetworkImage(image!),
               ),
               title: Text(name),
               subtitle: Row(

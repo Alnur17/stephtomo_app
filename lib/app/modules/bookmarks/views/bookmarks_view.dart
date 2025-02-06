@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/widgets/college_profile_card.dart';
-import '../../home/controllers/home_controller.dart';
+import '../controllers/bookmarks_controller.dart';
 
 class BookmarksView extends StatefulWidget {
   const BookmarksView({super.key});
@@ -14,12 +13,17 @@ class BookmarksView extends StatefulWidget {
 }
 
 class _BookmarksViewState extends State<BookmarksView> {
-  final HomeController homeController = Get.find<HomeController>();
+  final BookmarksController bookmarkController = Get.put(BookmarksController());
 
   @override
   void initState() {
     super.initState();
-    homeController.getBookmarkedColleges();
+    bookmarkController.getBookmarkedColleges();
+  }
+
+  Future<void> _refreshData() async {
+    // This method is triggered when the user pulls to refresh
+    await bookmarkController.getBookmarkedColleges();  // Call the method to fetch new data
   }
 
   @override
@@ -34,11 +38,11 @@ class _BookmarksViewState extends State<BookmarksView> {
         automaticallyImplyLeading: false,
       ),
       body: Obx(() {
-        if (homeController.isLoading.value) {
+        if (bookmarkController.isLoading.value) {
           return Center(child: CircularProgressIndicator(color: AppColors.mainColor));
         }
 
-        final savedColleges = homeController.savedColleges;
+        final savedColleges = bookmarkController.savedColleges;
         print("Rendering bookmarks: ${savedColleges.length} items");
 
         if (savedColleges.isEmpty) {
@@ -50,37 +54,40 @@ class _BookmarksViewState extends State<BookmarksView> {
           );
         }
 
-        return ListView.builder(
-          itemCount: savedColleges.length,
-          itemBuilder: (context, index) {
-            final college = savedColleges[index];
-            print("Displaying college: ${college.collegeName}");
+        return RefreshIndicator(
+          onRefresh: _refreshData,  // Trigger the data refresh
+          child: ListView.builder(
+            itemCount: savedColleges.length,
+            itemBuilder: (context, index) {
+              final college = savedColleges[index].college;  // Accessing the 'college' field from Datum
+              print("Displaying college: ${college?.collegeName}");
 
-            return Padding(
-              padding: EdgeInsets.only(
-                bottom: index == savedColleges.length - 1 ? 100 : 8,
-                right: 16,
-                left: 16,
-              ),
-              child: CollegeProfileCard(
-                image: college.image ?? '',
-                university: college.collegeName ?? 'Unknown',
-                name: college.coachName ?? 'Unknown',
-                role: college.coachTitle ?? '',
-                email: college.coachEmail ?? '',
-                isSaved: homeController.isSaved(college),
-                onFacebookTap: () {},
-                onTwitterTap: () {},
-                onInstagramTap: () {},
-                onBookmarkTap: () {
-                  homeController.toggleSaveCollege(college);
-                },
-              ),
-            );
-          },
+              return Padding(
+                padding: EdgeInsets.only(
+                  bottom: index == savedColleges.length - 1 ? 100 : 8,
+                  right: 16,
+                  left: 16,
+                ),
+                child: CollegeProfileCard(
+                  image: college?.image ?? '',  // College image
+                  university: college?.collegeName ?? 'Unknown',  // College name
+                  name: college?.coachName ?? 'Unknown',  // Coach's name
+                  role: college?.coachTitle ?? '',  // Coach's title/role
+                  email: college?.coachEmail ?? '',  // Coach's email
+                  isSaved: bookmarkController.isSaved(savedColleges[index]),
+                  onFacebookTap: () {},
+                  onTwitterTap: () {},
+                  onInstagramTap: () {},
+                  onBookmarkTap: () {
+                    // Implement the toggle logic for bookmarking
+                    // bookmarkController.toggleSaveCollege(savedColleges[index]);
+                  },
+                ),
+              );
+            },
+          ),
         );
       }),
-
     );
   }
 }
