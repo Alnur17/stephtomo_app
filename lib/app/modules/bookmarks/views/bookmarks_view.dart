@@ -22,8 +22,7 @@ class _BookmarksViewState extends State<BookmarksView> {
   }
 
   Future<void> _refreshData() async {
-    // This method is triggered when the user pulls to refresh
-    await bookmarkController.getBookmarkedColleges();  // Call the method to fetch new data
+    await bookmarkController.getBookmarkedColleges();
   }
 
   @override
@@ -55,11 +54,11 @@ class _BookmarksViewState extends State<BookmarksView> {
         }
 
         return RefreshIndicator(
-          onRefresh: _refreshData,  // Trigger the data refresh
+          onRefresh: _refreshData,
           child: ListView.builder(
             itemCount: savedColleges.length,
             itemBuilder: (context, index) {
-              final college = savedColleges[index].college;  // Accessing the 'college' field from Datum
+              final college = savedColleges[index].college;
               print("Displaying college: ${college?.collegeName}");
 
               return Padding(
@@ -69,18 +68,17 @@ class _BookmarksViewState extends State<BookmarksView> {
                   left: 16,
                 ),
                 child: CollegeProfileCard(
-                  image: college?.image ?? '',  // College image
-                  university: college?.collegeName ?? 'Unknown',  // College name
-                  name: college?.coachName ?? 'Unknown',  // Coach's name
-                  role: college?.coachTitle ?? '',  // Coach's title/role
-                  email: college?.coachEmail ?? '',  // Coach's email
+                  image: college?.image ?? '',
+                  university: college?.collegeName ?? 'Unknown',
+                  name: college?.coachName ?? 'Unknown',
+                  role: college?.coachTitle ?? '',
+                  email: college?.coachEmail ?? '',
                   isSaved: bookmarkController.isSaved(savedColleges[index]),
                   onFacebookTap: () {},
                   onTwitterTap: () {},
                   onInstagramTap: () {},
                   onBookmarkTap: () {
-                    // Implement the toggle logic for bookmarking
-                    // bookmarkController.toggleSaveCollege(savedColleges[index]);
+                    bookmarkController.toggleSaveCollege(savedColleges[index]);
                   },
                 ),
               );

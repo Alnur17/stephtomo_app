@@ -3,11 +3,13 @@ import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:stephtomo_app/app/modules/home/views/notification_view.dart';
 import 'package:stephtomo_app/app/modules/home/views/search_view.dart';
+import 'package:stephtomo_app/app/modules/profile/views/profile_view.dart';
 import 'package:stephtomo_app/common/app_images/app_images.dart';
 import 'package:stephtomo_app/common/size_box/custom_sizebox.dart';
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/widgets/college_profile_card.dart';
+import '../../profile/controllers/profile_controller.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends StatefulWidget {
@@ -19,12 +21,7 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   final HomeController homeController = Get.put(HomeController());
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   homeController.fetchCollegeData();
-  // }
+  final ProfileController profileController = Get.put(ProfileController());
 
   Future<void> _refreshData() async {
     await homeController.fetchCollegeData();
@@ -66,12 +63,12 @@ class _HomeViewState extends State<HomeView> {
     return Container(
       alignment: Alignment.topCenter,
       width: double.infinity,
-      height: 175,
+      height: 190,
       decoration: const BoxDecoration(
         color: AppColors.mainColor,
         borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(30),
-          bottomRight: Radius.circular(30),
+          bottomLeft: Radius.circular(24),
+          bottomRight: Radius.circular(24),
         ),
       ),
       child: SafeArea(
@@ -82,38 +79,55 @@ class _HomeViewState extends State<HomeView> {
               left: 0,
               right: 0,
               top: 16,
-              child: ListTile(
-                leading: CircleAvatar(
-                  radius: 35,
-                  backgroundImage:
-                      AssetImage(AppImages.profileAvatarPlaceholder),
-                ),
-                title: Text(
-                  'User Name',
-                  style: appBarStyle.copyWith(
-                    color: AppColors.white,
-                  ),
-                ),
-                subtitle: Text(
-                  'Address Placeholder',
-                  style: h5.copyWith(
-                    color: AppColors.white,
-                  ),
-                ),
-                trailing: GestureDetector(
+              child: Obx(
+                () => ListTile(
                   onTap: () {
-                    Get.to(() => NotificationView());
+                    Get.to(() => ProfileView(
+                          showBackButton: true,
+                        ));
                   },
-                  child: Container(
-                    height: 40,
-                    width: 40,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
+                  leading: CircleAvatar(
+                    radius: 35,
+                    backgroundImage: profileController
+                                .profileData.value?.profileImage !=
+                            null
+                        ? NetworkImage(
+                            profileController.profileData.value!.profileImage!)
+                        : AssetImage(AppImages.profileAvatarPlaceholder)
+                            as ImageProvider,
+                  ),
+                  title: Text(
+                    profileController.profileName.value.isNotEmpty
+                        ? profileController.profileName.value
+                        : 'User Name',
+                    style: appBarStyle.copyWith(
                       color: AppColors.white,
                     ),
-                    child: Image.asset(
-                      AppImages.notification,
-                      scale: 4,
+                  ),
+                  subtitle: Text(
+                    profileController.profileData.value?.address?.isNotEmpty ==
+                            true
+                        ? profileController.profileData.value!.address!
+                        : 'Address Placeholder',
+                    style: h5.copyWith(
+                      color: AppColors.white,
+                    ),
+                  ),
+                  trailing: GestureDetector(
+                    onTap: () {
+                      Get.to(() => NotificationView());
+                    },
+                    child: Container(
+                      height: 40,
+                      width: 40,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppColors.white,
+                      ),
+                      child: Image.asset(
+                        AppImages.notification,
+                        scale: 4,
+                      ),
                     ),
                   ),
                 ),
@@ -129,6 +143,7 @@ class _HomeViewState extends State<HomeView> {
                 },
                 child: Container(
                   height: 54,
+                  margin: EdgeInsets.symmetric(horizontal: 8),
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
@@ -185,9 +200,12 @@ class _HomeViewState extends State<HomeView> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         sh16,
-        Text(
-          'Recommended College',
-          style: h3.copyWith(fontWeight: FontWeight.w500),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Text(
+            'Recommended College',
+            style: h3.copyWith(fontWeight: FontWeight.w500),
+          ),
         ),
         sh16,
         Expanded(
@@ -213,7 +231,7 @@ class _HomeViewState extends State<HomeView> {
                     onTwitterTap: () {},
                     onInstagramTap: () {},
                     onBookmarkTap: () {
-                      homeController.addBookmark(college.id ?? "");
+                      homeController.toggleSaveCollege(college);
                     },
                   ),
                 ),

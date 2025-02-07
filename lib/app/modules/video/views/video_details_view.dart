@@ -26,7 +26,7 @@ class VideoDetailsView extends StatefulWidget {
 }
 
 class _VideoDetailsViewState extends State<VideoDetailsView> {
-  final VideoController controller = Get.find<VideoController>();
+  final VideoController controller = Get.put(VideoController());
   final UploadVideoController uploadVideoController =
       Get.put(UploadVideoController());
 

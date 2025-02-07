@@ -11,6 +11,7 @@ class Api {
   static const otpVerify = "$baseUrl/auth/verify-otp";  //done
   static const sentOtp = "$baseUrl/auth/send-otp"; //done
   static const resetForgottenPassword = "$baseUrl/auth/reset-forgotten-password"; // done
+  static const changePassword = "$baseUrl/auth/change-password"; // done
 
   static const collegeData = "$baseUrl/colleges"; //done
 
@@ -19,6 +20,8 @@ class Api {
 
   ///Create BookMarked
   static const addBookMark = "$baseUrl/college-bookmarks"; //done
+
+  static  removeBookMark(String id) => "$baseUrl/college-bookmarks/$id"; //done
 
   /// upload video
   static const uploadVideo = "$baseUrl/videos"; // done
@@ -32,5 +35,9 @@ class Api {
   static String updateVideo({required String id}) => "$baseUrl/videos/$id"; //done
 
   static String allEmail = "$baseUrl/emails"; // done
+
+  ///profile
+  static const String profile = "$baseUrl/athletes/me"; //done
+  static String editProfile(String id) => "$baseUrl/athletes/$id"; //done
 
 }

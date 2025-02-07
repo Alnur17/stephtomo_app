@@ -67,36 +67,10 @@ class HomeController extends GetxController {
     }
   }
 
-  /// **Remove Bookmark**
-  // Future<void> removeBookmark(String collegeId) async {
-  //   try {
-  //     String token = LocalStorage.getData(key: AppConstant.token);
-  //     var headers = {
-  //       "Authorization": "Bearer, $token",
-  //     };
-  //
-  //     var response = await BaseClient.deleteRequest(
-  //       api: "${Api.removeBookMark}/$collegeId",
-  //       headers: headers,
-  //     );
-  //
-  //     var responseData = await BaseClient.handleResponse(response);
-  //     print("Remove Bookmark Response: $responseData"); // Debugging
-  //
-  //     if (responseData != null && responseData["success"] == true) {
-  //       print("Bookmark removed successfully");
-  //       savedColleges.removeWhere((college) => college.id == collegeId);
-  //     }
-  //   } catch (e) {
-  //     print("Error removing bookmark: $e");
-  //   }
-  // }
-
-
   /// **Toggle Bookmark**
   void toggleSaveCollege(Datum college) {
     if (isSaved(college)) {
-      //removeBookmark(college.id ?? '');
+      bookmarksController.removeBookmark(college.id ?? '');
     } else {
       addBookmark(college.id ?? '');
     }
@@ -104,7 +78,7 @@ class HomeController extends GetxController {
 
   /// **Check if a College is Saved**
   bool isSaved(Datum college) {
-    return savedColleges.any((saved) => saved.id == college.id);
+    return bookmarksController.savedColleges.any((saved) => saved.id == college.id);
   }
 
   /// **Search Colleges**

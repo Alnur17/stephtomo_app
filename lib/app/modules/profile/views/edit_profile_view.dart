@@ -1,9 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
-
 import '../../../../../common/app_color/app_colors.dart';
 import '../../../../../common/app_images/app_images.dart';
 import '../../../../../common/size_box/custom_sizebox.dart';
@@ -22,15 +18,33 @@ class EditProfileView extends StatefulWidget {
 class _EditProfileViewState extends State<EditProfileView> {
   final ProfileController profileController = Get.find<ProfileController>();
 
-  Future<void> _pickImage() async {
-    final ImagePicker picker = ImagePicker();
-    final XFile? pickedFile =
-    await picker.pickImage(source: ImageSource.gallery);
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController heightController = TextEditingController();
+  final TextEditingController positionController = TextEditingController();
+  final TextEditingController clubTeamController = TextEditingController();
+  final TextEditingController clubCoachNameController = TextEditingController();
+  final TextEditingController clubCoachEmailController =
+      TextEditingController();
+  final TextEditingController addressController = TextEditingController();
 
-    if (pickedFile != null) {
-      profileController.setTempImage(File(pickedFile.path));
-      setState(() {});
-    }
+  @override
+  void initState() {
+    super.initState();
+    _loadProfileData();
+  }
+
+  void _loadProfileData() {
+    nameController.text = profileController.profileData.value?.name ?? '';
+    heightController.text = profileController.profileData.value?.height ?? '';
+    positionController.text =
+        profileController.profileData.value?.primaryPosition ?? '';
+    clubTeamController.text =
+        profileController.profileData.value?.clubTeam ?? '';
+    clubCoachNameController.text =
+        profileController.profileData.value?.clubCoachName ?? '';
+    clubCoachEmailController.text =
+        profileController.profileData.value?.clubCoachEmail ?? '';
+    addressController.text = profileController.profileData.value?.address ?? '';
   }
 
   @override
@@ -43,127 +57,71 @@ class _EditProfileViewState extends State<EditProfileView> {
         title: const Text('Edit Profile'),
         centerTitle: true,
         leading: GestureDetector(
-          onTap: () {
-            Get.back();
-          },
-          child: Image.asset(
-            AppImages.back,
-            scale: 4,
-          ),
+          onTap: () => Get.back(),
+          child: Image.asset(AppImages.back, scale: 4),
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.only(left: 16, right: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: SingleChildScrollView(
           child: Column(
             children: [
               sh20,
               Stack(
-                clipBehavior: Clip.none,
                 children: [
-                  CircleAvatar(
-                    radius: 60,
-                    backgroundImage: profileController.tempImage != null
-                        ? FileImage(profileController.tempImage!)
-                    as ImageProvider
-                        : profileController.profileImage.value != null
-                        ? FileImage(profileController.profileImage.value!)
-                    as ImageProvider
-                        : AssetImage(AppImages.profileAvatarPlaceholder),
+                  GetBuilder<ProfileController>(
+                    builder: (_) => CircleAvatar(
+                      radius: 60,
+                      backgroundImage: profileController.selectedImage != null
+                          ? FileImage(profileController.selectedImage!)
+                          : profileController.profileData.value?.profileImage !=
+                                  null
+                              ? NetworkImage(profileController
+                                  .profileData.value!.profileImage!)
+                              : AssetImage(AppImages.profileAvatarPlaceholder)
+                                  as ImageProvider,
+                    ),
                   ),
                   Positioned(
-                    bottom: -5,
-                    right: -5,
+                    bottom: 0,
+                    right: 0,
                     child: GestureDetector(
-                      onTap: _pickImage,
+                      onTap: profileController.pickImage,
                       child: Container(
                         height: 35,
                         width: 35,
                         decoration: ShapeDecoration(
                             shape: CircleBorder(), color: AppColors.blueLight),
-                        child: Image.asset(
-                          AppImages.editProfile,
-                          scale: 4,
-                        ),
+                        child: Image.asset(AppImages.editProfile, scale: 4),
                       ),
                     ),
                   ),
                 ],
               ),
               sh16,
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Name',
-                    style: h5,
-                  ),
-                  sh8,
-                  CustomTextField(
-                    hintText: 'Enter your name',
-                  ),
-                  sh16,
-                  Text(
-                    'Height',
-                    style: h5,
-                  ),
-                  sh8,
-                  CustomTextField(
-                    hintText: 'Enter your height',
-                  ),
-                  sh16,
-                  Text(
-                    'Primary position',
-                    style: h5,
-                  ),
-                  sh8,
-                  CustomTextField(
-                    hintText: 'Enter your primary position',
-                  ),
-                  sh16,
-                  Text(
-                    'Club team',
-                    style: h5,
-                  ),
-                  sh8,
-                  CustomTextField(
-                    hintText: 'Enter here',
-                  ),
-                  sh16,
-                  Text(
-                    'Club coach name',
-                    style: h5,
-                  ),
-                  sh8,
-                  CustomTextField(
-                    hintText: 'Enter here',
-                  ),
-                  sh16,
-                  Text(
-                    'Club coach email',
-                    style: h5,
-                  ),
-                  sh8,
-                  CustomTextField(
-                    hintText: 'Enter here',
-                  ),
-                  sh16,
-                  Text(
-                    'Address',
-                    style: h5,
-                  ),
-                  sh8,
-                  CustomTextField(
-                    hintText: 'Enter your address',
-                  ),
-                ],
-              ),
+              _buildTextField("Name", nameController),
+              _buildTextField("Height", heightController),
+              _buildTextField("Primary Position", positionController),
+              _buildTextField("Club Team", clubTeamController),
+              _buildTextField("Club Coach Name", clubCoachNameController),
+              _buildTextField("Club Coach Email", clubCoachEmailController),
+              _buildTextField("Address", addressController),
               sh20,
               CustomButton(
                 text: 'Update',
                 onPressed: () {
-                  profileController.confirmProfileImage();
-                  Get.back();
+                  profileController.updateProfile(
+                    name: nameController.text,
+                    height: heightController.text,
+                    primaryPosition: positionController.text,
+                    clubTeam: clubTeamController.text,
+                    clubCoachName: clubCoachNameController.text,
+                    clubCoachEmail: clubCoachEmailController.text,
+                    address: addressController.text,
+                  );
+                  if (!profileController.isLoading.value) {
+                    Get.back(); // Navigate back after profile update
+                  }
                 },
               ),
               sh30,
@@ -171,6 +129,18 @@ class _EditProfileViewState extends State<EditProfileView> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildTextField(String label, TextEditingController controller) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(label, style: h5),
+        sh8,
+        CustomTextField(hintText: "Enter $label", controller: controller),
+        sh16,
+      ],
     );
   }
 }

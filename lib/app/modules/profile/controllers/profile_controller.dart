@@ -1,20 +1,146 @@
+import 'dart:convert';
 import 'dart:io';
-
 import 'package:get/get.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
+import 'package:stephtomo_app/app/data/api.dart';
+import '../../../../common/app_color/app_colors.dart';
+import '../../../../common/app_constant/app_constant.dart';
+import '../../../../common/helper/local_store.dart';
+import '../../../../common/widgets/custom_snackbar.dart';
+import '../../../data/base_client.dart';
+import '../model/profile_model.dart';
 
 class ProfileController extends GetxController {
-
+  var isLoading = false.obs;
+  var profileData = Rxn<Data>();
   var profileImage = Rxn<File>();
-  File? tempImage;
+  var profileName = ''.obs;
+  var email = ''.obs;
+  File? selectedImage;
 
-  void setTempImage(File image) {
-    tempImage = image;
+  @override
+  void onInit() {
+    super.onInit();
+    fetchProfile();
   }
 
-  void confirmProfileImage() {
-    if (tempImage != null) {
-      profileImage.value = tempImage;
-      tempImage = null; // Clearing the temp image after update
+  Future<void> fetchProfile() async {
+    try {
+      isLoading.value = true;
+      String apiUrl = Api.profile;
+
+      debugPrint("Fetching Profile Data...");
+      String token = LocalStorage.getData(key: AppConstant.token);
+      var headers = {
+        'Content-Type': "application/json",
+        "Authorization": "Bearer, $token"
+      };
+
+      var response = await BaseClient.getRequest(api: apiUrl,headers: headers);
+
+      if (response.statusCode == 200) {
+        var jsonResponse = await BaseClient.handleResponse(response);
+        ProfileModel profileModel = ProfileModel.fromJson(jsonResponse);
+
+        if (profileModel.data != null) {
+          profileData.value = profileModel.data;
+          profileName.value = profileModel.data!.name ?? "User Name";
+          email.value = profileModel.data!.email ?? "example@gmail.com";
+        }
+      } else {
+        kSnackBar(
+          message: "Failed to load profile data",
+          bgColor: AppColors.orange,
+        );
+      }
+    } catch (e) {
+      debugPrint("Error fetching profile: $e");
+      kSnackBar(
+        message: "Error fetching profile: $e",
+        bgColor: AppColors.orange,
+      );
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> updateProfile({
+    required String name,
+    required String height,
+    required String primaryPosition,
+    required String clubTeam,
+    required String clubCoachName,
+    required String clubCoachEmail,
+    required String address,
+  }) async {
+    try {
+      String userId = profileData.value?.id ?? "";
+      if (userId.isEmpty) {
+        kSnackBar(message: "User ID not found", bgColor: AppColors.orange);
+        return;
+      }
+
+      var request = http.MultipartRequest('PUT', Uri.parse(Api.editProfile(userId)));
+
+      // Add headers
+      String token = LocalStorage.getData(key: AppConstant.token);
+      request.headers.addAll({
+        'Authorization': "Bearer, $token",
+        'Content-Type': 'multipart/form-data'
+      });
+
+      // ✅ Include existing image URL if no new image is selected
+      String existingImageUrl = profileData.value?.profileImage ?? "";
+
+      request.fields['payload'] = jsonEncode({
+        "name": name,
+        "height": height,
+        "primary_position": primaryPosition,
+        "club_team": clubTeam,
+        "club_coach_name": clubCoachName,
+        "club_coach_email": clubCoachEmail,
+        "address": address,
+        "profile_image": existingImageUrl, // ✅ Ensure existing image is included
+      });
+
+      // ✅ Only add the image if a new one is selected
+      if (selectedImage != null && selectedImage!.path.isNotEmpty) {
+        request.files.add(await http.MultipartFile.fromPath('image', selectedImage!.path));
+      } else {
+        debugPrint("No new image selected, keeping existing profile image.");
+      }
+
+      var response = await request.send();
+      var responseData = await response.stream.bytesToString();
+      var decodedResponse = json.decode(responseData);
+
+      debugPrint("Update Response: $decodedResponse");
+
+      if (response.statusCode == 200) {
+        kSnackBar(message: "Profile updated successfully", bgColor: AppColors.green);
+
+        // Fetch updated profile details
+        await fetchProfile();
+      } else {
+        kSnackBar(message: decodedResponse['message'] ?? "Failed to update profile", bgColor: AppColors.orange);
+      }
+    } catch (e) {
+      kSnackBar(message: "Error updating profile: $e", bgColor: AppColors.orange);
+      debugPrint("Update Error: $e");
+    }
+  }
+
+
+
+  Future<void> pickImage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      selectedImage = File(pickedFile.path);
+      update(); // Refresh UI
     }
   }
 

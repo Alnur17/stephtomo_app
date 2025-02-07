@@ -27,11 +27,10 @@ class BookmarksController extends GetxController {
 
       final responseData = await BaseClient.handleResponse(response);
 
-      // Handling the data with the new model structure
       if (responseData != null) {
         CollegeBookMarksModel model = CollegeBookMarksModel.fromJson(responseData);
         if (model.success ?? false) {
-          savedColleges.assignAll(model.data?.data ?? []);  // Use the 'data' field to get a list of 'Datum'
+          savedColleges.assignAll(model.data?.data ?? []);
         }
       }
     } catch (e) {
@@ -41,11 +40,33 @@ class BookmarksController extends GetxController {
     }
   }
 
-  bool isSaved(Datum college) {
-    return savedColleges.contains(college);
+  /// **Remove Bookmark**
+  Future<void> removeBookmark(String collegeId) async {
+    try {
+      var response = await BaseClient.deleteRequest(
+        api: Api.removeBookMark(collegeId),
+      );
+
+      var responseData = await BaseClient.handleResponse(response);
+      print("Remove Bookmark Response: $responseData");
+
+      if (responseData != null && responseData["success"] == true) {
+        print("Bookmark removed successfully");
+        savedColleges.removeWhere((college) => college.id == collegeId);
+        savedColleges.refresh();
+      }
+    } catch (e) {
+      print("Error removing bookmark: $e");
+    }
   }
 
-  Future<void> toggleSaveCollege(Datum college) async {
-    // Implement the toggle logic (add or remove the college from savedColleges)
+  /// **Toggle Bookmark (Remove from Saved List)**
+  void toggleSaveCollege(Datum college) async {
+    await removeBookmark(college.id.toString());
+  }
+
+  /// **Check if a College is Saved**
+  bool isSaved(Datum college) {
+    return savedColleges.any((saved) => saved.id == college.id);
   }
 }
