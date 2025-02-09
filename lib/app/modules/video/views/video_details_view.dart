@@ -144,13 +144,12 @@ class _VideoDetailsViewState extends State<VideoDetailsView> {
             sh16,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
                   child: Text(
                     widget.videoTitle,
                     style: titleStyle,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
                 CustomPopupMenuButton(

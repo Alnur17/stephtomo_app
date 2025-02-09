@@ -15,7 +15,7 @@ import 'package:path/path.dart';
 import 'dart:convert';
 
 class UploadVideoController extends GetxController {
-  final VideoController videoController = Get.find();
+  final VideoController videoController = Get.put(VideoController());
 
   Rx<File?> selectedVideo = Rx<File?>(null);
   Rx<VideoPlayerController?> videoPlayerController =

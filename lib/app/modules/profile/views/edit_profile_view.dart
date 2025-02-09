@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../../common/app_color/app_colors.dart';
@@ -70,16 +71,20 @@ class _EditProfileViewState extends State<EditProfileView> {
               Stack(
                 children: [
                   GetBuilder<ProfileController>(
-                    builder: (_) => CircleAvatar(
-                      radius: 60,
-                      backgroundImage: profileController.selectedImage != null
-                          ? FileImage(profileController.selectedImage!)
-                          : profileController.profileData.value?.profileImage !=
-                                  null
-                              ? NetworkImage(profileController
-                                  .profileData.value!.profileImage!)
-                              : AssetImage(AppImages.profileAvatarPlaceholder)
-                                  as ImageProvider,
+                    builder: (_) => CachedNetworkImage(
+                      imageUrl: profileController.profileData.value?.profileImage ?? '',
+                      placeholder: (context, url) => CircleAvatar(
+                        radius: 60,
+                        backgroundColor: AppColors.grey,
+                      ),
+                      errorWidget: (context, url, error) => CircleAvatar(
+                        radius: 60,
+                        backgroundImage: AssetImage(AppImages.profileAvatarPlaceholder),
+                      ),
+                      imageBuilder: (context, imageProvider) => CircleAvatar(
+                        radius: 60,
+                        backgroundImage: imageProvider,
+                      ),
                     ),
                   ),
                   Positioned(

@@ -60,7 +60,7 @@ class BaseClient {
     String token = LocalStorage.getData(key: AppConstant.token);
     var headers = {
       'Content-Type': "application/json",
-      "Authorization": "Bearer $token"
+      "Authorization": "Bearer, $token"
     };
     debugPrint("API Hit: $api");
     debugPrint("body: $body");
@@ -93,7 +93,6 @@ class BaseClient {
 
   static handleResponse(http.Response response) async {
     try {
-      // debugPrint('Response: ${response.body}');
       if (response.statusCode >= 200 && response.statusCode <= 210) {
         debugPrint('SuccessCode: ${response.statusCode}');
         debugPrint('SuccessResponse: ${response.body}');

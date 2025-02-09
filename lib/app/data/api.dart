@@ -34,10 +34,17 @@ class Api {
 
   static String updateVideo({required String id}) => "$baseUrl/videos/$id"; //done
 
-  static String allEmail = "$baseUrl/emails"; // done
+  static const String allEmail = "$baseUrl/emails"; // done
+
+  static const String writeEmail = "$baseUrl/emails"; //
 
   ///profile
   static const String profile = "$baseUrl/athletes/me"; //done
+
   static String editProfile(String id) => "$baseUrl/athletes/$id"; //done
+
+  static String deleteProfile(String id) => "$baseUrl/athletes/$id"; //done
+
+  static const String conditionsPage = "$baseUrl/settings"; //done
 
 }

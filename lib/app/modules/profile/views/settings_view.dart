@@ -7,6 +7,7 @@ import '../../../../common/app_images/app_images.dart';
 import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
 import '../../../../common/widgets/custom_list_tile_with_color.dart';
+import '../controllers/profile_controller.dart';
 import 'change_password_view.dart';
 
 class SettingsView extends GetView {
@@ -68,9 +69,7 @@ class SettingsView extends GetView {
             padding: const EdgeInsets.only(left: 16, right: 16),
             child: Text(
               "Are you sure you want to delete your account?",
-              style: h4.copyWith(
-                fontSize: 18,
-              ),
+              style: h4.copyWith(fontSize: 18),
               textAlign: TextAlign.center,
             ),
           ),
@@ -83,8 +82,7 @@ class SettingsView extends GetView {
                 style: TextButton.styleFrom(
                   backgroundColor: AppColors.white,
                   side: const BorderSide(color: AppColors.red),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 45, vertical: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 45, vertical: 10),
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.vertical(
                       top: Radius.circular(4),
@@ -99,11 +97,13 @@ class SettingsView extends GetView {
               ),
               sw10,
               OutlinedButton(
-                onPressed: () {},
+                onPressed: () async {
+                  await Get.find<ProfileController>().deleteProfile();
+                  Get.back();  // Close the dialog
+                },
                 style: OutlinedButton.styleFrom(
                   backgroundColor: AppColors.red,
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 45, vertical: 10), // Box-like padding
+                  padding: const EdgeInsets.symmetric(horizontal: 45, vertical: 10),
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.vertical(
                       top: Radius.circular(4),
@@ -123,4 +123,5 @@ class SettingsView extends GetView {
       ),
     );
   }
+
 }

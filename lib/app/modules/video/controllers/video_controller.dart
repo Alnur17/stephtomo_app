@@ -2,6 +2,9 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
+import 'package:path_provider/path_provider.dart';
+
 
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_constant/app_constant.dart';
@@ -25,9 +28,22 @@ class VideoController extends GetxController {
   }
 
 
-  // void editVideo(){
-  //
-  // }
+  Future<String?> generateThumbnail(String videoUrl) async {
+    try {
+      final tempDir = await getTemporaryDirectory();
+      final thumbnailPath = await VideoThumbnail.thumbnailFile(
+        video: videoUrl,
+        thumbnailPath: tempDir.path,
+        imageFormat: ImageFormat.JPEG,
+        maxHeight: 200, // Set desired height
+        quality: 75,
+      );
+      return thumbnailPath;
+    } catch (e) {
+      print("Thumbnail generation error: $e");
+      return null;
+    }
+  }
 
   void deleteVideo(String id, String title, String url) async {
     try {

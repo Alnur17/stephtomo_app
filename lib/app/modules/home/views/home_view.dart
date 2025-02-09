@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
@@ -227,9 +229,18 @@ class _HomeViewState extends State<HomeView> {
                     role: college.coachTitle ?? "",
                     email: college.coachEmail ?? "",
                     isSaved: homeController.isSaved(college),
-                    onFacebookTap: () {},
-                    onTwitterTap: () {},
-                    onInstagramTap: () {},
+                    onFacebookTap: () {
+                      college.facebookLink ?? '';
+                      log('${college.facebookLink}');
+                    },
+                    onTwitterTap: () {
+                      college.xLink ?? '';
+                      log('${college.xLink}');
+                    },
+                    onInstagramTap: () {
+                      college.instagramLink ?? '';
+                      log('${college.instagramLink}');
+                    },
                     onBookmarkTap: () {
                       homeController.toggleSaveCollege(college);
                     },

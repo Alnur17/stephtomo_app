@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stephtomo_app/app/modules/video/controllers/upload_video_controller.dart';
@@ -78,18 +80,26 @@ class VideoView extends StatelessWidget {
                         children: [
                           ClipRRect(
                             borderRadius: BorderRadius.circular(16),
-                            child: Image.network(
-                              videoItem.url ?? '',
-                              fit: BoxFit.cover,
-                              height: Get.height,
-                              width: Get.width,
-                              errorBuilder: (context, error, stackTrace) {
-                                return Image.asset(
-                                  AppImages.notFound,
-                                  fit: BoxFit.cover,
-                                  height: Get.height,
-                                  width: Get.width,
-                                );
+                            child: FutureBuilder<String?>(
+                              future: videoController.generateThumbnail(videoItem.url ?? ''),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState == ConnectionState.waiting) {
+                                  return Center(child: CircularProgressIndicator());
+                                } else if (snapshot.hasError || snapshot.data == null) {
+                                  return Image.asset(
+                                    AppImages.notFound,
+                                    fit: BoxFit.cover,
+                                    height: Get.height,
+                                    width: Get.width,
+                                  );
+                                } else {
+                                  return Image.file(
+                                    File(snapshot.data!),
+                                    fit: BoxFit.cover,
+                                    height: Get.height,
+                                    width: Get.width,
+                                  );
+                                }
                               },
                             ),
                           ),

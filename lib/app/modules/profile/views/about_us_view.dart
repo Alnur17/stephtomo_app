@@ -5,11 +5,13 @@ import 'package:get/get.dart';
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_images/app_images.dart';
 import '../../../../common/app_text_style/styles.dart';
-import '../../../../common/const_text/const_text.dart';
-import '../../../../common/size_box/custom_sizebox.dart';
+import '../controllers/conditions_controller.dart';
 
 class AboutUsView extends StatelessWidget {
-  const AboutUsView({super.key});
+  AboutUsView({super.key});
+
+  final ConditionsController controller = Get.put(ConditionsController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,7 +19,10 @@ class AboutUsView extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppColors.white,
         scrolledUnderElevation: 0,
-        title: Text('About Us',style: titleStyle,),
+        title: Text(
+          'About Us',
+          style: titleStyle,
+        ),
         centerTitle: true,
         leading: GestureDetector(
           onTap: () {
@@ -27,62 +32,30 @@ class AboutUsView extends StatelessWidget {
             AppImages.back,
             scale: 4,
           ),
-        ),      ),
+        ),
+      ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(left: 16,right: 16,bottom: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              sh30,
-              // Text(
-              //   'About Us',
-              //   style: h2,
-              // ),
-              // sh24,
-              Text(
-                acceptance0fTerms,
+          padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+          child: Obx(() {
+            if (controller.isLoading.value) {
+              return Center(child: CircularProgressIndicator());
+            } else if (controller.errorMessage.isNotEmpty) {
+              return Center(
+                child: Text(
+                  controller.errorMessage.value,
+                  style: h4.copyWith(fontSize: 14, color: AppColors.red),
+                ),
+              );
+            } else {
+              return Text(
+                controller.getAboutUs(),
                 style: h4.copyWith(
                   fontSize: 14,
                 ),
-              ),
-              sh24,
-              Text(
-                acceptance0fTerms,
-                style: h4.copyWith(
-                  fontSize: 14,
-                ),
-              ),
-              sh24,
-              Text(
-                acceptance0fTerms,
-                style: h4.copyWith(
-                  fontSize: 14,
-                ),
-              ),
-              sh24,
-              Text(
-                acceptance0fTerms,
-                style: h4.copyWith(
-                  fontSize: 14,
-                ),
-              ),
-              sh24,
-              Text(
-                acceptance0fTerms,
-                style: h4.copyWith(
-                  fontSize: 14,
-                ),
-              ),
-              sh24,
-              Text(
-                acceptance0fTerms,
-                style: h4.copyWith(
-                  fontSize: 14,
-                ),
-              ),
-            ],
-          ),
+              );
+            }
+          }),
         ),
       ),
     );

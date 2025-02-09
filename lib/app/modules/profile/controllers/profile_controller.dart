@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:stephtomo_app/app/data/api.dart';
+import 'package:stephtomo_app/app/modules/sign_in/views/sign_in_view.dart';
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_constant/app_constant.dart';
 import '../../../../common/helper/local_store.dart';
@@ -84,14 +85,13 @@ class ProfileController extends GetxController {
 
       var request = http.MultipartRequest('PUT', Uri.parse(Api.editProfile(userId)));
 
-      // Add headers
       String token = LocalStorage.getData(key: AppConstant.token);
       request.headers.addAll({
         'Authorization': "Bearer, $token",
         'Content-Type': 'multipart/form-data'
       });
 
-      // ✅ Include existing image URL if no new image is selected
+      // Check if there's an existing image URL, use it if no new image is selected
       String existingImageUrl = profileData.value?.profileImage ?? "";
 
       request.fields['payload'] = jsonEncode({
@@ -102,21 +102,17 @@ class ProfileController extends GetxController {
         "club_coach_name": clubCoachName,
         "club_coach_email": clubCoachEmail,
         "address": address,
-        "profile_image": existingImageUrl, // ✅ Ensure existing image is included
+        "profile_image": existingImageUrl, // Ensure the image URL is included
       });
 
-      // ✅ Only add the image if a new one is selected
+      // Only add a new image if it's selected
       if (selectedImage != null && selectedImage!.path.isNotEmpty) {
         request.files.add(await http.MultipartFile.fromPath('image', selectedImage!.path));
-      } else {
-        debugPrint("No new image selected, keeping existing profile image.");
       }
 
       var response = await request.send();
       var responseData = await response.stream.bytesToString();
       var decodedResponse = json.decode(responseData);
-
-      debugPrint("Update Response: $decodedResponse");
 
       if (response.statusCode == 200) {
         kSnackBar(message: "Profile updated successfully", bgColor: AppColors.green);
@@ -132,6 +128,35 @@ class ProfileController extends GetxController {
     }
   }
 
+  Future<void> deleteProfile() async {
+    try {
+      String userId = profileData.value?.id ?? "";
+      if (userId.isEmpty) {
+        kSnackBar(message: "User ID not found", bgColor: AppColors.orange);
+        return;
+      }
+      
+      String apiUrl = Api.deleteProfile(userId);  
+      
+      var response = await BaseClient.deleteRequest(api: apiUrl);
+
+      if (response.statusCode == 200) {
+        kSnackBar(message: "Profile deleted successfully", bgColor: AppColors.green);
+        String token = LocalStorage.removeData(key: AppConstant.token);
+        print('User token $token');
+        String userData = LocalStorage.removeData(key: AppConstant.userId);
+        print('User data $userData');
+
+        Get.offAll(()=> SignInView());
+      } else {
+        var responseData = await BaseClient.handleResponse(response);
+        kSnackBar(message: responseData['message'] ?? "Failed to delete profile", bgColor: AppColors.orange);
+      }
+    } catch (e) {
+      kSnackBar(message: "Error deleting profile: $e", bgColor: AppColors.orange);
+      debugPrint("Delete Error: $e");
+    }
+  }
 
 
   Future<void> pickImage() async {
@@ -140,11 +165,8 @@ class ProfileController extends GetxController {
 
     if (pickedFile != null) {
       selectedImage = File(pickedFile.path);
-      update(); // Refresh UI
+      update();
     }
   }
 
-  // void updateProfileImage(File image) {
-  //   profileImage.value = image;
-  // }
 }
