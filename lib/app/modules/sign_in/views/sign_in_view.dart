@@ -20,8 +20,10 @@ class SignInView extends StatefulWidget {
 
 class _SignInViewState extends State<SignInView> {
   SignInController signInController = Get.put(SignInController());
-  final TextEditingController emailTEController = TextEditingController(text: "admin@gmail.com");
-  final TextEditingController passwordTEController = TextEditingController(text: "admin");
+  final TextEditingController emailTEController = TextEditingController();
+ // final TextEditingController emailTEController = TextEditingController(text: "admin@gmail.com");
+  //final TextEditingController passwordTEController = TextEditingController(text: "admin");
+  final TextEditingController passwordTEController = TextEditingController();
 
   bool isChecked = false;
 

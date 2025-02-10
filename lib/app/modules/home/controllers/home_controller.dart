@@ -9,9 +9,11 @@ import '../model/college_model.dart';
 
 class HomeController extends GetxController {
   final BookmarksController bookmarksController = Get.put(BookmarksController());
+
+  var allColleges = <Datum>[].obs; // Holds original API data
+  var filteredData = <Datum>[].obs; // Holds search results / displayed data
   var savedColleges = <Datum>[].obs;
   var searchQuery = ''.obs;
-  var filteredData = <Datum>[].obs;
   var isLoading = true.obs;
 
   @override
@@ -30,7 +32,8 @@ class HomeController extends GetxController {
 
       if (responseData != null) {
         CollegeModel collegeModel = CollegeModel.fromJson(responseData);
-        filteredData.assignAll(collegeModel.data?.data ?? []);
+        allColleges.assignAll(collegeModel.data?.data ?? []); // Keep original data
+        filteredData.assignAll(allColleges); // Initially show all data
       }
     } catch (e) {
       print("Error fetching college data: $e");
@@ -45,7 +48,7 @@ class HomeController extends GetxController {
       String token = LocalStorage.getData(key: AppConstant.token);
       var body = {"college": collegeId};
       var headers = {
-        "Authorization": "Bearer, $token",  // Fix comma in Bearer token
+        "Authorization": "Bearer, $token",
         'Content-Type': 'application/json',
       };
 
@@ -56,7 +59,7 @@ class HomeController extends GetxController {
       );
 
       var responseData = await BaseClient.handleResponse(response);
-      print("Bookmark Response: $responseData"); // Debugging
+      print("Bookmark Response: $responseData");
 
       if (responseData != null && responseData["success"] == true) {
         print("Bookmark added successfully");
@@ -81,18 +84,27 @@ class HomeController extends GetxController {
     return bookmarksController.savedColleges.any((saved) => saved.id == college.id);
   }
 
-  /// **Search Colleges**
+  /// **Search Colleges (Fixed Logic)**
   void searchColleges(String query) {
     searchQuery.value = query;
     if (query.isEmpty) {
-      fetchCollegeData();
+      filteredData.assignAll(allColleges); // Reset data to full dataset
     } else {
-      filteredData.assignAll(
-        filteredData.where((college) {
-          return (college.collegeName?.toLowerCase().contains(query.toLowerCase()) ?? false) ||
-              (college.coachName?.toLowerCase().contains(query.toLowerCase()) ?? false);
-        }).toList(),
-      );
+      var results = allColleges.where((college) =>
+      (college.collegeName?.toLowerCase().contains(query.toLowerCase()) ?? false) ||
+          (college.coachName?.toLowerCase().contains(query.toLowerCase()) ?? false)
+      ).toList();
+
+      filteredData.assignAll(results);
     }
+
+    filteredData.refresh(); // Ensure UI updates properly
+  }
+
+  /// **Reset Data on Back Navigation**
+  void resetData() {
+    searchQuery.value = "";
+    filteredData.assignAll(allColleges);
+    filteredData.refresh();
   }
 }

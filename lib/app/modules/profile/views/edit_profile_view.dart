@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../../common/app_color/app_colors.dart';
@@ -24,8 +23,7 @@ class _EditProfileViewState extends State<EditProfileView> {
   final TextEditingController positionController = TextEditingController();
   final TextEditingController clubTeamController = TextEditingController();
   final TextEditingController clubCoachNameController = TextEditingController();
-  final TextEditingController clubCoachEmailController =
-      TextEditingController();
+  final TextEditingController clubCoachEmailController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
 
   @override
@@ -37,14 +35,10 @@ class _EditProfileViewState extends State<EditProfileView> {
   void _loadProfileData() {
     nameController.text = profileController.profileData.value?.name ?? '';
     heightController.text = profileController.profileData.value?.height ?? '';
-    positionController.text =
-        profileController.profileData.value?.primaryPosition ?? '';
-    clubTeamController.text =
-        profileController.profileData.value?.clubTeam ?? '';
-    clubCoachNameController.text =
-        profileController.profileData.value?.clubCoachName ?? '';
-    clubCoachEmailController.text =
-        profileController.profileData.value?.clubCoachEmail ?? '';
+    positionController.text = profileController.profileData.value?.primaryPosition ?? '';
+    clubTeamController.text = profileController.profileData.value?.clubTeam ?? '';
+    clubCoachNameController.text = profileController.profileData.value?.clubCoachName ?? '';
+    clubCoachEmailController.text = profileController.profileData.value?.clubCoachEmail ?? '';
     addressController.text = profileController.profileData.value?.address ?? '';
   }
 
@@ -58,8 +52,13 @@ class _EditProfileViewState extends State<EditProfileView> {
         title: const Text('Edit Profile'),
         centerTitle: true,
         leading: GestureDetector(
-          onTap: () => Get.back(),
-          child: Image.asset(AppImages.back, scale: 4),
+          onTap: () {
+            Get.back();
+          },
+          child: Image.asset(
+            AppImages.back,
+            scale: 4,
+          ),
         ),
       ),
       body: Padding(
@@ -68,25 +67,34 @@ class _EditProfileViewState extends State<EditProfileView> {
           child: Column(
             children: [
               sh20,
-              Stack(
+
+              // Profile Picture Selection
+              Obx(() => Stack(
                 children: [
-                  GetBuilder<ProfileController>(
-                    builder: (_) => CachedNetworkImage(
-                      imageUrl: profileController.profileData.value?.profileImage ?? '',
-                      placeholder: (context, url) => CircleAvatar(
-                        radius: 60,
-                        backgroundColor: AppColors.grey,
-                      ),
-                      errorWidget: (context, url, error) => CircleAvatar(
-                        radius: 60,
-                        backgroundImage: AssetImage(AppImages.profileAvatarPlaceholder),
-                      ),
-                      imageBuilder: (context, imageProvider) => CircleAvatar(
-                        radius: 60,
-                        backgroundImage: imageProvider,
-                      ),
-                    ),
+                  CircleAvatar(
+                    radius: 60,
+                    backgroundImage: profileController.selectedImage.value != null
+                        ? FileImage(profileController.selectedImage.value!)
+                        : (profileController.profileData.value?.profileImage != null &&
+                        profileController.profileData.value!.profileImage!.isNotEmpty)
+                        ? NetworkImage(profileController.profileData.value!.profileImage!)
+                        : AssetImage(AppImages.profileAvatarPlaceholder) as ImageProvider,
                   ),
+                  // CachedNetworkImage(
+                  //   imageUrl: profileController.profileData.value?.profileImage ?? '',
+                  //   placeholder: (context, url) => CircleAvatar(
+                  //     radius: 60,
+                  //     backgroundColor: AppColors.grey,
+                  //   ),
+                  //   errorWidget: (context, url, error) => CircleAvatar(
+                  //     radius: 60,
+                  //     backgroundImage: AssetImage(AppImages.profileAvatarPlaceholder),
+                  //   ),
+                  //   imageBuilder: (context, imageProvider) => CircleAvatar(
+                  //     radius: 60,
+                  //     backgroundImage: imageProvider,
+                  //   ),
+                  // ),
                   Positioned(
                     bottom: 0,
                     right: 0,
@@ -96,14 +104,19 @@ class _EditProfileViewState extends State<EditProfileView> {
                         height: 35,
                         width: 35,
                         decoration: ShapeDecoration(
-                            shape: CircleBorder(), color: AppColors.blueLight),
+                          shape: CircleBorder(),
+                          color: AppColors.blueLight,
+                        ),
                         child: Image.asset(AppImages.editProfile, scale: 4),
                       ),
                     ),
                   ),
                 ],
-              ),
+              )),
+
               sh16,
+
+              // All Text Fields
               _buildTextField("Name", nameController),
               _buildTextField("Height", heightController),
               _buildTextField("Primary Position", positionController),
@@ -111,11 +124,15 @@ class _EditProfileViewState extends State<EditProfileView> {
               _buildTextField("Club Coach Name", clubCoachNameController),
               _buildTextField("Club Coach Email", clubCoachEmailController),
               _buildTextField("Address", addressController),
+
               sh20,
+
+              // Update Button
               CustomButton(
                 text: 'Update',
                 onPressed: () {
                   profileController.updateProfile(
+                   // context: context,
                     name: nameController.text,
                     height: heightController.text,
                     primaryPosition: positionController.text,
@@ -124,11 +141,9 @@ class _EditProfileViewState extends State<EditProfileView> {
                     clubCoachEmail: clubCoachEmailController.text,
                     address: addressController.text,
                   );
-                  if (!profileController.isLoading.value) {
-                    Get.back(); // Navigate back after profile update
-                  }
                 },
               ),
+
               sh30,
             ],
           ),

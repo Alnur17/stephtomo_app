@@ -41,9 +41,9 @@ class Api {
   ///profile
   static const String profile = "$baseUrl/athletes/me"; //done
 
-  static String editProfile(String id) => "$baseUrl/athletes/$id"; //done
+  static const String editProfile = "$baseUrl/athletes"; //done
 
-  static String deleteProfile(String id) => "$baseUrl/athletes/$id"; //done
+  static const String deleteProfile = "$baseUrl/athletes"; //done
 
   static const String conditionsPage = "$baseUrl/settings"; //done
 
