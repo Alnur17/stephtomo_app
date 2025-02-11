@@ -13,6 +13,7 @@ class Api {
   static const resetForgottenPassword = "$baseUrl/auth/reset-forgotten-password"; // done
   static const changePassword = "$baseUrl/auth/change-password"; // done
 
+  ///College Data
   static const collegeData = "$baseUrl/colleges"; //done
 
   ///showBookMarked
@@ -46,5 +47,7 @@ class Api {
   static const String deleteProfile = "$baseUrl/athletes"; //done
 
   static const String conditionsPage = "$baseUrl/settings"; //done
+
+  static String subscription(String planType, String email) => "$baseUrl/subscriptions/create-payment-session?subscription_type=$planType&email=$email"; //don
 
 }

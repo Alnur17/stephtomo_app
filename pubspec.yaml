@@ -51,6 +51,7 @@ dependencies:
   jwt_decoder: ^2.0.1
   timeago: ^3.7.0
   cached_network_image: ^3.4.1
+  webview_flutter: ^2.0.3
 
 dev_dependencies:
   flutter_test:
