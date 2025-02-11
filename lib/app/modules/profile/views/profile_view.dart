@@ -1,5 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:stephtomo_app/common/app_constant/app_constant.dart';
+import 'package:stephtomo_app/common/helper/local_store.dart';
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_images/app_images.dart';
 import '../../../../common/app_text_style/styles.dart';
@@ -144,6 +148,8 @@ class ProfileView extends GetView<ProfileController> {
             children: [
               OutlinedButton(
                 onPressed: () {
+                  log('========== User token ========== ${LocalStorage.getData(key: AppConstant.token)}');
+                  LocalStorage.removeData(key: AppConstant.token);
                   Get.offAll(() => SignInView(),
                       transition: Transition.leftToRight);
                 },

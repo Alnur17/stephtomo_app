@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stephtomo_app/app/modules/sign_in/controllers/sign_in_controller.dart';
 import 'package:stephtomo_app/common/app_color/app_colors.dart';
+import 'package:stephtomo_app/common/widgets/custom_loader.dart';
 
 import '../../../../common/app_images/app_images.dart';
 import '../../../../common/app_text_style/styles.dart';
@@ -113,11 +114,7 @@ class _SignInViewState extends State<SignInView> {
               sh30,
               Obx(
                 () => signInController.isLoading.value == true
-                    ? Center(
-                        child: CircularProgressIndicator(
-                          color: AppColors.white,
-                        ),
-                      )
+                    ? CustomLoader(color: AppColors.white)
                     : CustomButton(
                         text: 'Sign In',
                         onPressed: () {
