@@ -109,17 +109,17 @@ class CollegeProfileCard extends StatelessWidget {
                       Spacer(),
                       GestureDetector(
                         onTap: onBookmarkTap,
-                        child: Container(
-                          width: 35,
-                          decoration: ShapeDecoration(shape: CircleBorder()),
-                          child: Image.asset(
-                            isSaved
-                                ? AppImages.bookmarkFilled
-                                : AppImages.bookmarkAdd,
-                            scale: 4,
+                        child:  Container(
+                            width: 35,
+                            decoration: ShapeDecoration(shape: CircleBorder()),
+                            child: Image.asset(
+                              isSaved
+                                  ? AppImages.bookmarkFilled
+                                  : AppImages.bookmarkAdd,
+                              scale: 4,
+                            ),
                           ),
                         ),
-                      ),
                       sw8,
                     ],
                   ),

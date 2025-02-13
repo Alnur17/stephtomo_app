@@ -61,8 +61,14 @@ class BookmarksController extends GetxController {
   }
 
   /// **Toggle Bookmark (Remove from Saved List)**
-  void toggleSaveCollege(Datum college) async {
-    await removeBookmark(college.id.toString());
+  void toggleSaveCollege(Datum college) {
+    if (isSaved(college)) {
+      savedColleges.removeWhere((saved) => saved.id == college.id);
+    } else {
+      savedColleges.add(college);
+
+    }
+    update();
   }
 
   /// **Check if a College is Saved**

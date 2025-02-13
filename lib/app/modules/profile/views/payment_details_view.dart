@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:stephtomo_app/common/app_color/app_colors.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class PaymentView extends StatefulWidget {
@@ -18,14 +19,16 @@ class _PaymentViewState extends State<PaymentView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.white,
       appBar: AppBar(
+        backgroundColor: AppColors.white,
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.white, size: 18),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
-        backgroundColor: Colors.white,
+
         title: Text("Payment", style: TextStyle(color: Colors.black)),
         centerTitle: true,
       ),

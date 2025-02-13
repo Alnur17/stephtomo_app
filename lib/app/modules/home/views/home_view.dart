@@ -222,13 +222,13 @@ class _HomeViewState extends State<HomeView> {
             itemCount: homeController.filteredData.length,
             itemBuilder: (context, index) {
               var college = homeController.filteredData[index];
+
               return Padding(
                 padding: EdgeInsets.only(
-                  bottom:
-                      index == homeController.filteredData.length - 1 ? 100 : 8,
+                  bottom: index == homeController.filteredData.length - 1 ? 100 : 8,
                 ),
-                child: Obx(
-                  () => CollegeProfileCard(
+                child: Obx(() {
+                  return CollegeProfileCard(
                     image: college.image ?? "Unknown",
                     university: college.collegeName ?? "",
                     name: college.coachName ?? "",
@@ -236,26 +236,24 @@ class _HomeViewState extends State<HomeView> {
                     email: college.coachEmail ?? "",
                     isSaved: homeController.isSaved(college),
                     onFacebookTap: () {
-                      college.facebookLink ?? '';
                       log('${college.facebookLink}');
                     },
                     onTwitterTap: () {
-                      college.xLink ?? '';
                       log('${college.xLink}');
                     },
                     onInstagramTap: () {
-                      college.instagramLink ?? '';
                       log('${college.instagramLink}');
                     },
                     onBookmarkTap: () {
                       homeController.toggleSaveCollege(college);
                     },
-                  ),
-                ),
+                  );
+                }),
               );
             },
           ),
         ),
+
       ],
     );
   }

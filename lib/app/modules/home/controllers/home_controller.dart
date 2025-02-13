@@ -63,7 +63,7 @@ class HomeController extends GetxController {
 
       if (responseData != null && responseData["success"] == true) {
         print("Bookmark added successfully");
-        await bookmarksController.getBookmarkedColleges(); // Refresh bookmarks
+        await bookmarksController.getBookmarkedColleges();
       }
     } catch (e) {
       print("Error adding bookmark: $e");
@@ -73,15 +73,18 @@ class HomeController extends GetxController {
   /// **Toggle Bookmark**
   void toggleSaveCollege(Datum college) {
     if (isSaved(college)) {
-      bookmarksController.removeBookmark(college.id ?? '');
+      savedColleges.removeWhere((saved) => saved.id == college.id);
+      addBookmark(college.id ?? '');
     } else {
+      savedColleges.add(college);
       addBookmark(college.id ?? '');
     }
+    update();
   }
 
   /// **Check if a College is Saved**
   bool isSaved(Datum college) {
-    return bookmarksController.savedColleges.any((saved) => saved.id == college.id);
+    return savedColleges.any((saved) => saved.id == college.id);
   }
 
   /// **Search Colleges (Fixed Logic)**
@@ -98,7 +101,7 @@ class HomeController extends GetxController {
       filteredData.assignAll(results);
     }
 
-    filteredData.refresh(); // Ensure UI updates properly
+    filteredData.refresh();
   }
 
   /// **Reset Data on Back Navigation**

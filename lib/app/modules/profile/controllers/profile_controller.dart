@@ -79,7 +79,8 @@ class ProfileController extends GetxController {
     required String clubCoachName,
     required String clubCoachEmail,
     required String address,
-  }) async {
+  })
+  async {
     try {
       String token = LocalStorage.getData(key: AppConstant.token);
       if (token.isEmpty) {
