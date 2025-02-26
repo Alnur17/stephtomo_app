@@ -35,7 +35,9 @@ class Api {
 
   static String updateVideo({required String id}) => "$baseUrl/videos/$id"; //done
 
-  static const String allEmail = "$baseUrl/emails"; // done
+  static const String receivedEmail = "$baseUrl/emails/received";
+
+  static const String sentEmail = "$baseUrl/emails/sent";
 
   static const String writeEmail = "$baseUrl/emails"; //
 
