@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -221,7 +220,7 @@ class _HomeViewState extends State<HomeView> {
             padding: EdgeInsets.zero,
             itemCount: homeController.filteredData.length,
             itemBuilder: (context, index) {
-              var college = homeController.filteredData[index];
+              var school = homeController.filteredData[index];
 
               return Padding(
                 padding: EdgeInsets.only(
@@ -229,23 +228,23 @@ class _HomeViewState extends State<HomeView> {
                 ),
                 child: Obx(() {
                   return CollegeProfileCard(
-                    image: college.image ?? "Unknown",
-                    university: college.collegeName ?? "",
-                    name: college.coachName ?? "",
-                    role: college.coachTitle ?? "",
-                    email: college.coachEmail ?? "",
-                    isSaved: homeController.isSaved(college),
+                    image: school.image ?? '',
+                    university: school.name ?? "",
+                    name: school.coach?.name ?? "",
+                    role: school.coach?.position ?? "",
+                    email: school.coach?.email ?? "",
+                    isSaved: homeController.isSaved(school),
                     onFacebookTap: () {
-                      log('${college.facebookLink}');
+                      //log('${school.facebookLink}');
                     },
                     onTwitterTap: () {
-                      log('${college.xLink}');
+                      //log('${school.xLink}');
                     },
                     onInstagramTap: () {
-                      log('${college.instagramLink}');
+                      //log('${school.instagramLink}');
                     },
                     onBookmarkTap: () {
-                      homeController.toggleSaveCollege(college);
+                      homeController.toggleSaveSchool(school);
                     },
                   );
                 }),

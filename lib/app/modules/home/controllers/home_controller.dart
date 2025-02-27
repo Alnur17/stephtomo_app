@@ -6,15 +6,15 @@ import 'package:stephtomo_app/common/app_constant/app_constant.dart';
 import 'package:stephtomo_app/common/helper/local_store.dart';
 import '../../../data/api.dart';
 import '../../../data/base_client.dart';
-import '../model/college_model.dart';
+import '../model/school_model.dart';
 
 class HomeController extends GetxController {
   final BookmarksController bookmarksController = Get.put(BookmarksController());
   final GetStorage storage = GetStorage(); // Local storage for bookmark persistence
 
-  var allColleges = <Datum>[].obs; // Holds all API data
+  var allSchool = <Datum>[].obs; // Holds all API data
   var filteredData = <Datum>[].obs; // Holds search results / displayed data
-  var savedColleges = <String>[].obs; // Stores only college IDs for bookmarking
+  var savedSchool = <String>[].obs; // Stores only school IDs for bookmarking
   var searchQuery = ''.obs;
   var isLoading = true.obs;
 
@@ -30,7 +30,7 @@ class HomeController extends GetxController {
   void loadLocalBookmarks() {
     List<dynamic>? savedIds = storage.read<List<dynamic>>('saved_colleges');
     if (savedIds != null) {
-      savedColleges.assignAll(savedIds.map((id) => id.toString()).toList());
+      savedSchool.assignAll(savedIds.map((id) => id.toString()).toList());
     }
   }
 
@@ -38,51 +38,51 @@ class HomeController extends GetxController {
   Future<void> fetchCollegeData() async {
     try {
       isLoading(true);
-      var response = await BaseClient.getRequest(api: Api.collegeData);
+      var response = await BaseClient.getRequest(api: Api.schoolData);
       var responseData = await BaseClient.handleResponse(response);
 
       if (responseData != null) {
-        CollegeModel collegeModel = CollegeModel.fromJson(responseData);
-        allColleges.assignAll(collegeModel.data?.data ?? []);
-        filteredData.assignAll(allColleges);
+        SchoolModel schoolModel = SchoolModel.fromJson(responseData);
+        allSchool.assignAll(schoolModel.data?.data ?? []);
+        filteredData.assignAll(allSchool);
       }
     } catch (e) {
-      print("Error fetching college data: $e");
+      print("Error fetching school data: $e");
     } finally {
       isLoading(false);
     }
   }
 
   /// **Toggle Bookmark (Local + API)**
-  Future<void> toggleSaveCollege(Datum college) async {
-    String collegeId = college.id ?? '';
+  Future<void> toggleSaveSchool(Datum school) async {
+    String schoolId = school.id ?? '';
 
-    if (collegeId.isEmpty) return;
+    if (schoolId.isEmpty) return;
 
-    if (isSaved(college)) {
-      savedColleges.remove(collegeId); // Remove locally
+    if (isSaved(school)) {
+      savedSchool.remove(schoolId); // Remove locally
     } else {
-      savedColleges.add(collegeId); // Add locally
+      savedSchool.add(schoolId); // Add locally
     }
 
     // Save bookmarks to GetStorage
-    storage.write('saved_colleges', savedColleges.toList());
-    savedColleges.refresh();
+    storage.write('saved_colleges', savedSchool.toList());
+    savedSchool.refresh();
 
     // Call API (Add/Remove Bookmark)
-    await addBookmark(collegeId);
+    await addBookmark(schoolId);
   }
 
-  /// **Check if a College is Saved**
-  bool isSaved(Datum college) {
-    return savedColleges.contains(college.id);
+  /// **Check if a School is Saved**
+  bool isSaved(Datum school) {
+    return savedSchool.contains(school.id);
   }
 
   /// **API: Add or Remove Bookmark (Same API)**
-  Future<void> addBookmark(String collegeId) async {
+  Future<void> addBookmark(String schoolId) async {
     try {
       String token = LocalStorage.getData(key: AppConstant.token);
-      var body = {"college": collegeId};
+      var body = {"school": schoolId};
       var headers = {
         "Authorization": "Bearer, $token",
         'Content-Type': 'application/json',
@@ -103,27 +103,25 @@ class HomeController extends GetxController {
     }
   }
 
-  /// **Search Colleges**
-  void searchColleges(String query) {
+  /// **Search Schools**
+  void searchSchool(String query) {
     searchQuery.value = query;
     if (query.isEmpty) {
-      filteredData.assignAll(allColleges); // Reset to full dataset
+      filteredData.assignAll(allSchool); // Reset to full dataset
     } else {
-      var results = allColleges.where((college) =>
-      (college.collegeName?.toLowerCase().contains(query.toLowerCase()) ?? false) ||
-          (college.coachName?.toLowerCase().contains(query.toLowerCase()) ?? false)
-      ).toList();
+      var results = allSchool.where((school) =>
+      (school.name?.toLowerCase().contains(query.toLowerCase()) ?? false) ||
+          (school.coach?.name?.toLowerCase().contains(query.toLowerCase()) ?? false)).toList();
 
       filteredData.assignAll(results);
     }
-
     filteredData.refresh();
   }
 
   /// **Reset Data on Back Navigation**
   void resetData() {
     searchQuery.value = "";
-    filteredData.assignAll(allColleges);
+    filteredData.assignAll(allSchool);
     filteredData.refresh();
   }
 }

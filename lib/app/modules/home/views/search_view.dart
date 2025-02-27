@@ -48,7 +48,7 @@ class _SearchViewState extends State<SearchView> {
             // Search Field
             SearchFiled(
               onChanged: (value) {
-                homeController.searchColleges(value);
+                homeController.searchSchool(value);
               },
             ),
             sh16,
@@ -71,21 +71,21 @@ class _SearchViewState extends State<SearchView> {
                   return ListView.builder(
                     itemCount: homeController.filteredData.length,
                     itemBuilder: (context, index) {
-                      var college = homeController.filteredData[index];
+                      var school = homeController.filteredData[index];
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 8),
                         child: Obx(() => CollegeProfileCard(
-                          image: college.image ?? "Unknown",
-                          university: college.collegeName ?? "",
-                          name: college.coachName ?? "",
-                          role: college.coachTitle ?? "",
-                          email: college.coachEmail ?? "",
-                          isSaved: homeController.isSaved(college),
+                          image: school.image ?? "Unknown",
+                          university: school.name ?? "",
+                          name: school.coach?.name ?? "",
+                          role: school.coach?.position ?? "",
+                          email: school.coach?.email ?? "",
+                          isSaved: homeController.isSaved(school),
                           onFacebookTap: () {},
                           onTwitterTap: () {},
                           onInstagramTap: () {},
                           onBookmarkTap: () {
-                            homeController.toggleSaveCollege(college);
+                            homeController.toggleSaveSchool(school);
                           },
                         ),),
                       );

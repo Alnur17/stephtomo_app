@@ -256,9 +256,9 @@ class AllEmailHistoryView extends StatelessWidget {
     final AllEmailController emailController = Get.put(AllEmailController());
 
     // Load emails when the widget is initialized
-
-    emailController.fetchReceivedEmails();
     emailController.fetchSentEmails();
+    emailController.fetchReceivedEmails();
+
     return DefaultTabController(
       length: 2,
       child: Scaffold(

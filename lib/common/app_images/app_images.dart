@@ -63,6 +63,7 @@ class AppImages {
 
 
   static const profile = 'https://easy-peasy.ai/cdn-cgi/image/quality=80,format=auto,width=700/https://fdczvxmwwjwpwbeeqcth.supabase.co/storage/v1/object/public/images/50dab922-5d48-4c6b-8725-7fd0755d9334/3a3f2d35-8167-4708-9ef0-bdaa980989f9.png';
+  static const schoolImage = 'https://cdn.britannica.com/60/121760-050-7ECA3816/Samford-Hall-Auburn-University.jpg';
 
 
 

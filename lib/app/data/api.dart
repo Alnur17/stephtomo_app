@@ -1,12 +1,13 @@
 class Api {
   /// base url
 
-  static const baseUrl = "http://192.168.10.204:5000/api";
+  static const baseUrl = "http://192.168.10.55:5000/api";
 
 
   ///auth
   static const signUp = "$baseUrl/auth/create-athlete"; //done
-  static const login = "$baseUrl/auth/login"; //done
+  static const
+  login = "$baseUrl/auth/login"; //done
   static const forgotPassword = "$baseUrl/auth/send-otp"; //done
   static const otpVerify = "$baseUrl/auth/verify-otp";  //done
   static const sentOtp = "$baseUrl/auth/send-otp"; //done
@@ -14,7 +15,7 @@ class Api {
   static const changePassword = "$baseUrl/auth/change-password"; // done
 
   ///College Data
-  static const collegeData = "$baseUrl/colleges"; //done
+  static const schoolData = "$baseUrl/schools"; //done
 
   ///showBookMarked
   static const bookMarked = "$baseUrl/college-bookmarks"; // done
