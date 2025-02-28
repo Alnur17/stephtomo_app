@@ -277,8 +277,8 @@ class AllEmailHistoryView extends StatelessWidget {
           children: [
             TabBar(
               tabs: const [
-                Tab(text: 'Sent'),
                 Tab(text: 'Received'),
+                Tab(text: 'Sent'),
               ],
               indicatorSize: TabBarIndicatorSize.tab,
               indicatorColor: AppColors.black,
@@ -289,9 +289,10 @@ class AllEmailHistoryView extends StatelessWidget {
               child: TabBarView(
                 children: [
                   Obx(() => _buildEmailList(
-                      emailController.sentEmailData, emailController.isLoadingSent)),
-                  Obx(() => _buildEmailList(
                       emailController.receivedEmailData, emailController.isLoadingReceived)),
+                  Obx(() => _buildEmailList(
+                      emailController.sentEmailData, emailController.isLoadingSent,)),
+
                 ],
               ),
             ),
@@ -301,7 +302,7 @@ class AllEmailHistoryView extends StatelessWidget {
     );
   }
 
-  Widget _buildEmailList(RxList<dynamic> emailData, RxBool isLoading) {
+  Widget _buildEmailList(RxList<dynamic> emailData, RxBool isLoading,) {
     if (isLoading.value) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -318,7 +319,11 @@ class AllEmailHistoryView extends StatelessWidget {
           final data = emailData[index];
 
           // Safe handling of data fields
-          final name = data.signature?.name ?? "Unknown Sender";
+          //final name = data.signature?.name ?? "Unknown Sender";
+          // If it's a sent email, use `from`, otherwise use `signature?.name`
+          final name = (data.from?.name ?? "Unknown") ;
+          final email =(data.from?.email ?? "Unknown");
+          //final image = data.from?.profile_image ?? AppImages.profile;
           final emailBody = data.body ?? "No Content";
           final timeAgo = _getTimeDifference(data.createdAt);
 
@@ -349,7 +354,7 @@ class AllEmailHistoryView extends StatelessWidget {
                         children: [
                           Text(name, style: h4),
                           sh8,
-                          Text("From: ${data.from ?? 'Unknown'}", style: h6),
+                         Text("From: $email", style: h6),
                         ],
                       ),
                     ),

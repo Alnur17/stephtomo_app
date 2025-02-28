@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:stephtomo_app/app/modules/home/controllers/home_controller.dart';
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/widgets/college_profile_card.dart';
-import '../controllers/bookmarks_controller.dart';
 
 class BookmarksView extends StatefulWidget {
   const BookmarksView({super.key});
@@ -13,16 +13,16 @@ class BookmarksView extends StatefulWidget {
 }
 
 class _BookmarksViewState extends State<BookmarksView> {
-  final BookmarksController bookmarkController = Get.put(BookmarksController());
+  final HomeController homeController = Get.put(HomeController());
 
   @override
   void initState() {
     super.initState();
-    bookmarkController.getBookmarkedColleges();
+    homeController.getBookmarkedColleges();
   }
 
   Future<void> _refreshData() async {
-    await bookmarkController.getBookmarkedColleges();
+    await homeController.getBookmarkedColleges();
   }
 
   @override
@@ -37,12 +37,13 @@ class _BookmarksViewState extends State<BookmarksView> {
         automaticallyImplyLeading: false,
       ),
       body: Obx(() {
-        if (bookmarkController.isLoading.value) {
+        if (homeController.isLoading.value) {
           return Center(child: CircularProgressIndicator(color: AppColors.mainColor));
         }
 
-        final savedColleges = bookmarkController.savedColleges;
-        print("Rendering bookmarks: ${savedColleges.length} items");
+        final savedSchoolIds = homeController.savedSchool;
+        final allSchools = homeController.allSchool;
+        final savedColleges = allSchools.where((school) => savedSchoolIds.contains(school.id)).toList();
 
         if (savedColleges.isEmpty) {
           return const Center(
@@ -58,8 +59,7 @@ class _BookmarksViewState extends State<BookmarksView> {
           child: ListView.builder(
             itemCount: savedColleges.length,
             itemBuilder: (context, index) {
-              final college = savedColleges[index].college;
-              print("Displaying college: ${college?.collegeName}");
+              final college = savedColleges[index];
 
               return Padding(
                 padding: EdgeInsets.only(
@@ -68,17 +68,17 @@ class _BookmarksViewState extends State<BookmarksView> {
                   left: 16,
                 ),
                 child: CollegeProfileCard(
-                  image: college?.image ?? '',
-                  university: college?.collegeName ?? 'Unknown',
-                  name: college?.coachName ?? 'Unknown',
-                  role: college?.coachTitle ?? '',
-                  email: college?.coachEmail ?? '',
-                  isSaved: bookmarkController.isSaved(savedColleges[index]),
+                  image: college.image ?? '',
+                  university: college.name ?? 'Unknown',
+                  name: college.coach?.name ?? 'Unknown',
+                  role: college.coach?.position ?? '',
+                  email: college.coach?.email ?? '',
+                  isSaved: homeController.isSaved(college),
                   onFacebookTap: () {},
                   onTwitterTap: () {},
                   onInstagramTap: () {},
                   onBookmarkTap: () {
-                    bookmarkController.toggleSaveCollege(savedColleges[index]);
+                    homeController.toggleSaveSchool(college);
                   },
                 ),
               );

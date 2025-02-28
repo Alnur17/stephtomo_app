@@ -18,10 +18,10 @@ class Api {
   static const schoolData = "$baseUrl/schools"; //done
 
   ///showBookMarked
-  static const bookMarked = "$baseUrl/college-bookmarks"; // done
+  static const bookMarked = "$baseUrl/bookmarks"; // done
 
   ///Create BookMarked
-  static const addBookMark = "$baseUrl/college-bookmarks"; //done
+  static const addBookMark = "$baseUrl/bookmarks"; //done
 
   static  removeBookMark(String id) => "$baseUrl/college-bookmarks/$id"; //done
 

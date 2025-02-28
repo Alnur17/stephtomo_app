@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:stephtomo_app/app/modules/bookmarks/controllers/bookmarks_controller.dart';
@@ -6,14 +7,14 @@ import 'package:stephtomo_app/common/app_constant/app_constant.dart';
 import 'package:stephtomo_app/common/helper/local_store.dart';
 import '../../../data/api.dart';
 import '../../../data/base_client.dart';
+import '../../bookmarks/models/school_bookmarks_model.dart';
 import '../model/school_model.dart';
 
 class HomeController extends GetxController {
-  final BookmarksController bookmarksController = Get.put(BookmarksController());
-  final GetStorage storage = GetStorage(); // Local storage for bookmark persistence
+  final GetStorage storage = GetStorage();
 
-  var allSchool = <Datum>[].obs; // Holds all API data
-  var filteredData = <Datum>[].obs; // Holds search results / displayed data
+  var allSchool = <dynamic>[].obs;
+  var filteredData = <dynamic>[].obs;
   var savedSchool = <String>[].obs; // Stores only school IDs for bookmarking
   var searchQuery = ''.obs;
   var isLoading = true.obs;
@@ -23,7 +24,6 @@ class HomeController extends GetxController {
     super.onInit();
     fetchCollegeData();
     loadLocalBookmarks(); // Load bookmarks from local storage
-    bookmarksController.getBookmarkedColleges(); // Fetch API bookmarks
   }
 
   /// **Load Saved Bookmarks from Local Storage**
@@ -54,42 +54,42 @@ class HomeController extends GetxController {
   }
 
   /// **Toggle Bookmark (Local + API)**
-  Future<void> toggleSaveSchool(Datum school) async {
+  Future<void> toggleSaveSchool(dynamic school) async {
     String schoolId = school.id ?? '';
 
     if (schoolId.isEmpty) return;
 
     if (isSaved(school)) {
-      savedSchool.remove(schoolId); // Remove locally
+      savedSchool.remove(schoolId); // locally
     } else {
-      savedSchool.add(schoolId); // Add locally
+      savedSchool.add(schoolId); // locally
     }
 
     // Save bookmarks to GetStorage
     storage.write('saved_colleges', savedSchool.toList());
     savedSchool.refresh();
 
-    // Call API (Add/Remove Bookmark)
+    // Calling API (Add/Remove Bookmark)
     await addBookmark(schoolId);
   }
 
   /// **Check if a School is Saved**
-  bool isSaved(Datum school) {
+  bool isSaved(dynamic school) {
     return savedSchool.contains(school.id);
   }
 
-  /// **API: Add or Remove Bookmark (Same API)**
+  /// API: Add or Remove Bookmark (Same API)
   Future<void> addBookmark(String schoolId) async {
     try {
       String token = LocalStorage.getData(key: AppConstant.token);
-      var body = {"school": schoolId};
+      var body = {"schoolId": schoolId};
       var headers = {
         "Authorization": "Bearer, $token",
         'Content-Type': 'application/json',
       };
 
       var response = await BaseClient.postRequest(
-        api: Api.addBookMark, // Same API for adding/removing
+        api: Api.addBookMark,
         body: jsonEncode(body),
         headers: headers,
       );
@@ -103,7 +103,31 @@ class HomeController extends GetxController {
     }
   }
 
-  /// **Search Schools**
+  Future<void> getBookmarkedColleges() async {
+    isLoading(true);
+    try {
+      String token = LocalStorage.getData(key: AppConstant.token);
+      var response = await BaseClient.getRequest(
+        api: Api.bookMarked,
+        headers: {'Authorization': "Bearer, $token"},
+      );
+
+      final responseData = await BaseClient.handleResponse(response);
+
+      if (responseData != null) {
+        SchoolBookMarksModel model = SchoolBookMarksModel.fromJson(responseData);
+        if (model.success ?? false) {
+          savedSchool.assignAll(model.data?.data.map((e) => e.school.toString()) ?? []);
+        }
+      }
+    } catch (e) {
+      log("Error fetching bookmarks: $e");
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  /// Search Schools
   void searchSchool(String query) {
     searchQuery.value = query;
     if (query.isEmpty) {
