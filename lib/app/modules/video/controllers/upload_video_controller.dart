@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stephtomo_app/app/data/api.dart';
 import 'package:stephtomo_app/app/modules/video/views/video_view.dart';
-import 'package:stephtomo_app/common/helper/local_store.dart';
 import 'package:stephtomo_app/common/app_constant/app_constant.dart';
 import 'package:stephtomo_app/common/app_color/app_colors.dart';
 import 'package:stephtomo_app/app/modules/video/controllers/video_controller.dart';
@@ -13,6 +12,8 @@ import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:path/path.dart';
 import 'dart:convert';
+
+import '../../../../common/helper/local_store.dart';
 
 class UploadVideoController extends GetxController {
   final VideoController videoController = Get.put(VideoController());

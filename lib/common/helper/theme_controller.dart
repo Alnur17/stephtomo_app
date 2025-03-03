@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 
 import 'local_store.dart';
 
+
 class ThemeController extends GetxController {
   var isDarkMode = false.obs;
   final _darkModeKey = 'isDarkMode';
