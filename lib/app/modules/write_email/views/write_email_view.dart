@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:stephtomo_app/app/modules/home/controllers/home_controller.dart';
+import 'package:stephtomo_app/app/modules/profile/controllers/profile_controller.dart';
 import 'package:stephtomo_app/common/app_color/app_colors.dart';
 import 'package:stephtomo_app/common/app_images/app_images.dart';
 import 'package:stephtomo_app/common/widgets/custom_button.dart';
@@ -8,7 +10,6 @@ import 'package:stephtomo_app/common/widgets/custom_button.dart';
 import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
 import '../../../../common/widgets/custom_textfelid.dart';
-import '../../../data/dummy_data.dart';
 import '../controllers/write_email_controller.dart';
 
 class WriteEmailView extends StatefulWidget {
@@ -19,7 +20,11 @@ class WriteEmailView extends StatefulWidget {
 }
 
 class _WriteEmailViewState extends State<WriteEmailView> {
+
   final WriteEmailController controller = Get.put(WriteEmailController());
+  final HomeController homeController = Get.put(HomeController());
+  final ProfileController profileController = Get.put(ProfileController());
+
   String? selectedEmail;
   DateTime? reminderDate;
 
@@ -46,7 +51,7 @@ class _WriteEmailViewState extends State<WriteEmailView> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.only(left: 16.0,right: 16),
+        padding: const EdgeInsets.only(left: 16.0, right: 16),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,22 +86,28 @@ class _WriteEmailViewState extends State<WriteEmailView> {
                               ),
                               Expanded(
                                 child: ListView.builder(
-                                  itemCount: data.length,
+                                  itemCount: homeController.allSchool.length,
                                   itemBuilder: (context, index) {
-                                    final person = data[index];
+                                    final coachData =
+                                    homeController.allSchool[index];
                                     return Obx(
                                       () => ListTile(
                                         leading: CircleAvatar(
-                                          backgroundImage:
-                                              NetworkImage(person['image']),
+                                          backgroundImage: NetworkImage(
+                                              coachData.coach?.image ?? ""),
                                         ),
-                                        title: Text(person['name']),
+                                        title: Text(coachData.coach?.name ?? ""),
                                         subtitle: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Text(person['role']),
-                                            Text(person['university'],maxLines: 1, overflow: TextOverflow.ellipsis,),
+                                            Text(
+                                                coachData.coach?.position ?? ""),
+                                            Text(
+                                              coachData.name ?? "", //school name
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
                                           ],
                                         ),
                                         trailing: GestureDetector(
@@ -184,42 +195,42 @@ class _WriteEmailViewState extends State<WriteEmailView> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Name: Istiak",
+            "Name: ${profileController.profileData.value?.name}",
             style: h5.copyWith(
               color: AppColors.white,
             ),
           ),
           sh5,
           Text(
-            "Grad Year: 2006",
+            "Grad Year: ${profileController.profileData.value?.gradYear}",
             style: h5.copyWith(
               color: AppColors.white,
             ),
           ),
           sh5,
           Text(
-            "GPA: 5.00",
+            "GPA: ${profileController.profileData.value?.gpa}",
             style: h5.copyWith(
               color: AppColors.white,
             ),
           ),
           sh5,
           Text(
-            "Sports: Baseball",
+            "Sports: ${profileController.profileData.value?.sport}",
             style: h5.copyWith(
               color: AppColors.white,
             ),
           ),
           sh5,
           Text(
-            "Height: 5'6\"",
+            "Height: ${profileController.profileData.value?.height}",
             style: h5.copyWith(
               color: AppColors.white,
             ),
           ),
           sh5,
           Text(
-            "Primary Position: ",
+            "Primary Position: ${profileController.profileData.value?.primaryPosition}",
             style: h5.copyWith(
               color: AppColors.white,
             ),
@@ -251,17 +262,7 @@ class _WriteEmailViewState extends State<WriteEmailView> {
   Widget _buildReminderDatePicker() {
     return GestureDetector(
       onTap: () async {
-        DateTime? pickedDate = await showDatePicker(
-          context: context,
-          initialDate: reminderDate ?? DateTime.now(),
-          firstDate: DateTime(2000),
-          lastDate: DateTime(2100),
-        );
-        if (pickedDate != null) {
-          setState(() {
-            reminderDate = pickedDate;
-          });
-        }
+        await controller.pickReminderDate(context);
       },
       child: Row(
         children: [
@@ -270,7 +271,7 @@ class _WriteEmailViewState extends State<WriteEmailView> {
             style: h3,
           ),
           Spacer(),
-          Container(
+          Obx(() => Container(
             padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
             decoration: BoxDecoration(
               color: Colors.white,
@@ -281,9 +282,9 @@ class _WriteEmailViewState extends State<WriteEmailView> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  reminderDate == null
-                      ? "Select Reminder  "
-                      : DateFormat("dd MMM  ").format(reminderDate!),
+                  controller.reminderDate.value == null
+                      ? "Select Reminder"
+                      : DateFormat("dd MMM").format(controller.reminderDate.value!),
                   style: TextStyle(
                     fontSize: 16,
                     color: Colors.black87,
@@ -295,9 +296,10 @@ class _WriteEmailViewState extends State<WriteEmailView> {
                 ),
               ],
             ),
-          ),
+          )),
         ],
       ),
     );
   }
+
 }

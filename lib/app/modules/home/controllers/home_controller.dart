@@ -21,7 +21,7 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchCollegeData();
+    fetchSchoolData();
     loadLocalBookmarks(); // Load bookmarks from local storage
   }
 
@@ -34,7 +34,7 @@ class HomeController extends GetxController {
   }
 
   /// **Fetch College Data from API**
-  Future<void> fetchCollegeData() async {
+  Future<void> fetchSchoolData() async {
     try {
       isLoading(true);
       var response = await BaseClient.getRequest(api: Api.schoolData);

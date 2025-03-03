@@ -25,7 +25,7 @@ class _HomeViewState extends State<HomeView> {
   final ProfileController profileController = Get.put(ProfileController());
 
   Future<void> _refreshData() async {
-    await homeController.fetchCollegeData();
+    await homeController.fetchSchoolData();
   }
 
   @override
