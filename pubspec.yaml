@@ -52,6 +52,7 @@ dependencies:
   timeago: ^3.7.0
   cached_network_image: ^3.4.1
   webview_flutter: ^2.0.3
+  mime: ^2.0.0
 
 dev_dependencies:
   flutter_test:

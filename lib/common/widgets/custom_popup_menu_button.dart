@@ -27,6 +27,9 @@ class CustomPopupMenuButton extends StatelessWidget {
       onSelected: (value) {
         if (value == 'delete') {
           Get.defaultDialog(
+            contentPadding: EdgeInsets.all(20),
+            buttonColor: AppColors.red,
+            backgroundColor: AppColors.white,
             title: "Confirm Delete",
             middleText: "Are you sure you want to delete this video?",
             textConfirm: "Yes",

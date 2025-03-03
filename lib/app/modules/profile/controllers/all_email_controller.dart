@@ -10,8 +10,8 @@ import '../model/sent_email_model.dart';
 import '../model/received_email_model.dart';
 
 class AllEmailController extends GetxController {
-  var sentEmailData = <dynamic>[].obs; // Storing
-  var receivedEmailData = <dynamic>[].obs; // Storing
+  var sentEmailData = <Datum>[].obs; // Storing
+  var receivedEmailData = <DataTwo>[].obs; // Storing
   var isLoadingSent = true.obs;
   var isLoadingReceived = true.obs;
 

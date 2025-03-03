@@ -25,20 +25,20 @@ class Data {
     required this.meta,
   });
 
-  final List<Datum> data;
+  final List<DataTwo> data;
   final Meta? meta;
 
   factory Data.fromJson(Map<String, dynamic> json){
     return Data(
-      data: json["data"] == null ? [] : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
+      data: json["data"] == null ? [] : List<DataTwo>.from(json["data"]!.map((x) => DataTwo.fromJson(x))),
       meta: json["meta"] == null ? null : Meta.fromJson(json["meta"]),
     );
   }
 
 }
 
-class Datum {
-  Datum({
+class DataTwo {
+  DataTwo({
     required this.signature,
     required this.id,
     required this.from,
@@ -66,8 +66,8 @@ class Datum {
   final DateTime? updatedAt;
   final int? v;
 
-  factory Datum.fromJson(Map<String, dynamic> json){
-    return Datum(
+  factory DataTwo.fromJson(Map<String, dynamic> json){
+    return DataTwo(
       signature: json["signature"] == null ? null : Signature.fromJson(json["signature"]),
       id: json["_id"],
       from: json["from"] == null ? null : From.fromJson(json["from"]),

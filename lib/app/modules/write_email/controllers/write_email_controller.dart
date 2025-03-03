@@ -111,6 +111,7 @@ class WriteEmailController extends GetxController {
 }
 
 
+// outside the controller
 class EmailService {
   /// Fetch user profile summary from API
   static Future<Map<String, dynamic>?> fetchProfile() async {
