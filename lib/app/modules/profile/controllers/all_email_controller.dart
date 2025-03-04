@@ -36,8 +36,7 @@ class AllEmailController extends GetxController {
           sentEmailData.assignAll(emails.data!.data);
         } else {
           sentEmailData.clear();
-          Get.snackbar("No Sent Emails", "The sent email list is empty",
-              backgroundColor: Colors.orange);
+          debugPrint('The sent email list is empty');
         }
       } else {
         throw responseBody["message"] ?? "Error fetching sent emails";
@@ -70,7 +69,7 @@ class AllEmailController extends GetxController {
           receivedEmailData.value = emails.data!.data;
         } else {
           receivedEmailData.clear();
-          Get.snackbar("No Received Emails", "The received email list is empty", backgroundColor: Colors.orange,snackPosition: SnackPosition.BOTTOM);
+          debugPrint('The received email list is empty');
         }
       } else {
         throw "Error fetching received emails, status code: ${response.statusCode}";

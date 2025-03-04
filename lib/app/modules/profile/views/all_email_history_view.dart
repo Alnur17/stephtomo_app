@@ -239,6 +239,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../../../../common/app_color/app_colors.dart';
@@ -364,7 +365,7 @@ class AllEmailHistoryView extends StatelessWidget {
                         Text(timeAgo, style: h6),
                         sh8,
                         GestureDetector(
-                          onTap: _showSharePopup,
+                          onTap: ()=> _showSharePopup(),
                           child: Image.asset(AppImages.share, scale: 4),
                         ),
                       ],
@@ -427,9 +428,13 @@ class AllEmailHistoryView extends StatelessWidget {
     );
   }
 
+  final String shareLink = 'https://example.com/share_link';
   Widget _buildShareOption(String image, String label) {
     return GestureDetector(
-      onTap: () => Get.back(),
+      onTap: () => Share.share(
+      'Check out this post: $shareLink',
+      subject: 'Post Link',
+    ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -440,5 +445,6 @@ class AllEmailHistoryView extends StatelessWidget {
       ),
     );
   }
+
 }
 

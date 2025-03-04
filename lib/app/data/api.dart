@@ -51,6 +51,6 @@ class Api {
 
   static const String conditionsPage = "$baseUrl/settings"; //done
 
-  static String subscription(String planType, String email) => "$baseUrl/subscriptions/create-payment-session?subscription_type=$planType&email=$email"; //don
+  static String subscription(String planType, String email) => "$baseUrl/subscriptions/create-payment-session?subscription_type=$planType&email=$email"; //done
 
 }

@@ -9,6 +9,7 @@ class CustomButton extends StatelessWidget {
   final Color? borderColor;
   final bool? isTextStyleSelected;
   final double? height;
+  final double? width;
   final String? imageAssetPath;
   final double? borderRadius;
 
@@ -20,7 +21,7 @@ class CustomButton extends StatelessWidget {
     this.isTextStyleSelected,
     this.height = 54,
     this.borderColor,
-    this.imageAssetPath, this.borderRadius = 12,
+    this.imageAssetPath, this.borderRadius = 12, this.width,
   });
 
   @override
@@ -29,6 +30,7 @@ class CustomButton extends StatelessWidget {
       onTap: onPressed,
       child: Container(
         height: height,
+        width: width,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(borderRadius!),
           border: Border.all(color: borderColor ?? AppColors.transparent),

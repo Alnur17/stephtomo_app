@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -20,13 +21,14 @@ class WriteEmailView extends StatefulWidget {
 }
 
 class _WriteEmailViewState extends State<WriteEmailView> {
-
-  final WriteEmailController controller = Get.put(WriteEmailController());
+  final WriteEmailController writeEmailController =
+      Get.put(WriteEmailController());
   final HomeController homeController = Get.put(HomeController());
   final ProfileController profileController = Get.put(ProfileController());
 
   String? selectedEmail;
   DateTime? reminderDate;
+  File? selectedVideo; // Video is nullable
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +38,7 @@ class _WriteEmailViewState extends State<WriteEmailView> {
         scrolledUnderElevation: 0,
         backgroundColor: AppColors.white,
         title: Text(
-          "Write",
+          "Write Email",
           style: titleStyle,
         ),
         centerTitle: true,
@@ -61,83 +63,88 @@ class _WriteEmailViewState extends State<WriteEmailView> {
                 children: [
                   Text('To : ', style: h4),
                   sw8,
-                  PopupMenuButton(
-                    color: AppColors.white,
-                    icon: Image.asset(
-                      AppImages.arrowDown,
-                      scale: 4,
+                  Expanded(
+                    child: CustomTextField(
+                      controller: writeEmailController.emailController,
                     ),
-                    itemBuilder: (context) => [
-                      PopupMenuItem(
-                        child: Container(
-                          width: 300,
-                          height: 400,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(24),
-                          ),
-                          child: Column(
-                            children: [
-                              CustomButton(
-                                onPressed: () {
-                                  controller.markAll();
-                                },
-                                text: 'Mark all',
-                                borderRadius: 30,
-                              ),
-                              Expanded(
-                                child: ListView.builder(
-                                  itemCount: homeController.allSchool.length,
-                                  itemBuilder: (context, index) {
-                                    final coachData =
-                                    homeController.allSchool[index];
-                                    return Obx(
-                                      () => ListTile(
-                                        leading: CircleAvatar(
-                                          backgroundImage: NetworkImage(
-                                              coachData.coach?.image ?? ""),
-                                        ),
-                                        title: Text(coachData.coach?.name ?? ""),
-                                        subtitle: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                                coachData.coach?.position ?? ""),
-                                            Text(
-                                              coachData.name ?? "", //school name
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                          ],
-                                        ),
-                                        trailing: GestureDetector(
-                                          onTap: () {
-                                            controller.toggleCheckbox(index);
-                                          },
-                                          child: Container(
-                                            height: 50,
-                                            decoration: ShapeDecoration(
-                                              shape: CircleBorder(),
-                                            ),
-                                            child: Image.asset(
-                                              controller.checkbox[index].value
-                                                  ? AppImages.checkboxFilled
-                                                  : AppImages.checkbox,
-                                              scale: 4,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                  )
+                  // PopupMenuButton(
+                  //   color: AppColors.white,
+                  //   icon: Image.asset(
+                  //     AppImages.arrowDown,
+                  //     scale: 4,
+                  //   ),
+                  //   itemBuilder: (context) => [
+                  //     PopupMenuItem(
+                  //       child: Container(
+                  //         width: 300,
+                  //         height: 400,
+                  //         decoration: BoxDecoration(
+                  //           borderRadius: BorderRadius.circular(24),
+                  //         ),
+                  //         child: Column(
+                  //           children: [
+                  //             CustomButton(
+                  //               onPressed: () {
+                  //                 writeEmailController.markAll();
+                  //               },
+                  //               text: 'Mark all',
+                  //               borderRadius: 30,
+                  //             ),
+                  //             Expanded(
+                  //               child: ListView.builder(
+                  //                 itemCount: homeController.allSchool.length,
+                  //                 itemBuilder: (context, index) {
+                  //                   final coachData =
+                  //                   homeController.allSchool[index];
+                  //                   return Obx(
+                  //                         () => ListTile(
+                  //                       leading: CircleAvatar(
+                  //                         backgroundImage: NetworkImage(
+                  //                             coachData.coach?.image ?? ""),
+                  //                       ),
+                  //                       title:
+                  //                       Text(coachData.coach?.name ?? ""),
+                  //                       subtitle: Column(
+                  //                         crossAxisAlignment:
+                  //                         CrossAxisAlignment.start,
+                  //                         children: [
+                  //                           Text(coachData.coach?.position ?? ""),
+                  //                           Text(
+                  //                             coachData.name ?? "",
+                  //                             maxLines: 1,
+                  //                             overflow: TextOverflow.ellipsis,
+                  //                           ),
+                  //                         ],
+                  //                       ),
+                  //                       trailing: GestureDetector(
+                  //                         onTap: () {
+                  //                           writeEmailController.toggleCheckbox(index);
+                  //                         },
+                  //                         child: Container(
+                  //                           height: 50,
+                  //                           decoration: ShapeDecoration(
+                  //                             shape: CircleBorder(),
+                  //                           ),
+                  //                           child: Image.asset(
+                  //                             writeEmailController.checkbox[index].value
+                  //                                 ? AppImages.checkboxFilled
+                  //                                 : AppImages.checkbox,
+                  //                             scale: 4,
+                  //                           ),
+                  //                         ),
+                  //                       ),
+                  //                     ),
+                  //                   );
+                  //                 },
+                  //               ),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
                 ],
               ),
               Divider(),
@@ -147,6 +154,7 @@ class _WriteEmailViewState extends State<WriteEmailView> {
                   sw8,
                   Expanded(
                     child: CustomTextField(
+                      controller: writeEmailController.subjectController,
                       containerColor: AppColors.transparent,
                     ),
                   ),
@@ -158,11 +166,12 @@ class _WriteEmailViewState extends State<WriteEmailView> {
               sh16,
               CustomTextField(
                 height: 150,
+                controller: writeEmailController.messageController,
                 hintText: 'Compose email',
               ),
               sh16,
               Text(
-                "Chose Video",
+                "Choose Video",
                 style: h4,
               ),
               sh8,
@@ -173,7 +182,27 @@ class _WriteEmailViewState extends State<WriteEmailView> {
               CustomButton(
                 imageAssetPath: AppImages.send,
                 text: 'Send',
-                onPressed: () {},
+                onPressed: () async {
+                  String? reminderDateString = reminderDate != null
+                      ? DateFormat("yyyy-MM-dd").format(reminderDate!)
+                      : null;
+
+                  // Validate fields before sending the email
+                  bool isValid =
+                      writeEmailController.validateFields(selectedVideo);
+
+                  if (isValid) {
+                    writeEmailController.sendEmail(
+                      [
+                        writeEmailController.emailController.text
+                      ], // Recipient Email
+                      writeEmailController.subjectController.text,
+                      writeEmailController.messageController.text,
+                      reminderDateString,
+                      selectedVideo,
+                    );
+                  }
+                },
               ),
               sh16
             ],
@@ -242,7 +271,10 @@ class _WriteEmailViewState extends State<WriteEmailView> {
 
   Widget _buildUploadContainer() {
     return GestureDetector(
-      onTap: () {},
+      onTap: () async {
+        // Trigger the video picker here to get the selected video file
+        selectedVideo = await writeEmailController.pickVideo();
+      },
       child: Container(
         height: 130,
         decoration: BoxDecoration(
@@ -262,7 +294,7 @@ class _WriteEmailViewState extends State<WriteEmailView> {
   Widget _buildReminderDatePicker() {
     return GestureDetector(
       onTap: () async {
-        await controller.pickReminderDate(context);
+        await writeEmailController.pickReminderDate(context);
       },
       child: Row(
         children: [
@@ -272,34 +304,34 @@ class _WriteEmailViewState extends State<WriteEmailView> {
           ),
           Spacer(),
           Obx(() => Container(
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(color: Colors.grey.shade400),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  controller.reminderDate.value == null
-                      ? "Select Reminder"
-                      : DateFormat("dd MMM").format(controller.reminderDate.value!),
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.black87,
-                  ),
+                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Colors.grey.shade400),
+                  borderRadius: BorderRadius.circular(20),
                 ),
-                Image.asset(
-                  AppImages.arrowDownGreen,
-                  scale: 4,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      writeEmailController.reminderDate.value == null
+                          ? "Select Reminder"
+                          : DateFormat("dd MMM")
+                              .format(writeEmailController.reminderDate.value!),
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black87,
+                      ),
+                    ),
+                    Image.asset(
+                      AppImages.arrowDownGreen,
+                      scale: 4,
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          )),
+              )),
         ],
       ),
     );
   }
-
 }
