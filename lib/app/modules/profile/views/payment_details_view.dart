@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:stephtomo_app/app/modules/profile/controllers/payment_controller.dart';
 import 'package:stephtomo_app/common/app_color/app_colors.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -15,6 +17,7 @@ class PaymentView extends StatefulWidget {
 
 class _PaymentViewState extends State<PaymentView> {
   WebViewController? _controller;
+  final PaymentController paymentController = Get.put(PaymentController());
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +46,10 @@ class _PaymentViewState extends State<PaymentView> {
         },
         onPageFinished: (String url) {
           debugPrint('Page finished loading: $url');
+if(url.contains("check-payment-session")){
+  paymentController.paymentResults(paymentLink: url);
+}
 
-          // _paymentByCashController.paymentResults(finishUrl: url);
         },
       ),
     );
