@@ -19,7 +19,6 @@ paymentResults({required String paymentLink}) async {
 
       var headers = {
         'Content-Type': "application/json",
-
       };
 
       var response = await BaseClient.getRequest(api: paymentLink, headers: headers);

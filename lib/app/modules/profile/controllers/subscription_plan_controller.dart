@@ -21,10 +21,8 @@ class SubscriptionPlanController extends GetxController {
   Future<void> createPaymentSession() async {
     isLoading.value = true;
 
-    // Retrieve the stored token
     String token = LocalStorage.getData(key: AppConstant.token) ?? "";
 
-    // Decode the JWT to extract the email
     String email = "";
     if (token.isNotEmpty) {
       Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
@@ -40,7 +38,9 @@ class SubscriptionPlanController extends GetxController {
       await BaseClient.postRequest(
           api: Api.subscription(selectedPlan.value.toLowerCase(), email), headers: headers),
     );
+
     isLoading.value = false;
+
     if (responseBody != null) {
       Get.to(
         () => PaymentView(paymentUrl: responseBody["data"]["url"],),
