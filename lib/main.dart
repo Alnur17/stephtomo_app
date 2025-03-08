@@ -26,7 +26,7 @@ void main() async {
       LocalStorage.saveData(key: AppConstant.fcmToken, data: value);
 
       debugPrint(
-          '===================== > fcm Token from local storage: ${LocalStorage.getData(key: AppConstant.fcmToken)} < =======================');
+          '===================== > fcm Token from local storage: ${LocalStorage.getData(key: AppConstant.fcmToken)}');
     },
   );
 

@@ -20,9 +20,11 @@ class SignInController extends GetxController {
   }) async {
     try {
       isLoading(true);
+      String fcmToken = LocalStorage.getData(key: AppConstant.fcmToken);
       var map = {
         "email": email.toLowerCase(),
         "password": password,
+        'fcm_Token': fcmToken,
       };
 
       var headers = {

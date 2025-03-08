@@ -63,88 +63,88 @@ class _WriteEmailViewState extends State<WriteEmailView> {
                 children: [
                   Text('To : ', style: h4),
                   sw8,
-                  Expanded(
-                    child: CustomTextField(
-                      controller: writeEmailController.emailController,
-                    ),
-                  )
-                  // PopupMenuButton(
-                  //   color: AppColors.white,
-                  //   icon: Image.asset(
-                  //     AppImages.arrowDown,
-                  //     scale: 4,
+                  // Expanded(
+                  //   child: CustomTextField(
+                  //     controller: writeEmailController.emailController,
                   //   ),
-                  //   itemBuilder: (context) => [
-                  //     PopupMenuItem(
-                  //       child: Container(
-                  //         width: 300,
-                  //         height: 400,
-                  //         decoration: BoxDecoration(
-                  //           borderRadius: BorderRadius.circular(24),
-                  //         ),
-                  //         child: Column(
-                  //           children: [
-                  //             CustomButton(
-                  //               onPressed: () {
-                  //                 writeEmailController.markAll();
-                  //               },
-                  //               text: 'Mark all',
-                  //               borderRadius: 30,
-                  //             ),
-                  //             Expanded(
-                  //               child: ListView.builder(
-                  //                 itemCount: homeController.allSchool.length,
-                  //                 itemBuilder: (context, index) {
-                  //                   final coachData =
-                  //                   homeController.allSchool[index];
-                  //                   return Obx(
-                  //                         () => ListTile(
-                  //                       leading: CircleAvatar(
-                  //                         backgroundImage: NetworkImage(
-                  //                             coachData.coach?.image ?? ""),
-                  //                       ),
-                  //                       title:
-                  //                       Text(coachData.coach?.name ?? ""),
-                  //                       subtitle: Column(
-                  //                         crossAxisAlignment:
-                  //                         CrossAxisAlignment.start,
-                  //                         children: [
-                  //                           Text(coachData.coach?.position ?? ""),
-                  //                           Text(
-                  //                             coachData.name ?? "",
-                  //                             maxLines: 1,
-                  //                             overflow: TextOverflow.ellipsis,
-                  //                           ),
-                  //                         ],
-                  //                       ),
-                  //                       trailing: GestureDetector(
-                  //                         onTap: () {
-                  //                           writeEmailController.toggleCheckbox(index);
-                  //                         },
-                  //                         child: Container(
-                  //                           height: 50,
-                  //                           decoration: ShapeDecoration(
-                  //                             shape: CircleBorder(),
-                  //                           ),
-                  //                           child: Image.asset(
-                  //                             writeEmailController.checkbox[index].value
-                  //                                 ? AppImages.checkboxFilled
-                  //                                 : AppImages.checkbox,
-                  //                             scale: 4,
-                  //                           ),
-                  //                         ),
-                  //                       ),
-                  //                     ),
-                  //                   );
-                  //                 },
-                  //               ),
-                  //             ),
-                  //           ],
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
+                  // )
+                  PopupMenuButton(
+                    color: AppColors.white,
+                    icon: Image.asset(
+                      AppImages.arrowDown,
+                      scale: 4,
+                    ),
+                    itemBuilder: (context) => [
+                      PopupMenuItem(
+                        child: Container(
+                          width: 300,
+                          height: 400,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(24),
+                          ),
+                          child: Column(
+                            children: [
+                              CustomButton(
+                                onPressed: () {
+                                  writeEmailController.markAll();
+                                },
+                                text: 'Mark all',
+                                borderRadius: 30,
+                              ),
+                              Expanded(
+                                child: ListView.builder(
+                                  itemCount: homeController.allSchool.length,
+                                  itemBuilder: (context, index) {
+                                    final coachData =
+                                    homeController.allSchool[index];
+                                    return Obx(
+                                          () => ListTile(
+                                        leading: CircleAvatar(
+                                          backgroundImage: NetworkImage(
+                                              coachData.coach?.image ?? ""),
+                                        ),
+                                        title:
+                                        Text(coachData.coach?.name ?? ""),
+                                        subtitle: Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            Text(coachData.coach?.position ?? ""),
+                                            Text(
+                                              coachData.name ?? "",
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ],
+                                        ),
+                                        trailing: GestureDetector(
+                                          onTap: () {
+                                            writeEmailController.toggleCheckbox(index);
+                                          },
+                                          child: Container(
+                                            height: 50,
+                                            decoration: ShapeDecoration(
+                                              shape: CircleBorder(),
+                                            ),
+                                            child: Image.asset(
+                                              writeEmailController.checkbox[index].value
+                                                  ? AppImages.checkboxFilled
+                                                  : AppImages.checkbox,
+                                              scale: 4,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
               Divider(),
