@@ -38,7 +38,7 @@ class Api {
 
   static const String receivedEmail = "$baseUrl/emails/received";
 
-  static const String sentEmail = "$baseUrl/emails/sent";
+  static const String sentEmail = "$baseUrl/emails/sent"; //
 
   static const String writeEmail = "$baseUrl/emails"; //
 

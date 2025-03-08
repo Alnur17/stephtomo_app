@@ -199,19 +199,18 @@ class SubscriptionPlanView extends StatelessWidget {
                 sh30,
                 Image.asset(AppImages.subscriptionBox, scale: 4),
                 sh16,
-                sw12,
                 Text('Choose your plan', style: h3),
                 sh16,
                 Column(
                   children: [
                     GestureDetector(
-                      onTap: () => controller.setPlan("Monthly", 30),
-                      child: Obx(() => _planTile("Monthly", 30, controller)),
+                      onTap: () => controller.setPlan("Monthly", 19.99),
+                      child: Obx(() => _planTile("Monthly", 19.99, controller)),
                     ),
                     sh16,
                     GestureDetector(
-                      onTap: () => controller.setPlan("Yearly", 100),
-                      child: Obx(() => _planTile("Yearly", 100, controller)),
+                      onTap: () => controller.setPlan("Yearly", 199.99),
+                      child: Obx(() => _planTile("Yearly", 199.99, controller)),
                     ),
                   ],
                 ),

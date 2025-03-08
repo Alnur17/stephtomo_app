@@ -1,6 +1,7 @@
 class AppConstant {
 
   static const token = 'token';
+  static const fcmToken = 'value';
   static const userId = 'userId';
   static const createRouteId = 'createRouteId';
   static const signUpToken = 'signUpToken';
