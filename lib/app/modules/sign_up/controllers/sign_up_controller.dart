@@ -35,6 +35,8 @@ class SignUpController extends GetxController {
       ...secondScreenData,
     };
 
+    print('================> $requestBody <====================');
+
     // Validate requestBody
     if (requestBody.values.any((value) => value == null || value == '')) {
       Get.snackbar('Error', 'Please fill all required fields.');

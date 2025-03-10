@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../common/app_color/app_colors.dart';
+import '../../../../common/app_constant/app_constant.dart';
 import '../../../../common/app_images/app_images.dart';
 import '../../../../common/app_text_style/styles.dart';
+import '../../../../common/helper/local_store.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
 import '../../../../common/widgets/custom_button.dart';
 import '../../../../common/widgets/custom_textfelid.dart';
@@ -224,7 +226,7 @@ class _SignUpTwoViewState extends State<SignUpTwoView> {
                     Get.snackbar('Error', 'Please fill all required fields and accept the terms.');
                     return;
                   }
-
+                  String fcmToken = LocalStorage.getData(key: AppConstant.fcmToken);
                   signupController.signUp(
                     {
                       "club_team": teamController.text,
@@ -235,6 +237,7 @@ class _SignUpTwoViewState extends State<SignUpTwoView> {
                       "ncaa_eligibility_number": ncaaController.text,
                       "email": emailController.text,
                       "password": passwordController.text,
+                      'fcm_token': fcmToken,
                     },
                   );
                 },

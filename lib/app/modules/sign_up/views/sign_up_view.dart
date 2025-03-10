@@ -199,36 +199,35 @@ class _SignUpViewState extends State<SignUpView> {
                   ),
                   sh16,
                   _buildQuestion(
-                    'Are you ?',
-                    ['Left handed', 'Right handed'],
+                    'Which handed are you?',
+                    ['Left', 'Right'],
                     handPreference,
                     (value) {
                       setState(() {
-                        handPreference =
-                            value == 'Left handed' ? 'left' : 'right';
+                        handPreference = value;
                       });
                     },
                   ),
                   SizedBox(height: 20),
                   _buildQuestion(
-                    'Are you ?',
-                    ['Bat left', 'Bat right'],
+                    'Which hand do you bat with?',
+                    ['Left', 'Right'],
                     batPreference,
-                    (value) {
+                        (value) {
                       setState(() {
-                        batPreference = value == 'Bat left' ? 'left' : 'right';
+                        batPreference = value;
+
                       });
                     },
                   ),
                   SizedBox(height: 20),
                   _buildQuestion(
-                    'Are you ?',
-                    ['Throw left', 'Throw right'],
+                    'Which hand do you throw with?',
+                    ['Left', 'Right'],
                     throwPreference,
                     (value) {
                       setState(() {
-                        throwPreference =
-                            value == 'Throw left' ? 'left' : 'right';
+                        throwPreference = value;
                       });
                     },
                   ),
@@ -297,7 +296,7 @@ class _SignUpViewState extends State<SignUpView> {
   }
 
   Widget _buildQuestion(String question, List<String> options,
-      String? groupValue, Function(String?) onChanged) {
+      String? groupValue,void Function(String?) onChanged) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -318,7 +317,11 @@ class _SignUpViewState extends State<SignUpView> {
                 ),
                 value: option,
                 groupValue: groupValue,
-                onChanged: onChanged,
+                onChanged: (value) {
+                  setState(() {
+                    onChanged(value);
+                  });
+                },
               ),
             );
           }).toList(),

@@ -117,7 +117,7 @@ class ProfileController extends GetxController {
           await http.MultipartFile.fromPath(
             'image',
             imagePath,
-            contentType: MediaType.parse(mimeType),
+            contentType: MediaType.parse(mimeType), //from http_parser package
           ),
         );
       }

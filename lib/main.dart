@@ -21,12 +21,12 @@ void main() async {
   notificationServices.requestNotificationPermission();
   notificationServices.getDeviceToken().then(
     (value) {
-      debugPrint(
-          '===================== > Device Token: $value < =======================');
+      debugPrint('=============== > Device Token: $value < ==================');
       LocalStorage.saveData(key: AppConstant.fcmToken, data: value);
 
-      debugPrint(
-          '===================== > fcm Token from local storage: ${LocalStorage.getData(key: AppConstant.fcmToken)}');
+      String fcmToken = LocalStorage.getData(key: AppConstant.fcmToken);
+
+      debugPrint('=========>fcm Token from local storage: $fcmToken <========');
     },
   );
 

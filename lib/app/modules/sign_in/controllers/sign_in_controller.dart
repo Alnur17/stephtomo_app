@@ -24,7 +24,7 @@ class SignInController extends GetxController {
       var map = {
         "email": email.toLowerCase(),
         "password": password,
-        'fcm_Token': fcmToken,
+        'fcm_token': fcmToken,
       };
 
       var headers = {
