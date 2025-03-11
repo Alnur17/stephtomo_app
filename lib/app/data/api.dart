@@ -3,13 +3,11 @@ class Api {
 
   static const baseUrl = "http://192.168.10.204:5000/api";
 
-
   ///auth
   static const signUp = "$baseUrl/auth/create-athlete"; //done
-  static const
-  login = "$baseUrl/auth/login"; //done
+  static const login = "$baseUrl/auth/login"; //done
   static const forgotPassword = "$baseUrl/auth/send-otp"; //done
-  static const otpVerify = "$baseUrl/auth/verify-otp";  //done
+  static const otpVerify = "$baseUrl/auth/verify-otp"; //done
   static const sentOtp = "$baseUrl/auth/send-otp"; //done
   static const resetForgottenPassword = "$baseUrl/auth/reset-forgotten-password"; // done
   static const changePassword = "$baseUrl/auth/change-password"; // done
@@ -17,13 +15,18 @@ class Api {
   ///College Data
   static const schoolData = "$baseUrl/schools"; //done
 
+
+  ///notifications
+  static const notification = "$baseUrl/notifications";
+
   ///showBookMarked
   static const bookMarked = "$baseUrl/bookmarks"; // done
+
 
   ///Create BookMarked
   static const addBookMark = "$baseUrl/bookmarks"; //done
 
-  static  removeBookMark(String id) => "$baseUrl/college-bookmarks/$id"; //done
+  static removeBookMark(String id) => "$baseUrl/college-bookmarks/$id"; //done
 
   /// upload video
   static const uploadVideo = "$baseUrl/videos"; // done
@@ -52,5 +55,4 @@ class Api {
   static const String conditionsPage = "$baseUrl/settings"; //done
 
   static String subscription(String planType, String email) => "$baseUrl/subscriptions/create-payment-session?subscription_type=$planType&email=$email"; //done
-
 }

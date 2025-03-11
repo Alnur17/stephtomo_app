@@ -1,13 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:stephtomo_app/app/modules/home/controllers/notification_controller.dart';
 
 import '../../../../../common/app_color/app_colors.dart';
 import '../../../../../common/app_images/app_images.dart';
 import '../../../../../common/app_text_style/styles.dart';
 import '../../../../../common/size_box/custom_sizebox.dart';
 
-class NotificationView extends StatelessWidget {
+class NotificationView extends StatefulWidget {
   const NotificationView({super.key});
+
+  @override
+  State<NotificationView> createState() => _NotificationViewState();
+}
+
+class _NotificationViewState extends State<NotificationView> {
+  final NotificationController notificationController =
+  Get.put(NotificationController());
 
   @override
   Widget build(BuildContext context) {
@@ -30,66 +39,69 @@ class NotificationView extends StatelessWidget {
         body: Column(
           children: [
             Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.only(top: 16),
-                itemCount: 30,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding:
-                        const EdgeInsets.only(left: 16, right: 16, bottom: 12),
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 54,
-                          decoration: ShapeDecoration(
-                            shape: CircleBorder(),
-                            color: AppColors.silver,
+              child: Obx(
+                    () => ListView.builder(
+                  padding: const EdgeInsets.only(top: 16),
+                  itemCount: notificationController.notificationList.length,
+                  itemBuilder: (context, index) {
+                    var notification = notificationController.notificationList[index];
+
+                    // Convert the time to a readable format
+                    String time = notification.time != null
+                        ? "${notification.time!.hour}:${notification.time!.minute}" // Format as needed
+                        : "Unknown time";
+
+                    return Padding(
+                      padding: const EdgeInsets.only(left: 16, right: 16, bottom: 12),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 54,
+                            decoration: ShapeDecoration(
+                              shape: CircleBorder(),
+                              color: AppColors.silver,
+                            ),
+                            child: Image.asset(
+                              AppImages.notification,
+                              scale: 4,
+                            ),
                           ),
-                          child: Image.asset(
-                            AppImages.notification,
-                            scale: 4,
-                          ),
-                        ),
-                        sw12,
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                                style: h6.copyWith(fontWeight: FontWeight.w500),
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 2,
-                              ),
-                              Text(
-                                '1 day ago',
-                                style: h7.copyWith(
-                                  color: AppColors.grey,
+                          sw12,
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  notification.title ?? 'No Title',
+                                  style: h6.copyWith(fontWeight: FontWeight.w500),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 2,
                                 ),
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                              ),
-                            ],
+                                Text(
+                                  notification.body ?? '',
+                                  style: h7.copyWith(
+                                    color: AppColors.grey,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 3,
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        // sw12,
-                        // Container(
-                        //   height: 25,
-                        //   width: 25,
-                        //   alignment: Alignment.center,
-                        //   decoration: ShapeDecoration(
-                        //     shape: CircleBorder(),
-                        //     color: AppColors.mainColor,
-                        //   ),
-                        //   child: Text(
-                        //     '2',
-                        //     style: TextStyle(color: AppColors.white),
-                        //   ),
-                        // )
-                      ],
-                    ),
-                  );
-                },
+                          sw12,
+                          Text(
+                            time,
+                            style: h7.copyWith(
+                              color: AppColors.grey,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
           ],
@@ -98,3 +110,23 @@ class NotificationView extends StatelessWidget {
     );
   }
 }
+
+
+
+
+
+
+// sw12,
+// Container(
+//   height: 25,
+//   width: 25,
+//   alignment: Alignment.center,
+//   decoration: ShapeDecoration(
+//     shape: CircleBorder(),
+//     color: AppColors.mainColor,
+//   ),
+//   child: Text(
+//     '2',
+//     style: TextStyle(color: AppColors.white),
+//   ),
+// )

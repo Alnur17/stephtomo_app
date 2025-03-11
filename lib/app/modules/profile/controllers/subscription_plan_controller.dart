@@ -10,7 +10,7 @@ import '../../../data/base_client.dart';
 
 class SubscriptionPlanController extends GetxController {
   var selectedPlan = "Yearly".obs;
-  var selectedPrice = 100.0.obs;
+  var selectedPrice = 199.99.obs;
   var isLoading = false.obs;
 
   void setPlan(String plan, double price) {

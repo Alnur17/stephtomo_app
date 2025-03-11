@@ -71,7 +71,6 @@ class ProfileController extends GetxController {
   }
 
   Future<void> updateProfile({
-    //required BuildContext context,
     required String name,
     required String height,
     required String primaryPosition,
