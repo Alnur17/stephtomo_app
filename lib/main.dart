@@ -20,9 +20,11 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await GetStorage.init();
+
   notificationServices.requestNotificationPermission();
+
   notificationServices.getDeviceToken().then(
-    (value) {
+        (value) {
       debugPrint('=============== > Device Token: $value < ==================');
       LocalStorage.saveData(key: AppConstant.fcmToken, data: value);
 
@@ -32,12 +34,12 @@ void main() async {
     },
   );
 
-   FirebaseMessaging.onBackgroundMessage(notificationServices.firebaseMessagingBackgroundHandler);
+  // Set up the background message handler after initialization
+  FirebaseMessaging.onBackgroundMessage(notificationServices.firebaseMessagingBackgroundHandler);
 
   // Configure local notifications
   const AndroidInitializationSettings initializationSettingsAndroid =
   AndroidInitializationSettings('@mipmap/ic_launcher');
-
   const DarwinInitializationSettings initializationSettingsDarwin =
   DarwinInitializationSettings();
 
@@ -73,3 +75,4 @@ void main() async {
     ),
   );
 }
+

@@ -116,9 +116,9 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                     if (newPassTEController.text ==
                         confirmPassTEController.text) {
                       settingsController.changePassword(
-                          currentPassword: currentPassTEController.text,
-                          newPassword: newPassTEController.text,
-                          context: context);
+                        currentPassword: currentPassTEController.text,
+                        newPassword: newPassTEController.text,
+                      );
                     } else {
                       kSnackBar(
                           message: "Password not match",

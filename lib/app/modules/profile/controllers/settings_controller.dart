@@ -19,7 +19,6 @@ class SettingsController extends GetxController {
   Future changePassword({
     required String currentPassword,
     required String newPassword,
-    required BuildContext context,
   }) async {
     try {
       isLoading(true);

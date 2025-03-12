@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:stephtomo_app/app/modules/bookmarks/views/bookmarks_view.dart';
-import 'package:stephtomo_app/app/modules/home/views/home_view.dart';
-import 'package:stephtomo_app/app/modules/profile/views/profile_view.dart';
-import 'package:stephtomo_app/app/modules/video/views/video_view.dart';
 import 'package:stephtomo_app/app/modules/write_email/views/write_email_view.dart';
 import 'package:stephtomo_app/common/app_images/app_images.dart';
 import '../../../../common/app_color/app_colors.dart';
@@ -22,15 +18,19 @@ class _DashboardViewState extends State<DashboardView> {
       Get.put(DashboardController());
 
   @override
+  void initState() {
+    super.initState();
+    // Get index from arguments, default to 0
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (Get.arguments != null && Get.arguments['index'] != null) {
+        dashboardController.setBottomBarIndex(Get.arguments['index']);
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-
-    final List<Widget> screens = [
-      HomeView(),
-      VideoView(),
-      BookmarksView(),
-      ProfileView(),
-    ];
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -40,7 +40,7 @@ class _DashboardViewState extends State<DashboardView> {
           Obx(
             () => IndexedStack(
               index: dashboardController.currentIndex.value,
-              children: screens,
+              children: dashboardController.screens,
             ),
           ),
           // Bottom navigation bar

@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 
 class CustomPopupMenuButton extends StatelessWidget {
   final VoidCallback onDeleteSuccess;
+  final Function(String)? onUpdateTitle;
   final String videoId;
   final String videoTitle;
   final String videoUrl;
@@ -18,6 +19,7 @@ class CustomPopupMenuButton extends StatelessWidget {
     required this.videoId,
     required this.videoTitle,
     required this.videoUrl,
+    this.onUpdateTitle,
   });
 
   @override
@@ -44,11 +46,10 @@ class CustomPopupMenuButton extends StatelessWidget {
         } else if (value == 'edit') {
           print("Editing video with ID: $videoId, URL: $videoUrl");
           Get.to(() => EditVideoView(
-
-            videoId: videoId,
-            videoTitle: videoTitle,
-            videoUrl: videoUrl,
-          ));
+                videoId: videoId,
+                videoTitle: videoTitle,
+                videoUrl: videoUrl,
+              ));
         } else if (value == 'copy_link') {
           // Copy the video URL to the clipboard
           _copyToClipboard(videoUrl);

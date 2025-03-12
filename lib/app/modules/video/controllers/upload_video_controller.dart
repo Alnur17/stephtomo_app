@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stephtomo_app/app/data/api.dart';
-import 'package:stephtomo_app/app/modules/video/views/video_view.dart';
 import 'package:stephtomo_app/common/app_constant/app_constant.dart';
 import 'package:stephtomo_app/common/app_color/app_colors.dart';
 import 'package:stephtomo_app/app/modules/video/controllers/video_controller.dart';
@@ -117,7 +116,9 @@ class UploadVideoController extends GetxController {
         videoController.fetchVideos();
         clearVideo();
         titleController.clear();
-        Get.offAll(VideoView());
+        if(Get.context != null){
+          Navigator.pop(Get.context!);
+        }
       } else {
         Get.snackbar(
           'Error',

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:stephtomo_app/app/modules/video/controllers/edit_video_controller.dart';
 import 'package:video_player/video_player.dart';
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_images/app_images.dart';
@@ -29,6 +30,8 @@ class _VideoDetailsViewState extends State<VideoDetailsView> {
   final VideoController controller = Get.put(VideoController());
   final UploadVideoController uploadVideoController =
       Get.put(UploadVideoController());
+
+  final EditVideoController editVideoController = Get.put(EditVideoController());
 
   @override
   void initState() {
@@ -147,7 +150,7 @@ class _VideoDetailsViewState extends State<VideoDetailsView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
-                  child: Text(
+                  child:Text(
                     widget.videoTitle,
                     style: titleStyle,
                   ),

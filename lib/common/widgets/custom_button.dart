@@ -21,7 +21,9 @@ class CustomButton extends StatelessWidget {
     this.isTextStyleSelected,
     this.height = 54,
     this.borderColor,
-    this.imageAssetPath, this.borderRadius = 12, this.width,
+    this.imageAssetPath,
+    this.borderRadius = 12,
+    this.width,
   });
 
   @override
@@ -40,7 +42,8 @@ class CustomButton extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (imageAssetPath != null) ...[ // Check if the image asset path is provided
+              if (imageAssetPath != null) ...[
+                // Check if the image asset path is provided
                 Padding(
                   padding: const EdgeInsets.only(right: 8.0),
                   child: Image.asset(

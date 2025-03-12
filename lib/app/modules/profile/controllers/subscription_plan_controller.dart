@@ -1,7 +1,7 @@
 
 import 'package:get/get.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
-import 'package:stephtomo_app/app/modules/profile/views/payment_details_view.dart';
+import 'package:stephtomo_app/app/modules/profile/views/payment_view.dart';
 
 import '../../../../common/app_constant/app_constant.dart';
 import '../../../../common/helper/local_store.dart';

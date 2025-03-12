@@ -6,13 +6,13 @@ import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:path/path.dart';
+import 'package:stephtomo_app/app/modules/dashboard/views/dashboard_view.dart';
 import 'package:stephtomo_app/app/modules/video/controllers/video_controller.dart';
 import 'package:video_player/video_player.dart';
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_constant/app_constant.dart';
 import '../../../../common/helper/local_store.dart';
 import '../../../data/api.dart';
-import '../views/video_view.dart';
 
 class EditVideoController extends GetxController {
   final VideoController videoController = Get.put(VideoController());
@@ -118,7 +118,10 @@ class EditVideoController extends GetxController {
         clearVideo();
         titleController.clear();
         videoController.fetchVideos();
-        Get.offAll(VideoView());
+        Get.offAll(()=> DashboardView(),arguments: {"index": 1});
+        // if(Get.context != null){
+        //  Navigator.pop(Get.context!);
+        // }
       } else {
         Get.snackbar(
           'Error',

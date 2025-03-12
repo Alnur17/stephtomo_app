@@ -10,11 +10,15 @@ class EmailView extends StatelessWidget {
   final String? image;
   final String name;
   final String time;
+  final String title; // subject
+  final String email;
   final String message;
 
   const EmailView(
       {super.key,
       required this.image,
+      required this.title,
+      required this.email,
       required this.name,
       required this.time,
       required this.message});
@@ -55,14 +59,14 @@ class EmailView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(time),
-                  Text('kris13@gmail.com'),
+                  Text(email),
                 ],
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
               child: Text(
-                'Title should be added here soon...',
+                title,
                 style: titleStyle,
               ),
             ),

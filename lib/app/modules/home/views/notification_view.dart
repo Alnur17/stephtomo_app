@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stephtomo_app/app/modules/home/controllers/notification_controller.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 import '../../../../../common/app_color/app_colors.dart';
 import '../../../../../common/app_images/app_images.dart';
@@ -47,9 +48,12 @@ class _NotificationViewState extends State<NotificationView> {
                     var notification = notificationController.notificationList[index];
 
                     // Convert the time to a readable format
-                    String time = notification.time != null
-                        ? "${notification.time!.hour}:${notification.time!.minute}" // Format as needed
-                        : "Unknown time";
+                    // String time = notification.time != null
+                    //     ? "${notification.time!.hour}:${notification.time!.minute}" // Format as needed
+                    //     : "Unknown time";
+                    //
+
+                    String time = _getTimeDifference(notification.createdAt);
 
                     return Padding(
                       padding: const EdgeInsets.only(left: 16, right: 16, bottom: 12),
@@ -73,10 +77,11 @@ class _NotificationViewState extends State<NotificationView> {
                               children: [
                                 Text(
                                   notification.title ?? 'No Title',
-                                  style: h6.copyWith(fontWeight: FontWeight.w500),
+                                  style: h6,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 2,
                                 ),
+                                sh5,
                                 Text(
                                   notification.body ?? '',
                                   style: h7.copyWith(
@@ -109,6 +114,14 @@ class _NotificationViewState extends State<NotificationView> {
       ),
     );
   }
+
+  // Calculate the time difference for emails
+  String _getTimeDifference(DateTime? createdAt) {
+    return createdAt != null
+        ? "${timeago.format(createdAt, locale: 'en_short')} ago"
+        : 'Unknown time';
+  }
+
 }
 
 

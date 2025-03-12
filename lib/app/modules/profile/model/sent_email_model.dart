@@ -9,14 +9,13 @@ class SentEmailModel {
   final String? message;
   final Data? data;
 
-  factory SentEmailModel.fromJson(Map<String, dynamic> json){
+  factory SentEmailModel.fromJson(Map<String, dynamic> json) {
     return SentEmailModel(
       success: json["success"],
       message: json["message"],
       data: json["data"] == null ? null : Data.fromJson(json["data"]),
     );
   }
-
 }
 
 class Data {
@@ -28,13 +27,14 @@ class Data {
   final List<Datum> data;
   final Meta? meta;
 
-  factory Data.fromJson(Map<String, dynamic> json){
+  factory Data.fromJson(Map<String, dynamic> json) {
     return Data(
-      data: json["data"] == null ? [] : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
+      data: json["data"] == null
+          ? []
+          : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
       meta: json["meta"] == null ? null : Meta.fromJson(json["meta"]),
     );
   }
-
 }
 
 class Datum {
@@ -66,9 +66,10 @@ class Datum {
   final DateTime? updatedAt;
   final int? v;
 
-  factory Datum.fromJson(Map<String, dynamic> json){
+  factory Datum.fromJson(Map<String, dynamic> json) {
     return Datum(
-      signature: json["signature"] == null ? null : Signature.fromJson(json["signature"]),
+      signature:
+      json["signature"] == null ? null : Signature.fromJson(json["signature"]),
       id: json["_id"],
       from: json["from"] == null ? null : From.fromJson(json["from"]),
       to: json["to"] == null ? [] : List<String>.from(json["to"]!.map((x) => x)),
@@ -82,7 +83,6 @@ class Datum {
       v: json["__v"],
     );
   }
-
 }
 
 class From {
@@ -138,14 +138,14 @@ class From {
   final DateTime? updatedAt;
   final int? v;
 
-  factory From.fromJson(Map<String, dynamic> json){
+  factory From.fromJson(Map<String, dynamic> json) {
     return From(
       id: json["_id"],
       name: json["name"],
       email: json["email"],
       profileImage: json["profile_image"],
       gradYear: json["grad_year"],
-      gpa: json["gpa"],
+      gpa: (json["gpa"] is int) ? (json["gpa"] as int).toDouble() : json["gpa"],
       sport: json["sport"],
       height: json["height"],
       primaryPosition: json["primary_position"],
@@ -166,7 +166,6 @@ class From {
       v: json["__v"],
     );
   }
-
 }
 
 class Signature {
@@ -185,7 +184,7 @@ class Signature {
 
   final String? name;
   final int? gradYear;
-  final int? gpa;
+  final double? gpa; // Changed from int? to double?
   final String? sport;
   final String? height;
   final String? primaryPosition;
@@ -194,11 +193,11 @@ class Signature {
   final String? clubCoachNumber;
   final String? clubCoachEmail;
 
-  factory Signature.fromJson(Map<String, dynamic> json){
+  factory Signature.fromJson(Map<String, dynamic> json) {
     return Signature(
       name: json["name"],
       gradYear: json["grad_year"],
-      gpa: json["gpa"],
+      gpa: (json["gpa"] is int) ? (json["gpa"] as int).toDouble() : json["gpa"],
       sport: json["sport"],
       height: json["height"],
       primaryPosition: json["primary_position"],
@@ -208,7 +207,6 @@ class Signature {
       clubCoachEmail: json["club_coach_email"],
     );
   }
-
 }
 
 class Meta {
@@ -218,10 +216,9 @@ class Meta {
 
   final int? total;
 
-  factory Meta.fromJson(Map<String, dynamic> json){
+  factory Meta.fromJson(Map<String, dynamic> json) {
     return Meta(
       total: json["total"],
     );
   }
-
 }
