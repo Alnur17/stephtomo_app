@@ -31,7 +31,7 @@ class CustomTextField extends StatelessWidget {
     return Container(
       height: height,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(borderRadius),  // Use the customizable borderRadius
+        borderRadius: BorderRadius.circular(borderRadius),
         color: containerColor ?? AppColors.greyLight,
       ),
       child: TextField(

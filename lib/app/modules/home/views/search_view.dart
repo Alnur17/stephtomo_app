@@ -74,7 +74,7 @@ class _SearchViewState extends State<SearchView> {
                       var school = homeController.filteredData[index];
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 8),
-                        child: Obx(() => CollegeProfileCard(
+                        child: Obx(() => SchoolProfileCard(
                           image: school.image ?? "Unknown",
                           university: school.name ?? "",
                           name: school.coach?.name ?? "",

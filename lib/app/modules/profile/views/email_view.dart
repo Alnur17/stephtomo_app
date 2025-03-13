@@ -1,27 +1,33 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_images/app_images.dart';
 import '../../../../common/app_text_style/styles.dart';
 
-class EmailView extends StatelessWidget {
+class EmailView extends StatefulWidget {
   final String? image;
   final String name;
   final String time;
   final String title; // subject
-  final String email;
+  final List<String> emails; // Changed from single email to list of emails
   final String message;
 
-  const EmailView(
-      {super.key,
-      required this.image,
-      required this.title,
-      required this.email,
-      required this.name,
-      required this.time,
-      required this.message});
+  const EmailView({
+    super.key,
+    required this.image,
+    required this.title,
+    required this.emails, // Updated to List
+    required this.name,
+    required this.time,
+    required this.message,
+  });
+
+  @override
+  State<EmailView> createState() => _EmailViewState();
+}
+
+class _EmailViewState extends State<EmailView> {
+  bool _isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -52,27 +58,76 @@ class EmailView extends StatelessWidget {
             ListTile(
               leading: CircleAvatar(
                 radius: 30,
-                backgroundImage: NetworkImage(image!),
+                backgroundImage: NetworkImage(widget.image ?? ''),
               ),
-              title: Text(name),
-              subtitle: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              title: Text(widget.name),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(time),
-                  Text(email),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(widget.time),
+                      Expanded(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Flexible(
+                              child: Text(
+                                widget.emails[0], // Showing first email
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            if (widget.emails.length >
+                                1) // Showing arrow only if multiple emails
+                              IconButton(
+                                icon: Icon(
+                                  _isExpanded
+                                      ? Icons.keyboard_arrow_up
+                                      : Icons.keyboard_arrow_down,
+                                  size: 20,
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _isExpanded = !_isExpanded;
+                                  });
+                                },
+                              ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  if (_isExpanded && widget.emails.length > 1)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 4.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: widget.emails
+                            .skip(1) // Skip first email as it's shown above
+                            .map((email) => Padding(
+                                  padding: const EdgeInsets.only(top: 4.0),
+                                  child: Text(
+                                    email,
+                                    textAlign: TextAlign.right,
+                                  ),
+                                ))
+                            .toList(),
+                      ),
+                    ),
                 ],
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
               child: Text(
-                title,
+                widget.title,
                 style: titleStyle,
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(16),
-              child: Text(message),
+              child: Text(widget.message),
             ),
           ],
         ),

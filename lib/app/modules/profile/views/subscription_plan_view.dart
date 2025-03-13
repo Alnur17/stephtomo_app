@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:stephtomo_app/app/modules/profile/views/widgets/plan_tile.dart';
 import 'package:stephtomo_app/common/app_images/app_images.dart';
 import 'package:stephtomo_app/common/widgets/custom_button.dart';
 
@@ -171,13 +172,19 @@ import '../controllers/subscription_plan_controller.dart';
 //   }
 // }
 
-class SubscriptionPlanView extends StatelessWidget {
+class SubscriptionPlanView extends StatefulWidget {
   const SubscriptionPlanView({super.key});
 
   @override
+  State<SubscriptionPlanView> createState() => _SubscriptionPlanViewState();
+}
+
+class _SubscriptionPlanViewState extends State<SubscriptionPlanView> {
+  final SubscriptionPlanController controller =
+      Get.put(SubscriptionPlanController());
+
+  @override
   Widget build(BuildContext context) {
-    final SubscriptionPlanController controller =
-        Get.put(SubscriptionPlanController());
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: AppBar(
@@ -205,12 +212,20 @@ class SubscriptionPlanView extends StatelessWidget {
                   children: [
                     GestureDetector(
                       onTap: () => controller.setPlan("Monthly", 19.99),
-                      child: Obx(() => _planTile("Monthly", 19.99, controller)),
+                      child: PlanTile(
+                        title: "Monthly",
+                        price: 19.99,
+                        controller: controller,
+                      ),
                     ),
                     sh16,
                     GestureDetector(
                       onTap: () => controller.setPlan("Yearly", 199.99),
-                      child: Obx(() => _planTile("Yearly", 199.99, controller)),
+                      child: PlanTile(
+                        title: "Yearly",
+                        price: 199.99,
+                        controller: controller,
+                      ),
                     ),
                   ],
                 ),
@@ -225,44 +240,6 @@ class SubscriptionPlanView extends StatelessWidget {
             );
           },
         ),
-      ),
-    );
-  }
-
-  Widget _planTile(
-      String title, double price, SubscriptionPlanController controller) {
-    return Container(
-      padding: EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: controller.selectedPlan.value == title
-            ? AppColors.silver
-            : AppColors.white,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(
-          color: controller.selectedPlan.value == title
-              ? AppColors.mainColor
-              : AppColors.grey,
-        ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(title,
-                  style: titleStyle.copyWith(color: AppColors.mainColor)),
-              sh8,
-              Text(
-                  title == "Monthly"
-                      ? '15 message send'
-                      : 'Unlimited message send',
-                  style: subTitleStyle.copyWith(color: AppColors.mainColor)),
-            ],
-          ),
-          Text('\$$price / $title',
-              style: h3.copyWith(color: AppColors.mainColor)),
-        ],
       ),
     );
   }

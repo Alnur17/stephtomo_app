@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:stephtomo_app/app/modules/profile/views/my_plan_view.dart';
 import 'package:stephtomo_app/common/app_constant/app_constant.dart';
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_images/app_images.dart';
@@ -99,6 +100,8 @@ class ProfileView extends GetView<ProfileController> {
                         AppImages.history, "History", AllEmailHistoryView()),
                     _buildProfileOption(AppImages.subscription, "Subscription",
                         SubscriptionPlanView()),
+                    _buildProfileOption(
+                        AppImages.subscription, "My Plan", MyPlanView()),
                     _buildProfileOption(
                         AppImages.settings, "Settings", SettingsView()),
                     _buildProfileOption(AppImages.termsAndCondition,

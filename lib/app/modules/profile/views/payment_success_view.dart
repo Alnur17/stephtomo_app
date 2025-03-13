@@ -23,7 +23,7 @@ class PaymentSuccessView extends GetView {
             padding: const EdgeInsets.only(right: 16, top: 16),
             child: CloseButton(
               onPressed: () {
-                Get.offAll(()=> DashboardView());
+                Get.offAll(()=> DashboardView(),arguments: {"index": 3});
               },
               style: ButtonStyle(
                 backgroundColor: WidgetStatePropertyAll(AppColors.silver),

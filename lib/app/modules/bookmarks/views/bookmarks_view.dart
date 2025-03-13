@@ -67,7 +67,7 @@ class _BookmarksViewState extends State<BookmarksView> {
                   right: 16,
                   left: 16,
                 ),
-                child: CollegeProfileCard(
+                child: SchoolProfileCard(
                   image: college.image ?? '',
                   university: college.name ?? 'Unknown',
                   name: college.coach?.name ?? 'Unknown',

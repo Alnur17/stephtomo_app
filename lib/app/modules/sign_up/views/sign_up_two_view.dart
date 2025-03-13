@@ -118,7 +118,7 @@ class _SignUpTwoViewState extends State<SignUpTwoView> {
                   CustomTextField(
                     controller: coachPhoneController,
                     hintText: 'Enter your club coach phone number',
-                   // keyboardType: TextInputType.phone,
+                    // keyboardType: TextInputType.phone,
                   ),
                   sh16,
                   Text(
@@ -153,18 +153,18 @@ class _SignUpTwoViewState extends State<SignUpTwoView> {
                   ),
                   sh16,
                   Text(
-                    'Email',
+                    'Email *',
                     style: h5,
                   ),
                   sh8,
                   CustomTextField(
                     controller: emailController,
                     hintText: 'Enter your email',
-                   // keyboardType: TextInputType.emailAddress,
+                    // keyboardType: TextInputType.emailAddress,
                   ),
                   sh16,
                   Text(
-                    'Password',
+                    'Password *',
                     style: h5,
                   ),
                   sh8,
@@ -215,23 +215,21 @@ class _SignUpTwoViewState extends State<SignUpTwoView> {
               CustomButton(
                 text: 'Sign Up',
                 onPressed: () {
-                  if (teamController.text.isEmpty ||
-                      coachPhoneController.text.isEmpty ||
-                      coachEmailController.text.isEmpty ||
-                      majorController.text.isEmpty ||
-                      ncaaController.text.isEmpty ||
-                      emailController.text.isEmpty ||
+                  if (emailController.text.isEmpty ||
                       passwordController.text.isEmpty ||
                       !isChecked) {
-                    Get.snackbar('Error', 'Please fill all required fields and accept the terms.');
+                    Get.snackbar('Error',
+                        'Please fill all required fields and accept the terms.');
                     return;
                   }
-                  String fcmToken = LocalStorage.getData(key: AppConstant.fcmToken);
+                  String fcmToken =
+                      LocalStorage.getData(key: AppConstant.fcmToken);
                   signupController.signUp(
                     {
                       "club_team": teamController.text,
                       "club_coach_name": coachController.text,
-                      "club_coach_phone": int.tryParse(coachPhoneController.text) ?? 0,
+                      "club_coach_phone":
+                          int.tryParse(coachPhoneController.text) ?? 0,
                       "club_coach_email": coachEmailController.text,
                       "intended_major": majorController.text,
                       "ncaa_eligibility_number": ncaaController.text,

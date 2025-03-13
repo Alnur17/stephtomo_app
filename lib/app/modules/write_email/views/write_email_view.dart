@@ -577,6 +577,10 @@ class _WriteEmailViewState extends State<WriteEmailView> {
           Text(
             "Primary Position: ${profileController.profileData.value?.primaryPosition}",
             style: h5.copyWith(color: AppColors.white),
+          ),sh5,
+          Text(
+            "Club Coach Email: ${profileController.profileData.value?.clubCoachEmail}",
+            style: h5.copyWith(color: AppColors.white),
           ),
         ],
       ),

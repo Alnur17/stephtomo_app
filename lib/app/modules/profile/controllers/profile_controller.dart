@@ -102,7 +102,7 @@ class ProfileController extends GetxController {
         "club_team": clubTeam,
         "club_coach_name": clubCoachName,
         "club_coach_email": clubCoachEmail,
-        "address": address,
+        "address": address
       };
 
       request.fields['payload'] = jsonEncode(payload);
@@ -139,6 +139,8 @@ class ProfileController extends GetxController {
           }
           //Navigator.pop(context); // sometimes it get some issue
         } else {
+          // debugPrint(responseData);
+          // debugPrint("==================> $decodedResponse <=============");
           kSnackBar(
             message: decodedResponse['message'] ?? "Failed to update profile",
             bgColor: AppColors.orange,

@@ -91,7 +91,7 @@ class _SignUpViewState extends State<SignUpView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Name',
+                    'Name *',
                     style: h5,
                   ),
                   sh8,
@@ -101,7 +101,7 @@ class _SignUpViewState extends State<SignUpView> {
                   ),
                   sh16,
                   Text(
-                    'Grad year',
+                    'Grad year *',
                     style: h5,
                   ),
                   sh8,
@@ -112,7 +112,7 @@ class _SignUpViewState extends State<SignUpView> {
                   ),
                   sh16,
                   Text(
-                    'GPA',
+                    'GPA *',
                     style: h5,
                   ),
                   sh8,
@@ -123,7 +123,7 @@ class _SignUpViewState extends State<SignUpView> {
                   ),
                   sh16,
                   Text(
-                    'Sports',
+                    'Sports *',
                     style: h5,
                   ),
                   sh8,
@@ -168,7 +168,7 @@ class _SignUpViewState extends State<SignUpView> {
                   ),
                   sh16,
                   Text(
-                    'Height',
+                    'Height *',
                     style: h5,
                   ),
                   sh8,
@@ -179,7 +179,7 @@ class _SignUpViewState extends State<SignUpView> {
                   ),
                   sh16,
                   Text(
-                    'Primary position',
+                    'Primary position *',
                     style: h5,
                   ),
                   sh8,
@@ -189,7 +189,7 @@ class _SignUpViewState extends State<SignUpView> {
                   ),
                   sh16,
                   Text(
-                    'Secondary position',
+                    'Secondary position *',
                     style: h5,
                   ),
                   sh8,
@@ -199,7 +199,7 @@ class _SignUpViewState extends State<SignUpView> {
                   ),
                   sh16,
                   _buildQuestion(
-                    'Which handed are you?',
+                    'Which handed are you? *',
                     ['Left', 'Right'],
                     handPreference,
                     (value) {
@@ -210,7 +210,7 @@ class _SignUpViewState extends State<SignUpView> {
                   ),
                   SizedBox(height: 20),
                   _buildQuestion(
-                    'Which hand do you bat with?',
+                    'Which hand do you bat with? *',
                     ['Left', 'Right'],
                     batPreference,
                         (value) {
@@ -222,7 +222,7 @@ class _SignUpViewState extends State<SignUpView> {
                   ),
                   SizedBox(height: 20),
                   _buildQuestion(
-                    'Which hand do you throw with?',
+                    'Which hand do you throw with? *',
                     ['Left', 'Right'],
                     throwPreference,
                     (value) {
@@ -245,7 +245,7 @@ class _SignUpViewState extends State<SignUpView> {
                       handPreference == null ||
                       batPreference == null ||
                       throwPreference == null) {
-                    Get.snackbar('Error', 'Please fill all required fields');
+                    Get.snackbar('Error', '"*" fields are required',backgroundColor: AppColors.whiteDark);
                     return;
                   }
 

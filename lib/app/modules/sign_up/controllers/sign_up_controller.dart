@@ -35,13 +35,11 @@ class SignUpController extends GetxController {
       ...secondScreenData,
     };
 
-    print('================> $requestBody <====================');
+    // Remove null or empty fields
+    requestBody.removeWhere(
+        (key, value) => value == null || value == '' || value == 0);
 
-    // Validate requestBody
-    if (requestBody.values.any((value) => value == null || value == '')) {
-      Get.snackbar('Error', 'Please fill all required fields.');
-      return;
-    }
+    print('================> $requestBody <====================');
 
     try {
       final response = await BaseClient.postRequest(
@@ -57,21 +55,16 @@ class SignUpController extends GetxController {
       final responseData = await BaseClient.handleResponse(response);
 
       if (responseData != null) {
-        //final token = responseData['data']['accessToken'];
         final userId = responseData['data']['athlete']['_id'];
         final email = requestBody['email'];
 
-        //if (token != null && userId != null) {
-        if ( userId != null) {
-          // Save token and user info using LocalStorage
-          //LocalStorage.saveData(key: 'token', data: token);
+        if (userId != null) {
           LocalStorage.saveData(key: 'userId', data: userId);
 
-          // Success notification and navigate to dashboard
           Get.snackbar('Success', 'Account created successfully!');
-          Get.offAll(() => VerifyYourEmailView(email: email,));
-        } else {
-         // Get.snackbar('Error', 'Invalid response from server.');
+          Get.offAll(() => VerifyYourEmailView(
+                email: email,
+              ));
         }
       }
     } catch (e) {
@@ -82,22 +75,33 @@ class SignUpController extends GetxController {
   }
 
   /// **Verify OTP API Call**
-  Future<void> verifyEmail({required String email, required String otp, required bool verifyEmail,}) async {
+  Future<void> verifyEmail({
+    required String email,
+    required String otp,
+    required bool verifyEmail,
+  }) async {
     final url = Api.otpVerify;
-    final requestBody = {"email": email, "otp": otp, "verify_email": verifyEmail};
+    final requestBody = {
+      "email": email,
+      "otp": otp,
+      "verify_email": verifyEmail
+    };
 
     try {
       final response = await BaseClient.postRequest(
         api: url,
         body: jsonEncode(requestBody),
-        headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
       );
 
       final responseData = await BaseClient.handleResponse(response);
 
       if (responseData != null && responseData['success'] == true) {
         Get.snackbar('Success', 'OTP verified successfully!');
-        Get.offAll(()=> SignInView());
+        Get.offAll(() => SignInView());
       } else {
         Get.snackbar('Error', responseData['message'] ?? 'Invalid OTP');
       }

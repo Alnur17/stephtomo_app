@@ -5,7 +5,7 @@ import '../app_images/app_images.dart';
 import '../app_text_style/styles.dart';
 import '../size_box/custom_sizebox.dart';
 
-class CollegeProfileCard extends StatelessWidget {
+class SchoolProfileCard extends StatelessWidget {
   final String image;
   final String university;
   final String name;
@@ -17,7 +17,7 @@ class CollegeProfileCard extends StatelessWidget {
   final VoidCallback onBookmarkTap;
   final bool isSaved;
 
-  const CollegeProfileCard({
+  const SchoolProfileCard({
     super.key,
     required this.image,
     required this.university,
@@ -80,49 +80,65 @@ class CollegeProfileCard extends StatelessWidget {
                     email,
                     style: h7.copyWith(color: AppColors.black100),
                   ),
-                  sh8,
-                  Row(
-                    children: [
-                      GestureDetector(
-                        onTap: onFacebookTap,
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: GestureDetector(
+                      onTap: onBookmarkTap,
+                      child: Container(
+                        width: 35,
+                        decoration: ShapeDecoration(shape: CircleBorder()),
                         child: Image.asset(
-                          AppImages.facebook,
+                          isSaved
+                              ? AppImages.bookmarkFilled
+                              : AppImages.bookmarkAdd,
                           scale: 4,
                         ),
                       ),
-                      sw16,
-                      GestureDetector(
-                        onTap: onTwitterTap,
-                        child: Image.asset(
-                          AppImages.twitter,
-                          scale: 4,
-                        ),
-                      ),
-                      sw16,
-                      GestureDetector(
-                        onTap: onInstagramTap,
-                        child: Image.asset(
-                          AppImages.instagram,
-                          scale: 4,
-                        ),
-                      ),
-                      Spacer(),
-                      GestureDetector(
-                        onTap: onBookmarkTap,
-                        child:  Container(
-                            width: 35,
-                            decoration: ShapeDecoration(shape: CircleBorder()),
-                            child: Image.asset(
-                              isSaved
-                                  ? AppImages.bookmarkFilled
-                                  : AppImages.bookmarkAdd,
-                              scale: 4,
-                            ),
-                          ),
-                        ),
-                      sw8,
-                    ],
+                    ),
                   ),
+                  sw8,
+                  // Row(
+                  //   children: [
+                  //     GestureDetector(
+                  //       onTap: onFacebookTap,
+                  //       child: Image.asset(
+                  //         AppImages.facebook,
+                  //         scale: 4,
+                  //       ),
+                  //     ),
+                  //     sw16,
+                  //     GestureDetector(
+                  //       onTap: onTwitterTap,
+                  //       child: Image.asset(
+                  //         AppImages.twitter,
+                  //         scale: 4,
+                  //       ),
+                  //     ),
+                  //     sw16,
+                  //     GestureDetector(
+                  //       onTap: onInstagramTap,
+                  //       child: Image.asset(
+                  //         AppImages.instagram,
+                  //         scale: 4,
+                  //       ),
+                  //     ),
+                  //     Spacer(),
+                  //     GestureDetector(
+                  //       onTap: onBookmarkTap,
+                  //       child:  Container(
+                  //           width: 35,
+                  //           decoration: ShapeDecoration(shape: CircleBorder()),
+                  //           child: Image.asset(
+                  //             isSaved
+                  //                 ? AppImages.bookmarkFilled
+                  //                 : AppImages.bookmarkAdd,
+                  //             scale: 4,
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     sw8,
+                  //   ],
+                  // ),
                 ],
               ),
             ),

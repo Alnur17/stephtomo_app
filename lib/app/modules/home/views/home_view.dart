@@ -227,7 +227,7 @@ class _HomeViewState extends State<HomeView> {
                   bottom: index == homeController.filteredData.length - 1 ? 100 : 8,
                 ),
                 child: Obx(() {
-                  return CollegeProfileCard(
+                  return SchoolProfileCard(
                     image: school.image ?? '',
                     university: school.name ?? "",
                     name: school.coach?.name ?? "",

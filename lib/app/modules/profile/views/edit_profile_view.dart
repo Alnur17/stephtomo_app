@@ -5,6 +5,7 @@ import '../../../../../common/app_images/app_images.dart';
 import '../../../../../common/size_box/custom_sizebox.dart';
 import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/widgets/custom_button.dart';
+import '../../../../common/widgets/custom_snackbar.dart';
 import '../../../../common/widgets/custom_textfelid.dart';
 import '../controllers/profile_controller.dart';
 
@@ -131,8 +132,15 @@ class _EditProfileViewState extends State<EditProfileView> {
               CustomButton(
                 text: 'Update',
                 onPressed: () {
+                  final emailRegExp = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+                  if (clubCoachEmailController.text.isNotEmpty && !emailRegExp.hasMatch(clubCoachEmailController.text)) {
+                    kSnackBar(
+                      message: "Please enter a valid Club Coach Email",
+                      bgColor: AppColors.orange,
+                    );
+                    return;
+                  }
                   profileController.updateProfile(
-                   // context: context,
                     name: nameController.text,
                     height: heightController.text,
                     primaryPosition: positionController.text,
