@@ -365,7 +365,7 @@ class _WriteEmailViewState extends State<WriteEmailView> {
   final HomeController homeController = Get.put(HomeController());
   final ProfileController profileController = Get.put(ProfileController());
 
-  File? selectedVideo; // Video is nullable
+  File? selectedVideo;
 
   @override
   Widget build(BuildContext context) {

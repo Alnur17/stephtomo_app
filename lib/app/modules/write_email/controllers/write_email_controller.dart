@@ -273,11 +273,11 @@ class WriteEmailController extends GetxController {
       Get.snackbar("Error", "Please enter a message.", backgroundColor: Colors.red);
       return false;
     }
-    if (reminderDate.value == null) {
-      Get.snackbar("Error", "Please select a reminder date.", backgroundColor: Colors.red);
-      return false;
-    }
-    return true;
+    // if (reminderDate.value == null) {
+    //   Get.snackbar("Error", "Please select a reminder date.", backgroundColor: Colors.red);
+    //   return false;
+    // }
+     return true;
   }
 
   /// Send email with an optional video attachment
@@ -318,7 +318,7 @@ class WriteEmailController extends GetxController {
           "club_team": profileController.profileData.value?.clubTeam ?? "Unknown",
           "club_coach": profileController.profileData.value?.clubCoachName ?? "Unknown",
           "club_coach_number": profileController.profileData.value?.clubCoachPhone.toString() ?? "Unknown",
-          "club_coach_email": profileController.profileData.value?.clubCoachEmail ?? "Unknown"
+          "club_coach_email": profileController.profileData.value?.clubCoachEmail  ?? ""
         }
       };
 
