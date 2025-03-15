@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:stephtomo_app/common/widgets/custom_loader.dart';
 import '../../../../../common/app_color/app_colors.dart';
 import '../../../../../common/app_images/app_images.dart';
 import '../../../../../common/size_box/custom_sizebox.dart';
@@ -24,7 +25,8 @@ class _EditProfileViewState extends State<EditProfileView> {
   final TextEditingController positionController = TextEditingController();
   final TextEditingController clubTeamController = TextEditingController();
   final TextEditingController clubCoachNameController = TextEditingController();
-  final TextEditingController clubCoachEmailController = TextEditingController();
+  final TextEditingController clubCoachEmailController =
+      TextEditingController();
   final TextEditingController addressController = TextEditingController();
 
   @override
@@ -36,10 +38,14 @@ class _EditProfileViewState extends State<EditProfileView> {
   void _loadProfileData() {
     nameController.text = profileController.profileData.value?.name ?? '';
     heightController.text = profileController.profileData.value?.height ?? '';
-    positionController.text = profileController.profileData.value?.primaryPosition ?? '';
-    clubTeamController.text = profileController.profileData.value?.clubTeam ?? '';
-    clubCoachNameController.text = profileController.profileData.value?.clubCoachName ?? '';
-    clubCoachEmailController.text = profileController.profileData.value?.clubCoachEmail ?? '';
+    positionController.text =
+        profileController.profileData.value?.primaryPosition ?? '';
+    clubTeamController.text =
+        profileController.profileData.value?.clubTeam ?? '';
+    clubCoachNameController.text =
+        profileController.profileData.value?.clubCoachName ?? '';
+    clubCoachEmailController.text =
+        profileController.profileData.value?.clubCoachEmail ?? '';
     addressController.text = profileController.profileData.value?.address ?? '';
   }
 
@@ -71,49 +77,56 @@ class _EditProfileViewState extends State<EditProfileView> {
 
               // Profile Picture Selection
               Obx(() => Stack(
-                children: [
-                  CircleAvatar(
-                    radius: 60,
-                    backgroundImage: profileController.selectedImage.value != null
-                        ? FileImage(profileController.selectedImage.value!)
-                        : (profileController.profileData.value?.profileImage != null &&
-                        profileController.profileData.value!.profileImage!.isNotEmpty)
-                        ? NetworkImage(profileController.profileData.value!.profileImage!)
-                        : AssetImage(AppImages.profileAvatarPlaceholder) as ImageProvider,
-                  ),
-                  // CachedNetworkImage(
-                  //   imageUrl: profileController.profileData.value?.profileImage ?? '',
-                  //   placeholder: (context, url) => CircleAvatar(
-                  //     radius: 60,
-                  //     backgroundColor: AppColors.grey,
-                  //   ),
-                  //   errorWidget: (context, url, error) => CircleAvatar(
-                  //     radius: 60,
-                  //     backgroundImage: AssetImage(AppImages.profileAvatarPlaceholder),
-                  //   ),
-                  //   imageBuilder: (context, imageProvider) => CircleAvatar(
-                  //     radius: 60,
-                  //     backgroundImage: imageProvider,
-                  //   ),
-                  // ),
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: GestureDetector(
-                      onTap: profileController.pickImage,
-                      child: Container(
-                        height: 35,
-                        width: 35,
-                        decoration: ShapeDecoration(
-                          shape: CircleBorder(),
-                          color: AppColors.blueLight,
-                        ),
-                        child: Image.asset(AppImages.editProfile, scale: 4),
+                    children: [
+                      CircleAvatar(
+                        radius: 60,
+                        backgroundImage: profileController
+                                    .selectedImage.value !=
+                                null
+                            ? FileImage(profileController.selectedImage.value!)
+                            : (profileController
+                                            .profileData.value?.profileImage !=
+                                        null &&
+                                    profileController.profileData.value!
+                                        .profileImage!.isNotEmpty)
+                                ? NetworkImage(profileController
+                                    .profileData.value!.profileImage!)
+                                : AssetImage(AppImages.profileAvatarPlaceholder)
+                                    as ImageProvider,
                       ),
-                    ),
-                  ),
-                ],
-              )),
+                      // CachedNetworkImage(
+                      //   imageUrl: profileController.profileData.value?.profileImage ?? '',
+                      //   placeholder: (context, url) => CircleAvatar(
+                      //     radius: 60,
+                      //     backgroundColor: AppColors.grey,
+                      //   ),
+                      //   errorWidget: (context, url, error) => CircleAvatar(
+                      //     radius: 60,
+                      //     backgroundImage: AssetImage(AppImages.profileAvatarPlaceholder),
+                      //   ),
+                      //   imageBuilder: (context, imageProvider) => CircleAvatar(
+                      //     radius: 60,
+                      //     backgroundImage: imageProvider,
+                      //   ),
+                      // ),
+                      Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: GestureDetector(
+                          onTap: profileController.pickImage,
+                          child: Container(
+                            height: 35,
+                            width: 35,
+                            decoration: ShapeDecoration(
+                              shape: CircleBorder(),
+                              color: AppColors.blueLight,
+                            ),
+                            child: Image.asset(AppImages.editProfile, scale: 4),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )),
 
               sh16,
 
@@ -129,27 +142,34 @@ class _EditProfileViewState extends State<EditProfileView> {
               sh20,
 
               // Update Button
-              CustomButton(
-                text: 'Update',
-                onPressed: () {
-                  final emailRegExp = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
-                  if (clubCoachEmailController.text.isNotEmpty && !emailRegExp.hasMatch(clubCoachEmailController.text)) {
-                    kSnackBar(
-                      message: "Please enter a valid Club Coach Email",
-                      bgColor: AppColors.orange,
-                    );
-                    return;
-                  }
-                  profileController.updateProfile(
-                    name: nameController.text,
-                    height: heightController.text,
-                    primaryPosition: positionController.text,
-                    clubTeam: clubTeamController.text,
-                    clubCoachName: clubCoachNameController.text,
-                    clubCoachEmail: clubCoachEmailController.text,
-                    address: addressController.text,
-                  );
-                },
+              Obx(
+                () => profileController.isLoading.value == true
+                    ? CustomLoader(color: AppColors.white)
+                    : CustomButton(
+                        text: 'Update',
+                        onPressed: () {
+                          final emailRegExp = RegExp(
+                              r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+                          if (clubCoachEmailController.text.isNotEmpty &&
+                              !emailRegExp
+                                  .hasMatch(clubCoachEmailController.text)) {
+                            kSnackBar(
+                              message: "Please enter a valid Club Coach Email",
+                              bgColor: AppColors.orange,
+                            );
+                            return;
+                          }
+                          profileController.updateProfile(
+                            name: nameController.text,
+                            height: heightController.text,
+                            primaryPosition: positionController.text,
+                            clubTeam: clubTeamController.text,
+                            clubCoachName: clubCoachNameController.text,
+                            clubCoachEmail: clubCoachEmailController.text,
+                            address: addressController.text,
+                          );
+                        },
+                      ),
               ),
 
               sh30,

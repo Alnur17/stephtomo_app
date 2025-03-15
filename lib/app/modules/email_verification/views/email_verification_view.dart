@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:stephtomo_app/app/modules/forgot_password/controllers/forgot_password_controller.dart';
 
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_images/app_images.dart';
@@ -14,10 +15,14 @@ import '../controllers/email_verification_controller.dart';
 
 class EmailVerificationView extends GetView<EmailVerificationController> {
   final String email;
-   EmailVerificationView({super.key, required this.email});
-   final TextEditingController otpTEController = TextEditingController();
 
-   final EmailVerificationController emailVerificationController = Get.put(EmailVerificationController());
+  EmailVerificationView({super.key, required this.email});
+
+  final TextEditingController otpTEController = TextEditingController();
+
+  final EmailVerificationController emailVerificationController =
+      Get.put(EmailVerificationController());
+  final ForgotPasswordController forgotPasswordController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +64,7 @@ class EmailVerificationView extends GetView<EmailVerificationController> {
                 ),
                 sh16,
                 Text(
-                  'Please enter the 6 digit code that was sent to xyz@gmail.com ',
+                  'Please enter the 6 digit code that was sent to $email ',
                   style: h5,
                   textAlign: TextAlign.center,
                 ),
@@ -106,15 +111,43 @@ class EmailVerificationView extends GetView<EmailVerificationController> {
                 ),
 
                 sh30,
-                Text(
-                  'Resend code',
-                  style: h4.copyWith(color: AppColors.mainColor),
-                ),
-                Divider(
-                  color: AppColors.mainColor,
-                  indent: Get.width * 0.3,
-                  endIndent: Get.width * 0.3,
-                ),
+                Obx(() {
+                  return forgotPasswordController.countdown.value > 0
+                      ? Text(
+                    'Resend code in ${forgotPasswordController.countdown.value}s',
+                    style: h3,
+                  )
+                      : GestureDetector(
+                    onTap: forgotPasswordController.countdown.value == 0 ? () {
+                      forgotPasswordController.forgotPassword(email: email);
+                    } : null,
+                    child: Text(
+                      'Resend code',
+                      style: h4.copyWith(
+                        color: AppColors.mainColor,
+                        decoration: TextDecoration.underline,
+                        decorationColor: AppColors.mainColor,
+                        decorationThickness: 2,
+                        decorationStyle: TextDecorationStyle.dashed,
+                      ),
+                    ),
+                  );
+                }),
+                // GestureDetector(
+                //   onTap: () {
+                //     forgotPasswordController.forgotPassword(email: email);
+                //   },
+                //   child: Text(
+                //     'Resend code',
+                //     style: h4.copyWith(
+                //       color: AppColors.mainColor,
+                //       decoration: TextDecoration.underline,
+                //       decorationColor: AppColors.mainColor,
+                //       decorationThickness: 2,
+                //       decorationStyle: TextDecorationStyle.dashed,
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),
@@ -125,7 +158,10 @@ class EmailVerificationView extends GetView<EmailVerificationController> {
         child: CustomButton(
           text: 'Verify OTP',
           onPressed: () {
-            emailVerificationController.verifyOtp(email: email , otp: otpTEController.text,);
+            emailVerificationController.verifyOtp(
+              email: email,
+              otp: otpTEController.text,
+            );
           },
         ),
       ),

@@ -17,6 +17,7 @@ class SignInController extends GetxController {
   Future loginController({
     required String email,
     required String password,
+    required bool isRemember,
   }) async {
     try {
       isLoading(true);
@@ -25,12 +26,15 @@ class SignInController extends GetxController {
         "email": email.toLowerCase(),
         "password": password,
         'fcm_token': fcmToken,
+        "is_remember_me": isRemember,
       };
 
       var headers = {
          'Accept': 'application/json',
         'Content-Type': 'application/json',
       };
+
+      print(map);
 
 
       dynamic responseBody = await BaseClient.handleResponse(

@@ -121,6 +121,7 @@ class _SignInViewState extends State<SignInView> {
                           signInController.loginController(
                             email: emailTEController.text,
                             password: passwordTEController.text,
+                            isRemember: isChecked,
                           );
                         },
                       ),

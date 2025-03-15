@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
@@ -11,6 +12,25 @@ import '../../../data/base_client.dart';
 
 class ForgotPasswordController extends GetxController {
   var isLoading = false.obs;
+
+  Rx<int> countdown = 10.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    startCountdown();
+  }
+
+  // Countdown timer logic
+  void startCountdown() {
+    Timer.periodic(Duration(seconds: 1), (timer) {
+      if (countdown.value > 0) {
+        countdown.value--;
+      } else {
+        timer.cancel();
+      }
+    });
+  }
 
   ///forgot Password Controller
   Future forgotPassword({

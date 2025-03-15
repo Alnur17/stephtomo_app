@@ -108,15 +108,43 @@ class VerifyYourEmailView extends GetView {
                 ),
 
                 sh30,
-                Text(
-                  'Resend code',
-                  style: h4.copyWith(color: AppColors.mainColor),
-                ),
-                Divider(
-                  color: AppColors.mainColor,
-                  indent: Get.width * 0.3,
-                  endIndent: Get.width * 0.3,
-                ),
+                Obx(() {
+                  return signupController.countdown.value > 0
+                      ? Text(
+                    'Resend code in ${signupController.countdown.value}s',
+                    style: h3,
+                  )
+                      : GestureDetector(
+                    onTap: signupController.countdown.value == 0 ? () {
+                      signupController.sentOtp(email: email);
+                    } : null,
+                    child: Text(
+                      'Resend code',
+                      style: h4.copyWith(
+                        color: AppColors.mainColor,
+                        decoration: TextDecoration.underline,
+                        decorationColor: AppColors.mainColor,
+                        decorationThickness: 2,
+                        decorationStyle: TextDecorationStyle.dashed,
+                      ),
+                    ),
+                  );
+                }),
+                // GestureDetector(
+                //   onTap: () {
+                //     signupController.sentOtp(email: email);
+                //   },
+                //   child: Text(
+                //     'Resend code',
+                //     style: h4.copyWith(
+                //       color: AppColors.mainColor,
+                //       decoration: TextDecoration.underline,
+                //       decorationColor: AppColors.mainColor,
+                //       decorationThickness: 2,
+                //       decorationStyle: TextDecorationStyle.dashed,
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),
@@ -129,7 +157,8 @@ class VerifyYourEmailView extends GetView {
           onPressed: () {
             String otp = otpTEController.text.trim();
             if (otp.length == 6) {
-              signupController.verifyEmail(email: email, otp: otp, verifyEmail: true);
+              signupController.verifyEmail(
+                  email: email, otp: otp, verifyEmail: true);
             } else {
               Get.snackbar('Error', 'Please enter a valid 6-digit OTP.');
             }

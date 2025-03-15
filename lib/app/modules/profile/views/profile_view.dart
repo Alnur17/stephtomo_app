@@ -49,77 +49,79 @@ class ProfileView extends GetView<ProfileController> {
               )
             : null,
       ),
-      body: Obx(
-        () => profileController.isLoading.value
-            ? Center(
-                child: CircularProgressIndicator(color: AppColors.mainColor))
-            : Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
-                  children: [
-                    sh30,
-                    ListTile(
-                      leading: CircleAvatar(
-                        radius: 30,
-                        backgroundImage:
-                            profileController.profileData.value?.profileImage !=
-                                    null
-                                ? NetworkImage(profileController
-                                    .profileData.value!.profileImage!)
-                                : AssetImage(AppImages.profileAvatarPlaceholder)
-                                    as ImageProvider,
-                      ),
-                      title: Text(
-                        profileController.profileName.value,
-                        style: h3,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      subtitle: Text(
-                        profileController.email.value,
-                        style: h4,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      trailing: GestureDetector(
-                        onTap: () => Get.to(() => EditProfileView()),
-                        child: Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: AppColors.blueDark,
+      body: SingleChildScrollView(
+        child: Obx(
+          () => profileController.isLoading.value
+              ? Center(
+                  child: CircularProgressIndicator(color: AppColors.mainColor))
+              : Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    children: [
+                      sh30,
+                      ListTile(
+                        leading: CircleAvatar(
+                          radius: 30,
+                          backgroundImage:
+                              profileController.profileData.value?.profileImage !=
+                                      null
+                                  ? NetworkImage(profileController
+                                      .profileData.value!.profileImage!)
+                                  : AssetImage(AppImages.profileAvatarPlaceholder)
+                                      as ImageProvider,
+                        ),
+                        title: Text(
+                          profileController.profileName.value,
+                          style: h3,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        subtitle: Text(
+                          profileController.email.value,
+                          style: h4,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        trailing: GestureDetector(
+                          onTap: () => Get.to(() => EditProfileView()),
+                          child: Container(
+                            height: 40,
+                            width: 40,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: AppColors.blueDark,
+                            ),
+                            child: Image.asset(AppImages.edit, scale: 4),
                           ),
-                          child: Image.asset(AppImages.edit, scale: 4),
                         ),
                       ),
-                    ),
-                    sh30,
-                    Divider(),
-                    _buildProfileOption(
-                        AppImages.history, "History", AllEmailHistoryView()),
-                    _buildProfileOption(AppImages.subscription, "Subscription",
-                        SubscriptionPlanView()),
-                    _buildProfileOption(
-                        AppImages.subscription, "My Plan", MyPlanView()),
-                    _buildProfileOption(
-                        AppImages.settings, "Settings", SettingsView()),
-                    _buildProfileOption(AppImages.termsAndCondition,
-                        "Terms of Services", TermsOfConditionsView()),
-                    _buildProfileOption(AppImages.privacy, "Privacy Policy",
-                        PrivacyPolicyView()),
-                    _buildProfileOption(
-                        AppImages.info, "About us", AboutUsView()),
-                    //Divider(),
-                    CustomListTile(
-                      onTap: _showLogoutPopup,
-                      leading: AppImages.logout,
-                      title: 'Log Out',
-                    ),
-                    sh24,
-                  ],
+                      sh30,
+                      Divider(),
+                      _buildProfileOption(
+                          AppImages.history, "History", AllEmailHistoryView()),
+                      _buildProfileOption(AppImages.subscription, "Subscription",
+                          SubscriptionPlanView()),
+                      _buildProfileOption(
+                          AppImages.subscription, "My Plan", MyPlanView()),
+                      _buildProfileOption(
+                          AppImages.settings, "Settings", SettingsView()),
+                      _buildProfileOption(AppImages.termsAndCondition,
+                          "Terms of Services", TermsOfConditionsView()),
+                      _buildProfileOption(AppImages.privacy, "Privacy Policy",
+                          PrivacyPolicyView()),
+                      _buildProfileOption(
+                          AppImages.info, "About us", AboutUsView()),
+                      //Divider(),
+                      CustomListTile(
+                        onTap: _showLogoutPopup,
+                        leading: AppImages.logout,
+                        title: 'Log Out',
+                      ),
+                      sh100,
+                    ],
+                  ),
                 ),
-              ),
+        ),
       ),
     );
   }

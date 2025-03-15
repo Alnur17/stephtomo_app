@@ -1,15 +1,40 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:stephtomo_app/app/data/api.dart';
 import 'package:stephtomo_app/app/modules/sign_in/views/sign_in_view.dart';
+import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/helper/local_store.dart';
+import '../../../../common/widgets/custom_snackbar.dart';
 import '../../../data/base_client.dart';
 import '../views/verify_your_email_view.dart';
 
 class SignUpController extends GetxController {
+
+  var isLoading = false.obs;
   var firstScreenData = {}.obs;
+
+  Rx<int> countdown = 10.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    startCountdown();
+  }
+
+  // Countdown timer logic
+  void startCountdown() {
+    Timer.periodic(Duration(seconds: 1), (timer) {
+      if (countdown.value > 0) {
+        countdown.value--;
+      } else {
+        timer.cancel();
+      }
+    });
+  }
 
   // Save first-screen data
   void saveFirstScreenData(Map<String, dynamic> data) {
@@ -71,6 +96,41 @@ class SignUpController extends GetxController {
       // Handle errors
       print('SignUp Error: $e');
       Get.snackbar('Error', 'Failed to sign up. Please try again.');
+    }
+  }
+
+  ///send otp
+  Future sentOtp({
+    required String email,
+  }) async {
+    try {
+      isLoading(true);
+      var map = <String, dynamic>{};
+      map['email'] = email;
+
+      var headers = {
+        'Content-Type': 'application/json',
+      };
+      dynamic responseBody = await BaseClient.handleResponse(
+        await BaseClient.postRequest(
+            api: Api.sentOtp,
+            body: jsonEncode(map),
+            headers: headers
+        ),
+      );
+
+      if (responseBody != null) {
+        String message = responseBody['message'].toString();
+        kSnackBar(message: message, bgColor: AppColors.green);
+
+        isLoading(false);
+      } else {
+        throw 'forgot in Failed!';
+      }
+    } catch (e) {
+      debugPrint("Catch Error:::::: $e");
+    } finally {
+      isLoading(false);
     }
   }
 
