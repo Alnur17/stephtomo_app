@@ -80,65 +80,49 @@ class SchoolProfileCard extends StatelessWidget {
                     email,
                     style: h7.copyWith(color: AppColors.black100),
                   ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: GestureDetector(
-                      onTap: onBookmarkTap,
-                      child: Container(
-                        width: 35,
-                        decoration: ShapeDecoration(shape: CircleBorder()),
+                  sw8,
+                  Row(
+                    children: [
+                      GestureDetector(
+                        onTap: onFacebookTap,
                         child: Image.asset(
-                          isSaved
-                              ? AppImages.bookmarkFilled
-                              : AppImages.bookmarkAdd,
+                          AppImages.facebook,
                           scale: 4,
                         ),
                       ),
-                    ),
+                      sw16,
+                      GestureDetector(
+                        onTap: onTwitterTap,
+                        child: Image.asset(
+                          AppImages.twitter,
+                          scale: 4,
+                        ),
+                      ),
+                      sw16,
+                      GestureDetector(
+                        onTap: onInstagramTap,
+                        child: Image.asset(
+                          AppImages.instagram,
+                          scale: 4,
+                        ),
+                      ),
+                      Spacer(),
+                      GestureDetector(
+                        onTap: onBookmarkTap,
+                        child:  Container(
+                            width: 35,
+                            decoration: ShapeDecoration(shape: CircleBorder()),
+                            child: Image.asset(
+                              isSaved
+                                  ? AppImages.bookmarkFilled
+                                  : AppImages.bookmarkAdd,
+                              scale: 4,
+                            ),
+                          ),
+                        ),
+                      sw8,
+                    ],
                   ),
-                  sw8,
-                  // Row(
-                  //   children: [
-                  //     GestureDetector(
-                  //       onTap: onFacebookTap,
-                  //       child: Image.asset(
-                  //         AppImages.facebook,
-                  //         scale: 4,
-                  //       ),
-                  //     ),
-                  //     sw16,
-                  //     GestureDetector(
-                  //       onTap: onTwitterTap,
-                  //       child: Image.asset(
-                  //         AppImages.twitter,
-                  //         scale: 4,
-                  //       ),
-                  //     ),
-                  //     sw16,
-                  //     GestureDetector(
-                  //       onTap: onInstagramTap,
-                  //       child: Image.asset(
-                  //         AppImages.instagram,
-                  //         scale: 4,
-                  //       ),
-                  //     ),
-                  //     Spacer(),
-                  //     GestureDetector(
-                  //       onTap: onBookmarkTap,
-                  //       child:  Container(
-                  //           width: 35,
-                  //           decoration: ShapeDecoration(shape: CircleBorder()),
-                  //           child: Image.asset(
-                  //             isSaved
-                  //                 ? AppImages.bookmarkFilled
-                  //                 : AppImages.bookmarkAdd,
-                  //             scale: 4,
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     sw8,
-                  //   ],
-                  // ),
                 ],
               ),
             ),

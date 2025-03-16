@@ -1,3 +1,4 @@
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -224,7 +225,8 @@ class _HomeViewState extends State<HomeView> {
 
               return Padding(
                 padding: EdgeInsets.only(
-                  bottom: index == homeController.filteredData.length - 1 ? 100 : 8,
+                  bottom:
+                      index == homeController.filteredData.length - 1 ? 100 : 8,
                 ),
                 child: Obx(() {
                   return SchoolProfileCard(
@@ -235,13 +237,13 @@ class _HomeViewState extends State<HomeView> {
                     email: school.coach?.email ?? "",
                     isSaved: homeController.isSaved(school),
                     onFacebookTap: () {
-                      //log('${school.facebookLink}');
+                      log('${school.facebookLink}');
                     },
                     onTwitterTap: () {
-                      //log('${school.xLink}');
+                      log('${school.xLink}');
                     },
                     onInstagramTap: () {
-                      //log('${school.instagramLink}');
+                      log('${school.instagramLink}');
                     },
                     onBookmarkTap: () {
                       homeController.toggleSaveSchool(school);
@@ -252,7 +254,6 @@ class _HomeViewState extends State<HomeView> {
             },
           ),
         ),
-
       ],
     );
   }
