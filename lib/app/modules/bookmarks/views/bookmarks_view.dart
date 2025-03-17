@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:stephtomo_app/app/modules/home/controllers/home_controller.dart';
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_text_style/styles.dart';
-import '../../../../common/widgets/college_profile_card.dart';
+import '../../../../common/widgets/school_profile_card.dart';
 
 class BookmarksView extends StatefulWidget {
   const BookmarksView({super.key});
@@ -59,7 +59,7 @@ class _BookmarksViewState extends State<BookmarksView> {
           child: ListView.builder(
             itemCount: savedColleges.length,
             itemBuilder: (context, index) {
-              final college = savedColleges[index];
+              final school = savedColleges[index];
 
               return Padding(
                 padding: EdgeInsets.only(
@@ -68,17 +68,16 @@ class _BookmarksViewState extends State<BookmarksView> {
                   left: 16,
                 ),
                 child: SchoolProfileCard(
-                  image: college.image ?? '',
-                  university: college.name ?? 'Unknown',
-                  name: college.coach?.name ?? 'Unknown',
-                  role: college.coach?.position ?? '',
-                  email: college.coach?.email ?? '',
-                  isSaved: homeController.isSaved(college),
-                  onFacebookTap: () {},
-                  onTwitterTap: () {},
-                  onInstagramTap: () {},
+                  image: school.image ?? '',
+                  university: school.name ?? 'Unknown',
+                  name: school.coach?.name ?? 'Unknown',
+                  role: school.coach?.position ?? '',
+                  email: school.coach?.email ?? '',
+                  isSaved: homeController.isSaved(school),
+                  twitterUrl: school.coach?.twitter,
+                  instagramUrl: school.coach?.instagram,
                   onBookmarkTap: () {
-                    homeController.toggleSaveSchool(college);
+                    homeController.toggleSaveSchool(school);
                   },
                 ),
               );

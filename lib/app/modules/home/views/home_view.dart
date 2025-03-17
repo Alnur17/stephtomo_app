@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
@@ -10,7 +8,7 @@ import 'package:stephtomo_app/common/app_images/app_images.dart';
 import 'package:stephtomo_app/common/size_box/custom_sizebox.dart';
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_text_style/styles.dart';
-import '../../../../common/widgets/college_profile_card.dart';
+import '../../../../common/widgets/school_profile_card.dart';
 import '../../profile/controllers/profile_controller.dart';
 import '../controllers/home_controller.dart';
 
@@ -236,15 +234,9 @@ class _HomeViewState extends State<HomeView> {
                     role: school.coach?.position ?? "",
                     email: school.coach?.email ?? "",
                     isSaved: homeController.isSaved(school),
-                    onFacebookTap: () {
-                      log('${school.facebookLink}');
-                    },
-                    onTwitterTap: () {
-                      log('${school.xLink}');
-                    },
-                    onInstagramTap: () {
-                      log('${school.instagramLink}');
-                    },
+                    //facebookUrl: school.facebookLink,
+                    twitterUrl: school.coach?.twitter,
+                    instagramUrl: school.coach?.instagram,
                     onBookmarkTap: () {
                       homeController.toggleSaveSchool(school);
                     },

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../app_color/app_colors.dart';
 import '../app_images/app_images.dart';
@@ -11,9 +12,9 @@ class SchoolProfileCard extends StatelessWidget {
   final String name;
   final String role;
   final String email;
-  final VoidCallback onFacebookTap;
-  final VoidCallback onTwitterTap;
-  final VoidCallback onInstagramTap;
+  final String? facebookUrl;
+  final String? twitterUrl;
+  final String? instagramUrl;
   final VoidCallback onBookmarkTap;
   final bool isSaved;
 
@@ -24,12 +25,24 @@ class SchoolProfileCard extends StatelessWidget {
     required this.name,
     required this.role,
     required this.email,
-    required this.onFacebookTap,
-    required this.onTwitterTap,
-    required this.onInstagramTap,
+    this.facebookUrl,
+    this.twitterUrl,
+    this.instagramUrl,
     required this.onBookmarkTap,
     this.isSaved = false,
   });
+
+  // Function to launch URLs
+  Future<void> _launchUrl(String? url) async {
+    if (url != null && url.isNotEmpty) {
+      final Uri uri = Uri.parse(url);
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      } else {
+        throw 'Could not launch $url';
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +97,7 @@ class SchoolProfileCard extends StatelessWidget {
                   Row(
                     children: [
                       GestureDetector(
-                        onTap: onFacebookTap,
+                        onTap: () => _launchUrl(facebookUrl),
                         child: Image.asset(
                           AppImages.facebook,
                           scale: 4,
@@ -92,7 +105,7 @@ class SchoolProfileCard extends StatelessWidget {
                       ),
                       sw16,
                       GestureDetector(
-                        onTap: onTwitterTap,
+                        onTap: () => _launchUrl(twitterUrl),
                         child: Image.asset(
                           AppImages.twitter,
                           scale: 4,
@@ -100,7 +113,7 @@ class SchoolProfileCard extends StatelessWidget {
                       ),
                       sw16,
                       GestureDetector(
-                        onTap: onInstagramTap,
+                        onTap: () => _launchUrl(instagramUrl),
                         child: Image.asset(
                           AppImages.instagram,
                           scale: 4,
@@ -109,17 +122,17 @@ class SchoolProfileCard extends StatelessWidget {
                       Spacer(),
                       GestureDetector(
                         onTap: onBookmarkTap,
-                        child:  Container(
-                            width: 35,
-                            decoration: ShapeDecoration(shape: CircleBorder()),
-                            child: Image.asset(
-                              isSaved
-                                  ? AppImages.bookmarkFilled
-                                  : AppImages.bookmarkAdd,
-                              scale: 4,
-                            ),
+                        child: Container(
+                          width: 35,
+                          decoration: ShapeDecoration(shape: CircleBorder()),
+                          child: Image.asset(
+                            isSaved
+                                ? AppImages.bookmarkFilled
+                                : AppImages.bookmarkAdd,
+                            scale: 4,
                           ),
                         ),
+                      ),
                       sw8,
                     ],
                   ),

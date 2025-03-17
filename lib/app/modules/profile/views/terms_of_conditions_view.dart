@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 
 import '../../../../../common/app_color/app_colors.dart';
@@ -47,11 +48,15 @@ class TermsOfConditionsView extends StatelessWidget {
                 ),
               );
             } else {
-              return Text(
-                controller.getTermsConditions(),
-                style: h4.copyWith(
-                  fontSize: 14,
-                ),
+              return Html(
+                data: controller.getTermsConditions(), // Render HTML content
+                // style: {
+                //   // Optional: Customize HTML rendering styles
+                //   "body": Style(
+                //     fontSize: FontSize(14),
+                //     color: AppColors.black, // Adjust as per your theme
+                //   ),
+                // },
               );
             }
           }),

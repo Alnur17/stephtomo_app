@@ -6,7 +6,7 @@ import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_images/app_images.dart';
 import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
-import '../../../../common/widgets/college_profile_card.dart';
+import '../../../../common/widgets/school_profile_card.dart';
 import '../controllers/home_controller.dart';
 
 class SearchView extends StatefulWidget {
@@ -81,9 +81,8 @@ class _SearchViewState extends State<SearchView> {
                           role: school.coach?.position ?? "",
                           email: school.coach?.email ?? "",
                           isSaved: homeController.isSaved(school),
-                          onFacebookTap: () {},
-                          onTwitterTap: () {},
-                          onInstagramTap: () {},
+                          twitterUrl: school.coach?.twitter,
+                          instagramUrl: school.coach?.instagram,
                           onBookmarkTap: () {
                             homeController.toggleSaveSchool(school);
                           },

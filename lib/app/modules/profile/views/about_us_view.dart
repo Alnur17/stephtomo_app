@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 import 'package:get/get.dart';
 
@@ -48,11 +49,15 @@ class AboutUsView extends StatelessWidget {
                 ),
               );
             } else {
-              return Text(
-                controller.getAboutUs(),
-                style: h4.copyWith(
-                  fontSize: 14,
-                ),
+              return Html(
+                data: controller.getAboutUs(), // Render HTML content
+                // style: {
+                //   // Optional: Customize HTML rendering styles
+                //   "body": Style(
+                //     fontSize: FontSize(14),
+                //     color: AppColors.black, // Adjust as per your theme
+                //   ),
+                // },
               );
             }
           }),
