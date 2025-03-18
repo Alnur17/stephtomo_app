@@ -8,15 +8,15 @@ class EmailView extends StatefulWidget {
   final String? image;
   final String name;
   final String time;
-  final String title; // subject
-  final List<String> emails; // Changed from single email to list of emails
+  final String title;
+  final List<String> emails;
   final String message;
 
   const EmailView({
     super.key,
     required this.image,
     required this.title,
-    required this.emails, // Updated to List
+    required this.emails,
     required this.name,
     required this.time,
     required this.message,
@@ -67,10 +67,9 @@ class _EmailViewState extends State<EmailView> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(widget.time),
                       Expanded(
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Flexible(
                               child: Text(
@@ -96,6 +95,7 @@ class _EmailViewState extends State<EmailView> {
                           ],
                         ),
                       ),
+                      Text(widget.time),
                     ],
                   ),
                   if (_isExpanded && widget.emails.length > 1)
@@ -103,6 +103,7 @@ class _EmailViewState extends State<EmailView> {
                       padding: const EdgeInsets.only(top: 4.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: widget.emails
                             .skip(1) // Skip first email as it's shown above
                             .map((email) => Padding(

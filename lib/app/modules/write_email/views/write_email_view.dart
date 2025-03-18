@@ -337,7 +337,6 @@
 //   }
 // }
 
-
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -350,6 +349,7 @@ import 'package:stephtomo_app/common/app_images/app_images.dart';
 import 'package:stephtomo_app/common/widgets/custom_button.dart';
 import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
+import '../../../../common/widgets/custom_loader.dart';
 import '../../../../common/widgets/custom_textfelid.dart';
 import '../controllers/write_email_controller.dart';
 
@@ -361,7 +361,8 @@ class WriteEmailView extends StatefulWidget {
 }
 
 class _WriteEmailViewState extends State<WriteEmailView> {
-  final WriteEmailController writeEmailController = Get.put(WriteEmailController());
+  final WriteEmailController writeEmailController =
+      Get.put(WriteEmailController());
   final HomeController homeController = Get.put(HomeController());
   final ProfileController profileController = Get.put(ProfileController());
 
@@ -427,17 +428,22 @@ class _WriteEmailViewState extends State<WriteEmailView> {
                                 child: ListView.builder(
                                   itemCount: homeController.allSchool.length,
                                   itemBuilder: (context, index) {
-                                    final coachData = homeController.allSchool[index];
+                                    final coachData =
+                                        homeController.allSchool[index];
                                     return Obx(
-                                          () => ListTile(
+                                      () => ListTile(
                                         leading: CircleAvatar(
-                                          backgroundImage: NetworkImage(coachData.coach?.image ?? ""),
+                                          backgroundImage: NetworkImage(
+                                              coachData.coach?.image ?? ""),
                                         ),
-                                        title: Text(coachData.coach?.name ?? ""),
+                                        title:
+                                            Text(coachData.coach?.name ?? ""),
                                         subtitle: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
-                                            Text(coachData.coach?.position ?? ""),
+                                            Text(coachData.coach?.position ??
+                                                ""),
                                             Text(
                                               coachData.name ?? "",
                                               maxLines: 1,
@@ -447,7 +453,8 @@ class _WriteEmailViewState extends State<WriteEmailView> {
                                         ),
                                         trailing: GestureDetector(
                                           onTap: () {
-                                            writeEmailController.toggleCheckbox(index);
+                                            writeEmailController
+                                                .toggleCheckbox(index);
                                           },
                                           child: Container(
                                             height: 50,
@@ -455,7 +462,8 @@ class _WriteEmailViewState extends State<WriteEmailView> {
                                               shape: CircleBorder(),
                                             ),
                                             child: Image.asset(
-                                              writeEmailController.checkbox[index].value
+                                              writeEmailController
+                                                      .checkbox[index].value
                                                   ? AppImages.checkboxFilled
                                                   : AppImages.checkbox,
                                               scale: 4,
@@ -507,28 +515,36 @@ class _WriteEmailViewState extends State<WriteEmailView> {
               sh16,
               _buildReminderDatePicker(context),
               sh24,
-              CustomButton(
-                imageAssetPath: AppImages.send,
-                text: 'Send',
-                onPressed: () async {
-                  String? reminderDateString = writeEmailController.reminderDate.value != null
-                      ? DateFormat("yyyy-MM-dd").format(writeEmailController.reminderDate.value!)
-                      : null;
+              Obx(
+                () => writeEmailController.isLoading.value == true
+                    ? CustomLoader(color: AppColors.white)
+                    : CustomButton(
+                        imageAssetPath: AppImages.send,
+                        text: 'Send',
+                        onPressed: () async {
+                          String? reminderDateString =
+                              writeEmailController.reminderDate.value != null
+                                  ? DateFormat("yyyy-MM-dd").format(
+                                      writeEmailController.reminderDate.value!)
+                                  : null;
 
-                  // Validate fields before sending the email
-                  bool isValid = writeEmailController.validateFields(selectedVideo);
+                          // Validate fields before sending the email
+                          bool isValid = writeEmailController
+                              .validateFields(selectedVideo);
 
-                  if (isValid) {
-                    List<String> selectedRecipients = writeEmailController.getSelectedRecipients();
-                    await writeEmailController.sendEmail(
-                      selectedRecipients, // Pass selected recipients' emails
-                      writeEmailController.subjectController.text,
-                      writeEmailController.messageController.text,
-                      reminderDateString,
-                      selectedVideo,
-                    );
-                  }
-                },
+                          if (isValid) {
+                            List<String> selectedRecipients =
+                                writeEmailController.getSelectedRecipients();
+                            await writeEmailController.sendEmail(
+                              selectedRecipients, // Pass selected recipients' emails
+                              writeEmailController.subjectController.text,
+                              writeEmailController.messageController.text,
+                              reminderDateString,
+                              selectedVideo,
+                            );
+                          }
+                        },
+                      ),
               ),
               sh16
             ],
@@ -577,7 +593,8 @@ class _WriteEmailViewState extends State<WriteEmailView> {
           Text(
             "Primary Position: ${profileController.profileData.value?.primaryPosition}",
             style: h5.copyWith(color: AppColors.white),
-          ),sh5,
+          ),
+          sh5,
           Text(
             "Club Coach Email: ${profileController.profileData.value?.clubCoachEmail}",
             style: h5.copyWith(color: AppColors.white),
@@ -618,25 +635,26 @@ class _WriteEmailViewState extends State<WriteEmailView> {
           Text('Reminder Date', style: h3),
           Spacer(),
           Obx(() => Container(
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(color: Colors.grey.shade400),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  writeEmailController.reminderDate.value == null
-                      ? "Select Reminder"
-                      : DateFormat("dd MMM").format(writeEmailController.reminderDate.value!),
-                  style: TextStyle(fontSize: 16, color: Colors.black87),
+                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Colors.grey.shade400),
+                  borderRadius: BorderRadius.circular(20),
                 ),
-                Image.asset(AppImages.arrowDownGreen, scale: 4),
-              ],
-            ),
-          )),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      writeEmailController.reminderDate.value == null
+                          ? "Select Reminder"
+                          : DateFormat("dd MMM")
+                              .format(writeEmailController.reminderDate.value!),
+                      style: TextStyle(fontSize: 16, color: Colors.black87),
+                    ),
+                    Image.asset(AppImages.arrowDownGreen, scale: 4),
+                  ],
+                ),
+              )),
         ],
       ),
     );

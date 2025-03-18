@@ -5,8 +5,11 @@ import 'package:stephtomo_app/app/modules/dashboard/views/dashboard_view.dart';
 import 'package:stephtomo_app/common/size_box/custom_sizebox.dart';
 
 import '../../../../common/app_color/app_colors.dart';
+import '../../../../common/app_constant/app_constant.dart';
 import '../../../../common/app_images/app_images.dart';
 import '../../../../common/app_text_style/styles.dart';
+import '../../../../common/helper/local_store.dart';
+import '../../sign_in/views/sign_in_view.dart';
 
 class PaymentSuccessView extends GetView {
   const PaymentSuccessView({super.key});
@@ -23,7 +26,9 @@ class PaymentSuccessView extends GetView {
             padding: const EdgeInsets.only(right: 16, top: 16),
             child: CloseButton(
               onPressed: () {
-                Get.offAll(()=> DashboardView(),arguments: {"index": 3});
+                LocalStorage.removeData(key: AppConstant.token);
+                Get.offAll(() => SignInView(),
+                    transition: Transition.leftToRight);
               },
               style: ButtonStyle(
                 backgroundColor: WidgetStatePropertyAll(AppColors.silver),

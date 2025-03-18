@@ -201,6 +201,13 @@ class _SubscriptionPlanViewState extends State<SubscriptionPlanView> {
         padding: const EdgeInsets.all(16),
         child: Obx(
           () {
+            if (controller.isLoading.value) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            if (controller.subscriptionPackages.isEmpty) {
+              return const Center(
+                  child: Text("No subscription plans available"));
+            }
             return Column(
               children: [
                 sh30,
@@ -209,25 +216,25 @@ class _SubscriptionPlanViewState extends State<SubscriptionPlanView> {
                 Text('Choose your plan', style: h3),
                 sh16,
                 Column(
-                  children: [
-                    GestureDetector(
-                      onTap: () => controller.setPlan("Monthly", 19.99),
-                      child: PlanTile(
-                        title: "Monthly",
-                        price: 19.99,
-                        controller: controller,
-                      ),
-                    ),
-                    sh16,
-                    GestureDetector(
-                      onTap: () => controller.setPlan("Yearly", 199.99),
-                      child: PlanTile(
-                        title: "Yearly",
-                        price: 199.99,
-                        controller: controller,
-                      ),
-                    ),
-                  ],
+                  children: controller.subscriptionPackages.map((plan) {
+                    return Column(
+                      children: [
+                        GestureDetector(
+                          onTap: () => controller.setPlan(
+                            plan.packageName ?? "Unknown",
+                            plan.price ?? 0.0,
+                          ),
+                          child: PlanTile(
+                            title: plan.packageName ?? "Unknown",
+                            price: plan.price ?? 0.0,
+
+                            controller: controller,
+                          ),
+                        ),
+                        sh16,
+                      ],
+                    );
+                  }).toList(),
                 ),
                 sh16,
                 Spacer(),

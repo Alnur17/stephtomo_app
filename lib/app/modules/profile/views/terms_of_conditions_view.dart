@@ -49,7 +49,7 @@ class TermsOfConditionsView extends StatelessWidget {
               );
             } else {
               return Html(
-                data: controller.getTermsConditions(), // Render HTML content
+                data: controller.getTermsConditions.value, // Render HTML content
                 // style: {
                 //   // Optional: Customize HTML rendering styles
                 //   "body": Style(

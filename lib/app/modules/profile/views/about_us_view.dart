@@ -9,7 +9,7 @@ import '../../../../common/app_text_style/styles.dart';
 import '../controllers/conditions_controller.dart';
 
 class AboutUsView extends StatelessWidget {
-  AboutUsView({super.key});
+    AboutUsView({super.key});
 
   final ConditionsController controller = Get.put(ConditionsController());
 
@@ -50,7 +50,7 @@ class AboutUsView extends StatelessWidget {
               );
             } else {
               return Html(
-                data: controller.getAboutUs(), // Render HTML content
+                data: controller.getAboutUs.value, // Render HTML content
                 // style: {
                 //   // Optional: Customize HTML rendering styles
                 //   "body": Style(

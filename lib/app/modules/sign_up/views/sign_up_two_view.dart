@@ -7,6 +7,7 @@ import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/helper/local_store.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
 import '../../../../common/widgets/custom_button.dart';
+import '../../../../common/widgets/custom_loader.dart';
 import '../../../../common/widgets/custom_textfelid.dart';
 import '../../sign_in/views/sign_in_view.dart';
 import '../controllers/sign_up_controller.dart';
@@ -91,7 +92,7 @@ class _SignUpTwoViewState extends State<SignUpTwoView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Club team',
+                    'Club team *',
                     style: h5,
                   ),
                   sh8,
@@ -101,7 +102,7 @@ class _SignUpTwoViewState extends State<SignUpTwoView> {
                   ),
                   sh16,
                   Text(
-                    'Club coach name',
+                    'Club coach name *',
                     style: h5,
                   ),
                   sh8,
@@ -111,7 +112,7 @@ class _SignUpTwoViewState extends State<SignUpTwoView> {
                   ),
                   sh16,
                   Text(
-                    'Club coach phone',
+                    'Club coach phone *',
                     style: h5,
                   ),
                   sh8,
@@ -122,7 +123,7 @@ class _SignUpTwoViewState extends State<SignUpTwoView> {
                   ),
                   sh16,
                   Text(
-                    'Club coach email',
+                    'Club coach email *',
                     style: h5,
                   ),
                   sh8,
@@ -193,11 +194,16 @@ class _SignUpTwoViewState extends State<SignUpTwoView> {
                             isChecked = !isChecked;
                           });
                         },
-                        child: Image.asset(
-                          isChecked
-                              ? AppImages.checkboxFilled
-                              : AppImages.checkbox,
-                          scale: 4,
+                        child: Container(
+                          height: 40,
+                          width: 40,
+                          decoration: ShapeDecoration(shape: CircleBorder(),),
+                          child: Image.asset(
+                            isChecked
+                                ? AppImages.checkboxFilled
+                                : AppImages.checkbox,
+                            scale: 4,
+                          ),
                         ),
                       ),
                       sw12,
@@ -212,10 +218,16 @@ class _SignUpTwoViewState extends State<SignUpTwoView> {
                 ],
               ),
               sh40,
-              CustomButton(
+              Obx(() => signupController.isLoading.value == true
+                  ? CustomLoader(color: AppColors.white)
+                  : CustomButton(
                 text: 'Sign Up',
                 onPressed: () {
-                  if (emailController.text.isEmpty ||
+                  if (teamController.text.isEmpty ||
+                      coachController.text.isEmpty ||
+                      coachPhoneController.text.isEmpty ||
+                      coachEmailController.text.isEmpty ||
+                      emailController.text.isEmpty ||
                       passwordController.text.isEmpty ||
                       !isChecked) {
                     Get.snackbar('Error',
@@ -223,13 +235,13 @@ class _SignUpTwoViewState extends State<SignUpTwoView> {
                     return;
                   }
                   String fcmToken =
-                      LocalStorage.getData(key: AppConstant.fcmToken);
+                  LocalStorage.getData(key: AppConstant.fcmToken);
                   signupController.signUp(
                     {
                       "club_team": teamController.text,
                       "club_coach_name": coachController.text,
                       "club_coach_phone":
-                          int.tryParse(coachPhoneController.text) ?? 0,
+                      int.tryParse(coachPhoneController.text) ?? 0,
                       "club_coach_email": coachEmailController.text,
                       "intended_major": majorController.text,
                       "ncaa_eligibility_number": ncaaController.text,
@@ -239,7 +251,8 @@ class _SignUpTwoViewState extends State<SignUpTwoView> {
                     },
                   );
                 },
-              ),
+              ),)
+              ,
               sh24,
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

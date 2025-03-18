@@ -5,16 +5,53 @@ import '../../../../common/app_constant/app_constant.dart';
 import '../../../../common/helper/local_store.dart';
 import '../../../data/api.dart';
 import '../../../data/base_client.dart';
+import '../model/subscription_packages_model.dart';
 import 'my_plan_controller.dart';
 
 class SubscriptionPlanController extends GetxController {
-  var selectedPlan = "Yearly".obs;
-  var selectedPrice = 199.99.obs;
+  var selectedPlan = "".obs;
+  var selectedPrice = 0.0.obs;
   var isLoading = false.obs;
+  var subscriptionPackages = <Datum>[].obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    fetchSubscriptionPackages();
+  }
 
   void setPlan(String plan, double price) {
     selectedPlan.value = plan;
     selectedPrice.value = price;
+  }
+
+
+  Future<void> fetchSubscriptionPackages() async {
+    isLoading.value = true;
+
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    };
+
+    try {
+      dynamic responseBody = await BaseClient.handleResponse(
+        await BaseClient.getRequest(
+          api: Api.packages,
+          headers: headers,
+        ),
+      );
+
+      if (responseBody != null) {
+        SubscriptionPackagesModel packagesModel =
+        SubscriptionPackagesModel.fromJson(responseBody);
+        subscriptionPackages.assignAll(packagesModel.data);
+      }
+    } catch (e) {
+      Get.snackbar("Error", "Failed to fetch subscription packages: $e");
+    } finally {
+      isLoading.value = false;
+    }
   }
 
   Future<void> createPaymentSession() async {
@@ -42,11 +79,11 @@ class SubscriptionPlanController extends GetxController {
     isLoading.value = false;
 
     if (responseBody != null) {
-      // Store the subscription details after successful payment
-      await Get.put(MyPlanController()).updatePlan(
-        selectedPlan.value,
-        selectedPrice.value.toString(),
-      );
+      // // Store the subscription details after successful payment
+      // await Get.put(MyPlanController()).updatePlan(
+      //   selectedPlan.value,
+      //   selectedPrice.value.toString(),
+      // );
 
       Get.to(
             () => PaymentView(paymentUrl: responseBody["data"]["url"]),

@@ -45,30 +45,48 @@ class _NotificationViewState extends State<NotificationView> {
                   padding: const EdgeInsets.only(top: 16),
                   itemCount: notificationController.notificationList.length,
                   itemBuilder: (context, index) {
-                    var notification = notificationController.notificationList[index];
-
-                    // Convert the time to a readable format
-                    // String time = notification.time != null
-                    //     ? "${notification.time!.hour}:${notification.time!.minute}" // Format as needed
-                    //     : "Unknown time";
-                    //
+                    var notification =
+                    notificationController.notificationList[index];
 
                     String time = _getTimeDifference(notification.createdAt);
 
+                    bool isRead = notification.hasRead ?? true;
+
                     return Padding(
-                      padding: const EdgeInsets.only(left: 16, right: 16, bottom: 12),
+                      padding:
+                      const EdgeInsets.only(left: 16, right: 16, bottom: 12),
                       child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            width: 54,
-                            decoration: ShapeDecoration(
-                              shape: CircleBorder(),
-                              color: AppColors.silver,
-                            ),
-                            child: Image.asset(
-                              AppImages.notification,
-                              scale: 4,
-                            ),
+                          // Notification icon with unread indicator
+                          Stack(
+                            children: [
+                              Container(
+                                width: 54,
+                                height: 54,
+                                decoration: ShapeDecoration(
+                                  shape: const CircleBorder(),
+                                  color: AppColors.silver,
+                                ),
+                                child: Image.asset(
+                                  AppImages.notification,
+                                  scale: 4,
+                                ),
+                              ),
+                              //if (!isRead) // Show dot if notification is unread
+                              //   Positioned(
+                              //     right: 0,
+                              //     top: 0,
+                              //     child: Container(
+                              //       width: 12,
+                              //       height: 12,
+                              //       decoration: BoxDecoration(
+                              //         color: AppColors.red, // Unread indicator
+                              //         shape: BoxShape.circle,
+                              //       ),
+                              //     ),
+                              //   ),
+                            ],
                           ),
                           sw12,
                           Expanded(
@@ -77,7 +95,14 @@ class _NotificationViewState extends State<NotificationView> {
                               children: [
                                 Text(
                                   notification.title ?? 'No Title',
-                                  style: h6,
+                                  style: h6.copyWith(
+                                    fontWeight: isRead
+                                        ? FontWeight.normal
+                                        : FontWeight.bold, // Bold for unread
+                                    color: isRead
+                                        ? AppColors.black
+                                        : AppColors.black,
+                                  ),
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 2,
                                 ),
@@ -85,7 +110,9 @@ class _NotificationViewState extends State<NotificationView> {
                                 Text(
                                   notification.body ?? '',
                                   style: h7.copyWith(
-                                    color: AppColors.grey,
+                                    color: isRead
+                                        ? AppColors.grey
+                                        : AppColors.black, // Darker for unread
                                   ),
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 3,
@@ -115,13 +142,12 @@ class _NotificationViewState extends State<NotificationView> {
     );
   }
 
-  // Calculate the time difference for emails
+  // Calculate the time difference for notifications
   String _getTimeDifference(DateTime? createdAt) {
     return createdAt != null
         ? "${timeago.format(createdAt, locale: 'en_short')} ago"
         : 'Unknown time';
   }
-
 }
 
 
@@ -143,3 +169,10 @@ class _NotificationViewState extends State<NotificationView> {
 //     style: TextStyle(color: AppColors.white),
 //   ),
 // )
+
+
+// Convert the time to a readable format
+// String time = notification.time != null
+//     ? "${notification.time!.hour}:${notification.time!.minute}" // Format as needed
+//     : "Unknown time";
+//

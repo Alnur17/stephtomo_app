@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../app_color/app_colors.dart';
@@ -15,6 +16,8 @@ class SchoolProfileCard extends StatelessWidget {
   final String? facebookUrl;
   final String? twitterUrl;
   final String? instagramUrl;
+  final String staffDirectory;
+  final String idCamp;
   final VoidCallback onBookmarkTap;
   final bool isSaved;
 
@@ -28,6 +31,8 @@ class SchoolProfileCard extends StatelessWidget {
     this.facebookUrl,
     this.twitterUrl,
     this.instagramUrl,
+    required this.staffDirectory,
+    required this.idCamp,
     required this.onBookmarkTap,
     this.isSaved = false,
   });
@@ -44,87 +49,145 @@ class SchoolProfileCard extends StatelessWidget {
     }
   }
 
+  // Helper method to check if a URL is valid
+  bool _isValidUrl(String? url) {
+    return url != null && url.isNotEmpty;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
       color: AppColors.white,
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Container(
-            height: 120,
-            width: 120,
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Image.network(
-                image,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) => Image.asset(
-                  AppImages.notFound,
+          GestureDetector(
+            onTap: () => _launchUrl(staffDirectory),
+            child: Container(
+              height: 170,
+              width: 140,
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.network(
+                  image,
                   fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) => Image.asset(
+                    AppImages.notFound,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),
           ),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.only(left: 8.0, right: 8),
+              padding: const EdgeInsets.only(right: 8, bottom: 8, top: 8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    university,
-                    style: titleStyle,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                  GestureDetector(
+                    onTap: () => _launchUrl(staffDirectory),
+                    child: Text(
+                      university,
+                      style: titleStyle.copyWith(fontSize: 16),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
+                  sh5,
                   Text(
                     name,
                     style: subTitleStyle,
                   ),
                   Text(
                     role,
-                    style: h7.copyWith(color: AppColors.black100),
+                    style: h6.copyWith(color: AppColors.black100),
                   ),
                   Text(
                     email,
-                    style: h7.copyWith(color: AppColors.black100),
+                    style: h6.copyWith(color: AppColors.black100),
                   ),
-                  sw8,
+                  sh5,
+                  GestureDetector(
+                    onTap: () => _launchUrl(idCamp),
+                    child: Text(
+                      "ID Camp",
+                      style: h5.copyWith(
+                        color: AppColors.blue,
+                        decoration: TextDecoration.underline,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  sh12,
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      GestureDetector(
-                        onTap: () => _launchUrl(facebookUrl),
-                        child: Image.asset(
-                          AppImages.facebook,
-                          scale: 4,
+                      if (_isValidUrl(facebookUrl))
+                        GestureDetector(
+                          onTap: () => _launchUrl(facebookUrl),
+                          child: Container(
+                            width: 35,
+                            decoration: ShapeDecoration(
+                              shape: CircleBorder(
+                                side: BorderSide(color: AppColors.black100),
+                              ),
+                            ),
+                            child: Image.asset(
+                              AppImages.facebook,
+                              scale: 4,
+                            ),
+                          ),
                         ),
-                      ),
-                      sw16,
-                      GestureDetector(
-                        onTap: () => _launchUrl(twitterUrl),
-                        child: Image.asset(
-                          AppImages.twitter,
-                          scale: 4,
+                      sw5,
+                      if (_isValidUrl(twitterUrl))
+                        GestureDetector(
+                          onTap: () => _launchUrl(twitterUrl),
+                          child: Container(
+                            width: 35,
+                            decoration: ShapeDecoration(
+                              shape: CircleBorder(
+                                side: BorderSide(color: AppColors.black100),
+                              ),
+                            ),
+                            child: Image.asset(
+                              AppImages.twitter,
+                              scale: 4,
+                            ),
+                          ),
                         ),
-                      ),
-                      sw16,
-                      GestureDetector(
-                        onTap: () => _launchUrl(instagramUrl),
-                        child: Image.asset(
-                          AppImages.instagram,
-                          scale: 4,
+                      sw5,
+                      if (_isValidUrl(instagramUrl))
+                        GestureDetector(
+                          onTap: () => _launchUrl(instagramUrl),
+                          child: Container(
+                            width: 35,
+                            decoration: ShapeDecoration(
+                              shape: CircleBorder(
+                                side: BorderSide(color: AppColors.black100),
+                              ),
+                            ),
+                            child: Image.asset(
+                              AppImages.instagram,
+                              scale: 4,
+                            ),
+                          ),
                         ),
-                      ),
                       Spacer(),
                       GestureDetector(
                         onTap: onBookmarkTap,
                         child: Container(
                           width: 35,
-                          decoration: ShapeDecoration(shape: CircleBorder()),
+                          decoration: ShapeDecoration(
+                            shape: CircleBorder(
+                              side: BorderSide(color: AppColors.black100),
+                            ),
+                          ),
                           child: Image.asset(
                             isSaved
                                 ? AppImages.bookmarkFilled
@@ -133,13 +196,12 @@ class SchoolProfileCard extends StatelessWidget {
                           ),
                         ),
                       ),
-                      sw8,
                     ],
                   ),
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
     );

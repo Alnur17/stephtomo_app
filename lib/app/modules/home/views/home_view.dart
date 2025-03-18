@@ -234,7 +234,9 @@ class _HomeViewState extends State<HomeView> {
                     role: school.coach?.position ?? "",
                     email: school.coach?.email ?? "",
                     isSaved: homeController.isSaved(school),
-                    //facebookUrl: school.facebookLink,
+                    staffDirectory: school.staffDirectory ?? "",
+                    idCamp: school.idCamp ?? "",
+                    facebookUrl: school.coach?.facebook,
                     twitterUrl: school.coach?.twitter,
                     instagramUrl: school.coach?.instagram,
                     onBookmarkTap: () {

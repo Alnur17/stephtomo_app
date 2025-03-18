@@ -1,62 +1,64 @@
-import 'dart:convert';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 import 'package:stephtomo_app/app/data/api.dart';
 import '../../../../common/app_constant/app_constant.dart';
 import '../../../../common/helper/local_store.dart';
+import '../../../data/base_client.dart';
 import '../model/conditions_model.dart';
 
 class ConditionsController extends GetxController {
   var isLoading = true.obs;
-  var conditionsData = <Datum>[].obs;
   var errorMessage = ''.obs;
+  var getAboutUs = ''.obs;
+  var getTermsConditions = ''.obs;
+  var getPrivacyPolicy = ''.obs;
+  var conditionsModel = ConditionsModel().obs;
 
   @override
   void onInit() {
-    fetchConditions();
     super.onInit();
+    fetchConditions();
   }
 
-  /// API Call to Fetch Conditions Data
-  void fetchConditions() async {
+  Future<void> fetchConditions() async {
     try {
       isLoading(true);
-      String token = LocalStorage.getData(key: AppConstant.token);
+      errorMessage('');
 
+      String token = LocalStorage.getData(key: AppConstant.token) ?? '';
       var headers = {
-        'Content-Type': "application/json",
-        "Authorization": "Bearer, $token"
+        'Authorization': 'Bearer, $token',
+        'Content-Type': 'application/json',
       };
 
-      var response = await http.get(Uri.parse(Api.conditionsPage), headers: headers);
+      final response = await BaseClient.getRequest(
+        api: Api.conditionsPage,
+        headers: headers,
+      );
 
-      if (response.statusCode == 200) {
-        var jsonData = jsonDecode(response.body);
-        ConditionsModel conditions = ConditionsModel.fromJson(jsonData);
-        conditionsData.assignAll(conditions.data);
-      } else {
-        errorMessage.value = "Failed to load data: ${response.body}";
-      }
+      // Handle the response
+      final data = await BaseClient.handleResponse(response);
+      conditionsModel.value = ConditionsModel.fromJson(data);
+
+      getPrivacyPolicy.value = conditionsModel.value.data!.privacyPolicy.toString();
+      getTermsConditions.value = conditionsModel.value.data!.termsConditions.toString();
+      getAboutUs.value = conditionsModel.value.data!.aboutUs.toString();
+
     } catch (e) {
-      errorMessage.value = e.toString();
+      errorMessage(e.toString());
     } finally {
       isLoading(false);
     }
   }
 
-  /// Method to get Privacy Policy text
-  String getPrivacyPolicy() {
-    return conditionsData.isNotEmpty ? conditionsData.first.privacyPolicy ?? "No Data Available" : "Loading...";
-  }
-
-  /// Method to get Terms & Conditions text
-  String getTermsConditions() {
-    return conditionsData.isNotEmpty ? conditionsData.first.termsConditions ?? "No Data Available" : "Loading...";
-  }
-
-  /// Method to get About Us text
-  String getAboutUs() {
-    return conditionsData.isNotEmpty ? conditionsData.first.aboutUs ?? "No Data Available" : "Loading...";
-  }
+  // String getAboutUs() {
+  //   return conditionsModel?.data?.aboutUs ?? '';
+  // }
+  //
+  // String getTermsConditions() {
+  //   return conditionsModel?.data?.termsConditions ?? '';
+  // }
+  //
+  // String getPrivacyPolicy() {
+  //   return conditionsModel?.data?.privacyPolicy ?? '';
+  // }
 }
-

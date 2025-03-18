@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stephtomo_app/app/modules/dashboard/views/dashboard_view.dart';
+import 'package:stephtomo_app/app/modules/profile/views/subscription_plan_view.dart';
 
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_constant/app_constant.dart';
@@ -30,35 +31,31 @@ class SignInController extends GetxController {
       };
 
       var headers = {
-         'Accept': 'application/json',
+        'Accept': 'application/json',
         'Content-Type': 'application/json',
       };
 
       print(map);
 
-
       dynamic responseBody = await BaseClient.handleResponse(
         await BaseClient.postRequest(
-            api: Api.login,
-            body: jsonEncode(map),
-            headers: headers
-        ),
+            api: Api.login, body: jsonEncode(map), headers: headers),
       );
       if (responseBody != null) {
         String message = responseBody['message'].toString();
 
         bool success = responseBody['success'];
         String token = responseBody['data']['token'].toString();
+        bool hasSubscription = responseBody['data']['has_access'];
 
         LocalStorage.saveData(key: AppConstant.token, data: token);
 
-
         kSnackBar(message: message, bgColor: AppColors.green);
 
-        if(success == true){
+        if (success == true && hasSubscription == true) {
           Get.offAll(() => DashboardView());
-        }else{
-          kSnackBar(message: 'Failed', bgColor: AppColors.red);
+        } else {
+          Get.offAll(() => SubscriptionPlanView());
         }
 
         isLoading(false);

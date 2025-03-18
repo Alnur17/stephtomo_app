@@ -50,7 +50,7 @@ class PrivacyPolicyView extends StatelessWidget {
               );
             } else {
               return Html(
-                data: controller.getPrivacyPolicy(), // Render HTML content
+                data: controller.getPrivacyPolicy.value, // Render HTML content
                 // style: {
                 //   // Optional: Customize HTML rendering styles
                 //   "body": Style(

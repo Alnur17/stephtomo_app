@@ -74,6 +74,9 @@ class _BookmarksViewState extends State<BookmarksView> {
                   role: school.coach?.position ?? '',
                   email: school.coach?.email ?? '',
                   isSaved: homeController.isSaved(school),
+                  staffDirectory: school.staffDirectory ?? "",
+                  idCamp: school.idCamp ?? "",
+                  facebookUrl: school.coach?.facebook,
                   twitterUrl: school.coach?.twitter,
                   instagramUrl: school.coach?.instagram,
                   onBookmarkTap: () {

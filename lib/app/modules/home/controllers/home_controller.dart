@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:http/http.dart' as http;
+import 'package:stephtomo_app/app/modules/profile/views/subscription_plan_view.dart';
 import 'package:stephtomo_app/common/app_constant/app_constant.dart';
 import '../../../../common/helper/local_store.dart';
 import '../../../data/api.dart';
@@ -14,7 +16,7 @@ class HomeController extends GetxController {
 
   var allSchool = <dynamic>[].obs;
   var filteredData = <dynamic>[].obs;
-  var savedSchool = <String>[].obs; // Stores only school IDs for bookmarking
+  var savedSchool = <String>[].obs;
   var searchQuery = ''.obs;
   var isLoading = true.obs;
 
@@ -33,17 +35,56 @@ class HomeController extends GetxController {
     }
   }
 
-  /// **Fetch College Data from API**
+  /// **Fetch School Data **
+  // Future<void> fetchSchoolData() async {
+  //   try {
+  //     isLoading(true);
+  //     String token = LocalStorage.getData(key: AppConstant.token);
+  //     var headers = {
+  //       "Authorization": "Bearer, $token",
+  //       'Content-Type': 'application/json',
+  //     };
+  //     var response = await BaseClient.getRequest(api: Api.schoolData,headers: headers);
+  //     var responseData = await BaseClient.handleResponse(response);
+  //
+  //
+  //     if (responseData != null) {
+  //
+  //       SchoolModel schoolModel = SchoolModel.fromJson(responseData);
+  //       allSchool.assignAll(schoolModel.data?.data ?? []);
+  //       filteredData.assignAll(allSchool);
+  //
+  //     }
+  //   } catch (e) {
+  //     print("Error fetching school data: $e");
+  //   } finally {
+  //     isLoading(false);
+  //   }
+  // }
   Future<void> fetchSchoolData() async {
     try {
       isLoading(true);
-      var response = await BaseClient.getRequest(api: Api.schoolData);
-      var responseData = await BaseClient.handleResponse(response);
+      String token = LocalStorage.getData(key: AppConstant.token);
+      var headers = {
+        "Authorization": "Bearer, $token",  // Removed comma
+        'Content-Type': 'application/json',
+      };
 
-      if (responseData != null) {
+      // Assuming Api.schoolData contains the endpoint URL
+      var response = await http.get(
+        Uri.parse(Api.schoolData),
+        headers: headers,
+      );
+
+      if (response.statusCode == 200) {
+        var responseData = jsonDecode(response.body);
         SchoolModel schoolModel = SchoolModel.fromJson(responseData);
         allSchool.assignAll(schoolModel.data?.data ?? []);
         filteredData.assignAll(allSchool);
+      } else if (response.statusCode == 403){
+        Get.offAll(()=> SubscriptionPlanView());
+      }else{
+        print("Request failed with status: ${response.statusCode}");
       }
     } catch (e) {
       print("Error fetching school data: $e");
@@ -51,6 +92,7 @@ class HomeController extends GetxController {
       isLoading(false);
     }
   }
+
 
   /// **Toggle Bookmark (Local + API)**
   Future<void> toggleSaveSchool(dynamic school) async {

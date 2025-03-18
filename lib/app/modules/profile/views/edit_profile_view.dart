@@ -147,7 +147,8 @@ class _EditProfileViewState extends State<EditProfileView> {
                     ? CustomLoader(color: AppColors.white)
                     : CustomButton(
                         text: 'Update',
-                        onPressed: () {
+                        onPressed: () async {
+                          profileController.isLoading.value = true;
                           final emailRegExp = RegExp(
                               r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
                           if (clubCoachEmailController.text.isNotEmpty &&
@@ -159,7 +160,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                             );
                             return;
                           }
-                          profileController.updateProfile(
+                         await profileController.updateProfile(
                             name: nameController.text,
                             height: heightController.text,
                             primaryPosition: positionController.text,

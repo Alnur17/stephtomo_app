@@ -189,7 +189,9 @@ import '../../home/controllers/home_controller.dart'; // Import HomeController t
 
 class WriteEmailController extends GetxController {
   final ProfileController profileController = Get.put(ProfileController());
-  final HomeController homeController = Get.put(HomeController()); // Add HomeController
+  final HomeController homeController = Get.put(HomeController());
+
+  var isLoading = false.obs;
 
   // Manage the selected checkboxes (for selecting recipients)
   var checkbox = <RxBool>[].obs; // Dynamically sized based on allSchool length
@@ -289,11 +291,14 @@ class WriteEmailController extends GetxController {
       File? videoFile,
       ) async {
     try {
+      isLoading.value = true;
+
       String token = LocalStorage.getData(key: AppConstant.token);
 
       if (token.isEmpty) {
         print("Error: No token found!");
         Get.snackbar("Error", "No token found. Please log in.", backgroundColor: Colors.red);
+        isLoading.value = false;
         return false;
       }
 
@@ -350,15 +355,18 @@ class WriteEmailController extends GetxController {
         if (Get.context != null) {
           Navigator.pop(Get.context!);
         }
+        isLoading.value = false;
         return true;
       } else {
         Get.snackbar("Error", "Failed to send the email. ${response.reasonPhrase}",
             backgroundColor: Colors.red);
+        isLoading.value = false;
         return false;
       }
     } catch (e) {
       debugPrint("Error sending email: $e");
       Get.snackbar("Error", "An unexpected error occurred. Please try again.", backgroundColor: Colors.red);
+      isLoading.value = false;
       return false;
     }
   }

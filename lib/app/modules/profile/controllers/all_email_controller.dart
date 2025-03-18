@@ -24,9 +24,12 @@ class AllEmailController extends GetxController {
 
       if (token.isEmpty) throw "Authorization token is missing.";
 
-      var headers = {'Authorization': 'Bearer, $token'};
+      var headers = {
+        'Authorization': 'Bearer, $token',
+      };
 
-      final response = await BaseClient.getRequest(api: apiUrl, headers: headers);
+      final response =
+          await BaseClient.getRequest(api: apiUrl, headers: headers);
       var responseBody = json.decode(response.body);
 
       if (response.statusCode == 200) {
@@ -48,7 +51,6 @@ class AllEmailController extends GetxController {
     }
   }
 
-
   /// Fetch Received Emails
   Future<void> fetchReceivedEmails() async {
     isLoadingReceived.value = true;
@@ -60,7 +62,8 @@ class AllEmailController extends GetxController {
 
       var headers = {'Authorization': 'Bearer, $token'};
 
-      final response = await BaseClient.getRequest(api: apiUrl, headers: headers);
+      final response =
+          await BaseClient.getRequest(api: apiUrl, headers: headers);
 
       if (response.statusCode == 200) {
         var emails = ReceivedEmailModel.fromJson(json.decode(response.body));
@@ -81,5 +84,3 @@ class AllEmailController extends GetxController {
     }
   }
 }
-
-

@@ -12,7 +12,6 @@ import 'app/routes/app_pages.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
-final NotificationServices notificationServices = NotificationServices();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,6 +19,8 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await GetStorage.init();
+
+  final NotificationServices notificationServices = NotificationServices();
 
   notificationServices.requestNotificationPermission();
 
