@@ -1,7 +1,7 @@
 class Api {
   /// base url
 
-  static const baseUrl = "http://192.168.10.204:5000/api";
+  static const baseUrl = "http://159.223.184.53:5009/api";
 
   ///auth
   static const signUp = "$baseUrl/auth/create-athlete"; //done

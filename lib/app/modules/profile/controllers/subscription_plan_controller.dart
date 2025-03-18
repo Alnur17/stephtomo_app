@@ -6,7 +6,6 @@ import '../../../../common/helper/local_store.dart';
 import '../../../data/api.dart';
 import '../../../data/base_client.dart';
 import '../model/subscription_packages_model.dart';
-import 'my_plan_controller.dart';
 
 class SubscriptionPlanController extends GetxController {
   var selectedPlan = "".obs;
