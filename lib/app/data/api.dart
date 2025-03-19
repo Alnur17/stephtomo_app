@@ -18,6 +18,7 @@ class Api {
 
   ///notifications
   static const notification = "$baseUrl/notifications"; //done
+
   static updateNotification(String id) => "$baseUrl/notifications/$id"; //
 
   ///showBookMarked

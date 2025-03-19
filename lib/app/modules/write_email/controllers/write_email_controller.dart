@@ -193,13 +193,11 @@ class WriteEmailController extends GetxController {
 
   var isLoading = false.obs;
 
-  // Manage the selected checkboxes (for selecting recipients)
   var checkbox = <RxBool>[].obs; // Dynamically sized based on allSchool length
 
   @override
   void onInit() {
     super.onInit();
-    // Initialize checkbox list based on the length of allSchool
     checkbox.value = List.generate(homeController.allSchool.length, (index) => false.obs);
   }
 
@@ -215,7 +213,7 @@ class WriteEmailController extends GetxController {
   }
 
   // Controllers for input fields
-  var emailController = TextEditingController(); // Can still keep this if needed elsewhere
+  var emailController = TextEditingController();
   var subjectController = TextEditingController();
   var messageController = TextEditingController();
 
@@ -251,7 +249,7 @@ class WriteEmailController extends GetxController {
     for (int i = 0; i < checkbox.length; i++) {
       if (checkbox[i].value) {
         final coachData = homeController.allSchool[i];
-        String? email = coachData.coach?.email; // Assuming coach has an email field
+        String? email = coachData.coach?.email;
         if (email != null && email.isNotEmpty) {
           selectedEmails.add(email);
         }
@@ -303,7 +301,7 @@ class WriteEmailController extends GetxController {
       }
 
       var headers = {
-        "Authorization": "Bearer, $token", // Fixed typo: removed comma
+        "Authorization": "Bearer, $token",
       };
 
       var request = http.MultipartRequest("POST", Uri.parse(Api.writeEmail));

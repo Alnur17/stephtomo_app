@@ -14,7 +14,7 @@
     <application
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
-        android:label="stephtomo_app"
+        android:label="Scout Stream"
         android:enableOnBackInvokedCallback="true">
         <activity
             android:name=".MainActivity"

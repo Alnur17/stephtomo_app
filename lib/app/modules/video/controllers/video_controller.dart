@@ -2,8 +2,8 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
-import 'package:video_thumbnail/video_thumbnail.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 
 
 import '../../../../common/app_color/app_colors.dart';
@@ -19,7 +19,7 @@ class VideoController extends GetxController {
   var showControls = true.obs;
   var isPlaying = false.obs;
   var isLoading = true.obs;
-  var videos = <Datum>[].obs; // Observable list to hold videos
+  var videos = <Datum>[].obs;
 
   @override
   void onInit() {
@@ -28,7 +28,7 @@ class VideoController extends GetxController {
   }
 
 
-  Future<String?> generateThumbnail(String videoUrl) async {
+  Future<dynamic> generateThumbnail(String videoUrl) async {
     try {
       final tempDir = await getTemporaryDirectory();
       final thumbnailPath = await VideoThumbnail.thumbnailFile(

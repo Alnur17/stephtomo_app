@@ -80,7 +80,7 @@ class VideoView extends StatelessWidget {
                         children: [
                           ClipRRect(
                             borderRadius: BorderRadius.circular(16),
-                            child: FutureBuilder<String?>(
+                            child: FutureBuilder<dynamic>(
                               future: videoController.generateThumbnail(videoItem.url ?? ''),
                               builder: (context, snapshot) {
                                 if (snapshot.connectionState == ConnectionState.waiting) {
